@@ -1,0 +1,35 @@
+.details-card-feature-card {
+    width: 100%;
+    display: flex;
+    padding: var(--dl-space-space-unit);
+    max-width: var(--dl-size-size-maxwidth);
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .details-card-text {
+    font-weight: 500;
+    margin-bottom: var(--dl-space-space-unit);
+  }
+
+  .details-card-text1 {
+    color: var(--dl-color-gray-700);
+  }
+
+  .details-card-root-class-name {
+    width: 100%;
+  }
+
+  .detail-subject {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media(max-width: 479px) {
+    .details-card-text {
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+  
