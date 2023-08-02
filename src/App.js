@@ -20,9 +20,9 @@ import TableSubject from "./component/table-subject";
 import DetailsCard from "./component/details-card";
 
 //admin
-import AddSubjectPage from "./admin/add-subject";
-import EditAdmin from "./admin/edit-subject";
-import ManageSubject from "./admin/manage-subject";
+import AddSubjectPage from "./admin/add-subject";//
+import EditAdmin from "./admin/edit-subject";//
+import ManageSubject from "./admin/manage-subject";//
 
 function App() {
   return (
