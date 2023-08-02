@@ -24,10 +24,6 @@ import AddSubjectPage from "./admin/add-subject";
 import EditAdmin from "./admin/edit-subject";
 import ManageSubject from "./admin/manage-subject";
 
-
-
-
-
 function App() {
   return (
     <BrowserRouter>
@@ -55,8 +51,6 @@ function App() {
         <Route path="/edit-subject" element={<EditAdmin />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
   
-       
-       
       </Routes>
 
     </BrowserRouter>
