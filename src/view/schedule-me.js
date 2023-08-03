@@ -15,12 +15,15 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import Appbar from '../component/app-bar';
+import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import Photo from '../photo/table.png'
 
 const theme = createTheme();
 
-function createData(name, code,) {
+function createData(name) {
 
-    return { name, code, };
+    return { name };
 }
 
 const rows = [
@@ -49,6 +52,10 @@ export default function SheduleMe() {
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
+            <BreadcrumbsPage
+                pages={[
+                    { title: "ตารางเรียนของฉัน" },
+                ]} />
             <main>
                 {/* Hero unit */}
                 <Box
@@ -61,19 +68,38 @@ export default function SheduleMe() {
                 >
 
                     <Container maxWidth="sm" >
-                        <Typography
-                            variant="h5"
-                            align="center"
-                        >
-                            ตารางเรียนของฉัน
 
-                        </Typography>
+                        <div 
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center'
+
+                            }}>
+                            <img
+                                src={Photo}
+                                width="35"
+                                height="35"
+                                sx={{ display: { xs: 'none', md: 'flex' } }}
+                            />
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    marginLeft:2,
+                                    fontWeight: 700,
+                                }}
+                            >
+                                ตารางเรียนของฉัน
+                            </Typography>
+                        </div>
+
 
                         <Stack
                             marginTop={2}
                         >
                             <TableContainer
-                                component={Paper}
+                                component={Box}
+                                
                             >
                                 <Table
 
@@ -83,10 +109,15 @@ export default function SheduleMe() {
                                     <TableBody>
                                         {rows.map((row) => (
                                             <TableRow
-                                                hover role="checkbox"
+                                            sx={{ bgcolor: '#f8bbd0',
+                                            '&:hover': {
+                                                bgcolor: '#dd33fa',
+                                            }, 
+                                        }} 
+                                                
                                                 key={row.name}
                                             >
-                                                <TableCell align="center" >
+                                                <TableCell align="center"  >
                                                     {row.name}
                                                 </TableCell>
 

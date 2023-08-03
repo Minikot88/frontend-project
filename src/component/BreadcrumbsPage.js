@@ -30,10 +30,11 @@ const BreadcrumbsPage = ({ pages }) => {
             }}
 
           />}
+
           aria-label="breadcrumb"
           color
           style={{
-            color: "#AA00FF"
+            color: "#2962ff"
           }}
         >
           <Link key={"home"} to={"/"}
@@ -48,8 +49,13 @@ const BreadcrumbsPage = ({ pages }) => {
 
           {pages?.map((page) =>
             page?.path ? (
-              <Link key={page?.title} to={page?.path} component={RouterLink}>
+              <Link key={page?.title} to={page?.path} component={RouterLink} 
+              underline="hover"
+              style={{
+                color: "#ab003c",
+              }} >
                 {page?.title}
+                
               </Link>
             ) : (
               <Typography key={page?.title}>{page?.title}</Typography>

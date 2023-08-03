@@ -13,6 +13,7 @@ import SelectSubject from "./view/select-subject";
 import CreateTable from "./view/create-table";
 import SheduleMe from "./view/schedule-me";
 import ForgotPassword from "./view/forgot-password";
+import HomeMember from "./view/home-member";
 
 //component
 import TableAll from "./component/table-all";
@@ -20,9 +21,11 @@ import TableSubject from "./component/table-subject";
 import DetailsCard from "./component/details-card";
 
 //admin
-import AddSubjectPage from "./admin/add-subject";//
-import EditAdmin from "./admin/edit-subject";//
-import ManageSubject from "./admin/manage-subject";//
+import AddSubjectPage from "./admin/add-subject";
+import EditSubjectPage from "./admin/edit-subject";
+import ManageSubject from "./admin/manage-subject";
+import DetailSubjectAdmin from "./admin/detail-subjectadmin";
+import HomeAdmin from "./admin/home.admin";
 
 function App() {
   return (
@@ -39,6 +42,7 @@ function App() {
         <Route path="/select-subject" element={<SelectSubject />} />
         <Route path="/create-table" element={<CreateTable />} />
         <Route path="/schedule-me" element={<SheduleMe />} />
+        <Route path="/home-member" element={<HomeMember />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         //component
@@ -48,9 +52,11 @@ function App() {
        
         //addmin
         <Route path="/add-subject" element={<AddSubjectPage />} />
-        <Route path="/edit-subject" element={<EditAdmin />} />
+        <Route path="/edit-subject" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
-  
+        <Route path="/detail-subjectadmin" element={<DetailSubjectAdmin />} />
+        <Route path="/home.admin" element={<HomeAdmin />} />
+
       </Routes>
 
     </BrowserRouter>

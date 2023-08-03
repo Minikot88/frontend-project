@@ -26,23 +26,15 @@ import TableRow from '@mui/material/TableRow';
 
 import Appbar from '../component/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
-import TablePage from '../component/table-all';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
-import DetailsCard from '../component/details-card';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(id, name) {
+    return { id, name };
 }
-
 const rows = [
-    createData('Frozen yoghurt', 159, 66666666612121221212.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('123-321', 'คณิตศาสตร์'),
 ];
-
 const theme = createTheme();
 
 export default function ManageSubject() {
@@ -52,7 +44,7 @@ export default function ManageSubject() {
 
             <BreadcrumbsPage
                 pages={[
-                    { title: "Search" },
+                    { title: "Manage Subject" },
                 ]} />
             <main>
 
@@ -63,7 +55,10 @@ export default function ManageSubject() {
                     justifyContent='flex-end'
                     marginRight={2}
                 >
-                    <Button variant="outlined" startIcon={<NoteAddIcon />}
+                    <Button
+                        variant="outlined"
+                        href="/add-subject"
+                        startIcon={<NoteAddIcon />}
                         sx={{
                             bgcolor: '#AA00FF',
                             color: '#000000',
@@ -76,10 +71,7 @@ export default function ManageSubject() {
                     >
                         เพิ่มรายวิชา
                     </Button>
-
                 </Stack>
-
-
                 <Box
                     sx={{
                         bgcolor: 'background.paper',
@@ -142,54 +134,39 @@ export default function ManageSubject() {
 
                         <TableHead>
                             <TableRow>
-
-                                <TableCell align="center">
-                                    รหัสวิชา
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    ชื่อวิชา
-                                </TableCell>
-
-                                <TableCell align="center">
-
-                                </TableCell>
-
-                                <TableCell align="center">
-
-                                </TableCell>
-
-                                <TableCell align="center" >
-
-                                </TableCell>
-
+                                <TableCell align="center">รหัสวิชา</TableCell>
+                                <TableCell align="center">ชื่อวิชา</TableCell>
+                                <TableCell align="center"></TableCell>
+                                <TableCell align="center"></TableCell>
+                                <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
-
                             {rows.map((row) => (
                                 <TableRow
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell align="center" component="th" scope="row">
-                                        <Button variant="outlined"
+                                        <Paper variant="outlined"
                                             sx={{
-                                                bgcolor: '#99e4ee'
+                                                bgcolor: '#c5cae9'
                                             }}
-                                            style={{ width: 100 }}
-
+                                            style={{ width: 100, height:20}}
                                         >
-                                            123 - 321</Button>
+                                            {row.id}
+                                        </Paper>
                                     </TableCell>
 
                                     <TableCell align="center">
-                                        {row.fat}
+                                        {row.name}
                                     </TableCell>
 
                                     <TableCell align="right" >
-                                        <Button variant="outlined" startIcon={<ContentPasteSearchIcon />}
+                                        <Button variant="outlined" 
+                                        startIcon={<ContentPasteSearchIcon />}
+                                        href="/detail-subjectadmin"
                                             sx={{
                                                 bgcolor: '#99e4ee'
                                             }}
@@ -200,7 +177,9 @@ export default function ManageSubject() {
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        <Button variant="outlined" startIcon={<BuildIcon />}
+                                        <Button variant="outlined" 
+                                        startIcon={<BuildIcon />}
+                                        href="/edit-subject"
                                             sx={{
                                                 bgcolor: '#99e4ee'
                                             }}
@@ -221,11 +200,9 @@ export default function ManageSubject() {
                                             ลบ
                                         </Button>
                                     </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>
-
                     </Table>
                 </TableContainer>
             </Container>

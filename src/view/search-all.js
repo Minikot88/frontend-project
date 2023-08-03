@@ -20,7 +20,7 @@ const theme = createTheme();
 export default function SearchAll() {
     return (
         <ThemeProvider theme={theme}>
-            <Appbar/>
+            <Appbar />
 
             <BreadcrumbsPage
                 pages={[
@@ -60,7 +60,7 @@ export default function SearchAll() {
                                     }}
                                 >
                                     <InputBase
-                                        sx={{ ml: 2, flex: 1,  }}
+                                        sx={{ ml: 2, flex: 1, }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
                                     />
@@ -75,8 +75,8 @@ export default function SearchAll() {
                         </Box>
                     </Container>
 
-                    <TablePage></TablePage>
-                    
+
+
                 </Box>
 
             </main>

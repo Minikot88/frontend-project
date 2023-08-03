@@ -13,7 +13,7 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
-export default function HomeAdmin() {
+export default function HomeMember() {
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
@@ -33,7 +33,7 @@ export default function HomeAdmin() {
                         color="text.primary"
                         gutterBottom
                     >
-                        ADMIN
+                        Member
                     </Typography>
 
                     <Typography
@@ -42,7 +42,7 @@ export default function HomeAdmin() {
                         color="text.secondary"
                         paragraph
                     >
-                        เปิดโปรรรรร
+                        อยากเกิดก็เปิดมา
                     </Typography>
 
                     <Stack
@@ -101,22 +101,7 @@ export default function HomeAdmin() {
                             }} >
                             ตารางเรียนของฉัน
                         </Button>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            href="/manage-subject"
-                            sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
-                                fontFamily: 'monospace',
-                                '&:hover': {
-                                    bgcolor: '#8800CC',
-                                },
-                            }} >
-                            จัดการรายวิชา
-                        </Button>
+                        
                     </Stack>
                 </Container>
             </Box>

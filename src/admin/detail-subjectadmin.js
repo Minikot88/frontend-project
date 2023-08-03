@@ -1,0 +1,78 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+
+import Appbar from '../component/app-bar';
+import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import TableSubject from '../component/table-subject';
+import DetailsCard from '../component/details-card';
+import '../view/detail.css'
+
+
+const theme = createTheme();
+
+export default function DetailSubjectAdmin() {
+    return (
+        <ThemeProvider theme={theme}>
+            <Appbar></Appbar>
+
+            <BreadcrumbsPage
+                pages={[
+                    { title: "Manage Subject" , path: `/manage-subject`  },
+                    { title: "Detail Subject" },
+                ]} />
+
+            <main>
+                <Box
+                    sx={{
+                        bgcolor: 'background.paper',
+                        pt: 1,
+                        pb: 6,
+
+                    }}
+                >
+                    <Container maxWidth="sm">
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            align="center"
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            ภาคการศีกษาที่ 1 ปีการศีกษา 2580
+                        </Typography>
+
+                        <div className="detail-sudject">
+                            <DetailsCard
+                                title={'รหัสวิชา'}
+                                description={'234-423'}
+                                rootClassName="rootClassName1"></DetailsCard>
+                            <DetailsCard
+                                title={'ชื่อวิชาภาษาไทย'}
+                                description={'คณิตศาสตร์'}
+                                rootClassName="rootClassName1"></DetailsCard>
+                            <DetailsCard
+                                title={'หน่วยกิต'}
+                                description={'3'}
+                                rootClassName="rootClassName1"></DetailsCard>
+                            <DetailsCard
+                                title={'ชื่อวิชาภาษาอังกฤษ'}
+                                description={'Math'}
+                                rootClassName="rootClassName1"></DetailsCard>
+                        </div>
+
+                    </Container>
+                    <TableSubject></TableSubject>
+                </Box>
+            </main>
+
+        </ThemeProvider>
+    );
+}
+

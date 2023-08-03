@@ -52,12 +52,11 @@ export default function Home() {
                             direction="column"
                             spacing={3}
                             justifyContent="center"
-
                         >
-
                             <Button
                                 variant="contained"
                                 size="large"
+                                href="/create-table"
                                 sx={{
                                     bgcolor: '#AA00FF',
                                     color: '#000000',
@@ -68,7 +67,6 @@ export default function Home() {
                                 }} >
                                 สร้างตารางเรียน
                             </Button>
-
                             <Button
                                 variant="contained"
                                 size="large"

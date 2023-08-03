@@ -46,8 +46,9 @@ export default function CreateTable() {
             <Appbar></Appbar>
 
             <BreadcrumbsPage
-                pages={[
-                    { title: "Search" },
+                   pages={[
+                    { title: "สร้างตารางเรียน" }
+                    
                 ]} />
 
             <main>
@@ -150,7 +151,11 @@ export default function CreateTable() {
 
             <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
 
-                <Button variant="contained" startIcon={<ControlPointIcon />}>
+                <Button 
+                variant="contained" 
+                startIcon={<ControlPointIcon />}
+                href="/search-select"
+                >
                     Add
                 </Button>
 

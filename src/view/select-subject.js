@@ -23,6 +23,8 @@ import BreadcrumbsPage from '../component/BreadcrumbsPage';
 import DetailsCard from '../component/details-card';
 import './detail.css'
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
@@ -44,7 +46,9 @@ export default function SelectSubject() {
 
             <BreadcrumbsPage
                 pages={[
-                    { title: "Search" },
+                    { title: "สร้างตารางเรียน", path: `/create-table` },
+                    { title: "ค้นหารายวิชา", path: `/search-select` },
+                    { title: "รายละเอียดวิชา" },
                 ]} />
 
             <main>
@@ -57,44 +61,44 @@ export default function SelectSubject() {
                     }}
                 >
                     <Container maxWidth="sm">
-                            <Grid item xs={12} sm={6}>
-                                <Typography
-                                    component="h1"
-                                    variant="h6"
-                                    align="center"
-                                    color="text.primary"
-                                    gutterBottom
-                                >
-                                    สร้างตารางเรียน
-                                </Typography>
+                        <Grid item xs={12} sm={6}>
+                            <Typography
+                                component="h1"
+                                variant="h6"
+                                align="center"
+                                color="text.primary"
+                                gutterBottom
+                            >
+                                สร้างตารางเรียน
+                            </Typography>
 
-                                <div className="detail-sudject">
-                                    <DetailsCard
-                                        title={'รหัสวิชา'}
-                                        description={'234-423'}
-                                        rootClassName="rootClassName1"></DetailsCard>
+                            <div className="detail-sudject">
+                                <DetailsCard
+                                    title={'รหัสวิชา'}
+                                    description={'234-423'}
+                                    rootClassName="rootClassName1"></DetailsCard>
 
-                                    <DetailsCard
-                                        title={'ชื่อวิชาภาษาไทย'}
-                                        description={'คณิตศาสตร์'}
-                                        rootClassName="rootClassName1"></DetailsCard>
+                                <DetailsCard
+                                    title={'ชื่อวิชาภาษาไทย'}
+                                    description={'คณิตศาสตร์'}
+                                    rootClassName="rootClassName1"></DetailsCard>
 
-                                    <DetailsCard
-                                        title={'หน่วยกิต'}
-                                        description={'3'}
-                                        rootClassName="rootClassName1"></DetailsCard>
+                                <DetailsCard
+                                    title={'หน่วยกิต'}
+                                    description={'3'}
+                                    rootClassName="rootClassName1"></DetailsCard>
 
-                                    <DetailsCard
-                                        title={'ชื่อวิชาภาษาอังกฤษ'}
-                                        description={'Math'}
-                                        rootClassName="rootClassName1"></DetailsCard>
+                                <DetailsCard
+                                    title={'ชื่อวิชาภาษาอังกฤษ'}
+                                    description={'Math'}
+                                    rootClassName="rootClassName1"></DetailsCard>
 
-                                </div>
-                            </Grid>
+                            </div>
+                        </Grid>
                     </Container>
                 </Box>
             </main>
-            
+
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -135,8 +139,8 @@ export default function SelectSubject() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center" >
-                                    <Button variant="outlined" size="small" >
-                                        332-233
+                                    <Button  href="/create-table" >
+                                        <AddCircleIcon />
                                     </Button>
                                 </TableCell>
 

@@ -14,6 +14,9 @@ import BreadcrumbsPage from '../component/BreadcrumbsPage';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 
+import AddAlarmIcon from '@mui/icons-material/AddAlarm';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
 
 function Copyright(props) {
     return (
@@ -109,10 +112,11 @@ export default function AddSubjectPage() {
 
             <BreadcrumbsPage
                 pages={[
-                    
+                    { title: "Manage Subject" , path: `/manage-subject`  },
+                    { title: "Add Subject" },
                 ]} />
 
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="100">
 
                 <Box sx={{ p: 5 }}>
                     <Typography textAlign={'center'} variant="h4">
@@ -158,7 +162,7 @@ export default function AddSubjectPage() {
                                     <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
                                         <TextField
                                             name="section_id"
-                                            label="Section id"
+                                            label="Section ID"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         />
@@ -187,7 +191,7 @@ export default function AddSubjectPage() {
                                         <Stack direction={isMobile ? 'column' : 'row'} spacing={2} key={timeIndex}>
                                             <TextField
                                                 name="time_id"
-                                                label="id เวลา"
+                                                label="Time ID"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
                                             />
@@ -216,15 +220,27 @@ export default function AddSubjectPage() {
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
                                             />
                                             <Stack direction="row">
-                                                <Button onClick={() => handleAddTime(sectionIndex)}>
-                                                    <AddCircleOutlineIcon />
+                                                <Button onClick={() => handleAddTime(sectionIndex)}
+                                                    sx={{
+                                                        color: '#1565c0',
+                                                        '&:hover': {
+                                                            bgcolor: '#bbdefb',
+                                                        },
+                                                    }}
+                                                >
+                                                    <AddAlarmIcon />
                                                 </Button>
                                                 {timeIndex > 0 && (
                                                     <Button
                                                         onClick={() => handleDeleteTime(sectionIndex, timePart.id)}
-                                                        color="error"
+                                                        sx={{
+                                                            color: '#d50000',
+                                                            '&:hover': {
+                                                                bgcolor: '#ff80ab',
+                                                            },
+                                                        }}
                                                     >
-                                                        <DeleteIcon />
+                                                        <RemoveCircleOutlineIcon />
                                                     </Button>
                                                 )}
                                             </Stack>
@@ -235,7 +251,14 @@ export default function AddSubjectPage() {
                                 {/* Delete Section Button */}
                                 <Stack justifyContent={'center'} alignItems={'center'}>
                                     {sectionIndex > 0 && (
-                                        <Button onClick={() => handleDeleteSection(sectionIndex)} color="error">
+                                        <Button
+                                            onClick={() => handleDeleteSection(sectionIndex)}
+                                            sx={{
+                                                color: '#d50000',
+                                                '&:hover': {
+                                                    bgcolor: '#ff80ab',
+                                                },
+                                            }}>
                                             <DeleteIcon />
                                         </Button>
                                     )}
@@ -244,7 +267,15 @@ export default function AddSubjectPage() {
                         ))}
 
                         <Stack>
-                            <Button onClick={handleAddSection}>
+                            <Button onClick={handleAddSection}
+                                sx={{
+                                    color: '#1565c0',
+                                    '&:hover': {
+                                        bgcolor: '#bbdefb',
+                                    },
+                                }}
+                            > <AddCircleOutlineIcon />
+                                ..Add Section..
                                 <AddCircleOutlineIcon />
                             </Button>
                         </Stack>

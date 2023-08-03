@@ -42,7 +42,8 @@ export default function SearchSelect() {
 
             <BreadcrumbsPage
                 pages={[
-                    { title: "Search" },
+                    { title: "สร้างตารางเรียน", path: `/create-table` },
+                    { title: "ค้นหารายวิชา", },
                 ]} />
 
             <main>
@@ -130,7 +131,11 @@ export default function SearchSelect() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center" >
-                                    <Button variant="outlined" size="small" >
+                                    <Button 
+                                    variant="outlined" 
+                                    size="small"
+                                    href="/select-subject"
+                                     >
                                         332-233
                                     </Button>
                                 </TableCell>
