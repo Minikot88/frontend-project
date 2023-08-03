@@ -30,8 +30,7 @@ import HomeAdmin from "./admin/home.admin";
 function App() {
   return (
     <BrowserRouter>
-
-      <Routes>
+      <Routes  >
         //view
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
@@ -49,16 +48,14 @@ function App() {
         <Route path="/table-all" element={<TableAll />} />
         <Route path="/table-subject" element={<TableSubject />} />
         <Route path="/details-card" element={<DetailsCard />} />
-       
+
         //addmin
         <Route path="/add-subject" element={<AddSubjectPage />} />
         <Route path="/edit-subject" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
         <Route path="/detail-subjectadmin" element={<DetailSubjectAdmin />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
-
       </Routes>
-
     </BrowserRouter>
 
   );
