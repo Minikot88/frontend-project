@@ -72,7 +72,6 @@ export default function AddSubjectPage() {
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/add-subject`, {
                 subject: subject,
                 sections: sections,
-
             });
             if (response) {
                 alert('Adding successfully');

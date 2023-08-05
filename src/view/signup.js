@@ -42,22 +42,24 @@ export default function SignUp() {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
     try {
-      if (user.password !== confirmPassword) {
-        alert('Your password is not match.')
-        window.location.reload()
+      if (user.Password !== confirmPassword) {
+        alert('Your password is not match.');
+        return; // Don't proceed further if passwords don't match
       } else {
-        const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user)
+        const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
         if (response) {
-          alert('Data added sucessfully!')
-          window.location.reload()
+          alert('Data added sucessfully!');
+          window.location.reload();
         }
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -161,10 +163,8 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="Password"
                   label="Confirm Password"
                   type="password"
-                  id="Password"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </Grid>
@@ -177,22 +177,19 @@ export default function SignUp() {
               </Grid>
 
             </Grid>
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 2, bgcolor: '#AA00FF' }}
+              style={{ marginTop: 2, marginBottom: 2, backgroundColor: '#AA00FF' }}
             >
               Sign Up
             </Button>
-
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
-
               </Grid>
             </Grid>
           </Box>

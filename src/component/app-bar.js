@@ -93,7 +93,7 @@ export default function Appbar() {
                                         color: '#000000',
                                         fontFamily: 'monospace',
                                         '&:hover': {
-                                            bgcolor: '#8800CC',
+                                            bgcolor: '#673ab7',
                                         },
                                     }}
                                 >
@@ -103,7 +103,7 @@ export default function Appbar() {
                                     variant="outlined"
                                     href="/signin"
                                     sx={{
-                                        bgcolor: '#AA00FF',
+                                        bgcolor: '#ede7f6',
                                         color: '#000000',
                                         fontFamily: 'monospace',
                                         '&:hover': {
