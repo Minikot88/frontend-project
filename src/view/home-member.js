@@ -42,7 +42,7 @@ export default function HomeMember() {
                         color="text.secondary"
                         paragraph
                     >
-                        อยากเกิดก็เปิดมา
+                        สร้างตารางเรียน
                     </Typography>
 
                     <Stack

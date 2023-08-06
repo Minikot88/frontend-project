@@ -69,7 +69,7 @@ export default function SelectSubject() {
                                 color="text.primary"
                                 gutterBottom
                             >
-                                สร้างตารางเรียน
+                                รายละเอียดวิชา
                             </Typography>
 
                             <div className="detail-sudject">

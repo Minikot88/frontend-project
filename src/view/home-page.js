@@ -35,7 +35,7 @@ export default function Home() {
                             color="text.primary"
                             gutterBottom
                         >
-                            อยากเป็นราชาโจรสลัด
+                            ยินดีต้อนรับสู่
                         </Typography>
 
                         <Typography
@@ -44,7 +44,7 @@ export default function Home() {
                             color="text.secondary"
                             paragraph
                         >
-                            จะหมัด จะมวย จะ .วยไรก็มาเถอะ
+                            ระบบจัดตารางเรียน
                         </Typography>
 
                         <Stack

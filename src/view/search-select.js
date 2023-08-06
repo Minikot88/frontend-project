@@ -63,7 +63,7 @@ export default function SearchSelect() {
                             color="text.primary"
                             gutterBottom
                         >
-                            สร้างตารางเรียน
+                            ค้นหารายวิชา
                         </Typography>
 
                         <Box component="form" noValidate sx={{ mt: 4 }}>
