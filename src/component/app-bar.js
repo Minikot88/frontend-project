@@ -16,9 +16,11 @@ export default function Appbar() {
     return (
         <AppBar position="static"
             sx={{
-                bgcolor: '#AA00FF',
+                bgcolor: '#212121',
             }}>
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" 
+           
+            >
                 <Toolbar disableGutters>
                     
                     <img
@@ -39,7 +41,7 @@ export default function Appbar() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: 'inherit',
+                            color: '#ff9800',
                             textDecoration: 'none',
                             marginLeft: 1,
                         }}
@@ -89,11 +91,11 @@ export default function Appbar() {
                                     variant="outlined"
                                     href="/signup"
                                     sx={{
-                                        bgcolor: '#AA00FF',
-                                        color: '#000000',
+                                        bgcolor: '#212121',
+                                        color: '#ede7f6',
                                         fontFamily: 'monospace',
                                         '&:hover': {
-                                            bgcolor: '#673ab7',
+                                            bgcolor: '#90a4ae',
                                         },
                                     }}
                                 >
@@ -104,7 +106,7 @@ export default function Appbar() {
                                     href="/signin"
                                     sx={{
                                         bgcolor: '#ede7f6',
-                                        color: '#000000',
+                                        color: '#212121',
                                         fontFamily: 'monospace',
                                         '&:hover': {
                                             bgcolor: '#8800CC',

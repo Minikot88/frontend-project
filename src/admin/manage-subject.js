@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -9,12 +9,9 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import BuildIcon from '@mui/icons-material/Build';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
-import Tooltip from '@mui/material/Tooltip';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 import Table from '@mui/material/Table';
@@ -27,17 +24,27 @@ import TableRow from '@mui/material/TableRow';
 import Appbar from '../component/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import axios from 'axios';
 
-
-function createData(id, name) {
-    return { id, name };
-}
-const rows = [
-    createData('123-321', 'คณิตศาสตร์'),
-];
 const theme = createTheme();
 
 export default function ManageSubject() {
+    const [subjects, setSubject] = useState()
+
+    useEffect(() => {
+        const getAllSubjects = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getallsubject`)
+                if (response) {
+                    setSubject(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllSubjects()
+    }, [])
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
@@ -143,47 +150,64 @@ export default function ManageSubject() {
                         </TableHead>
 
                         <TableBody>
-                            {rows.map((row) => (
+                            {subjects && subjects.map((row, index) => (
                                 <TableRow
-                                    key={row.name}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    key={index}
+                                    sx={{
+                                        '&:last-child td, &:last-child th': { border: 0 },
+                                        '&:hover': {
+                                            bgcolor: '#f8bbd0',
+                                        },
+                                    }}
                                 >
-                                    <TableCell align="center" component="th" scope="row">
-                                        <Paper variant="outlined"
-                                            sx={{
-                                                bgcolor: '#c5cae9'
-                                            }}
-                                            style={{ width: 100, height:20}}
+                                    <TableCell align="center" >
+                                    <Button variant="outlined" 
+                                           sx={{
+                                            width: 90,
+                                            bgcolor: '#424242',
+                                            color:'#ffab00',
+                                            '&:hover': {
+                                                bgcolor: '#616161',
+                                            },
+                                        }}
                                         >
-                                            {row.id}
-                                        </Paper>
+                                        {row.Subject_id}
+                                        </Button>
                                     </TableCell>
 
                                     <TableCell align="center">
-                                        {row.name}
+                                        {row.Subject_name_th}
                                     </TableCell>
 
                                     <TableCell align="right" >
-                                        <Button variant="outlined" 
-                                        startIcon={<ContentPasteSearchIcon />}
-                                        href="/detail-subjectadmin"
+                                        <Button variant="outlined"
+                                            startIcon={<ContentPasteSearchIcon />}
+                                            href="/detail-subjectadmin"
                                             sx={{
-                                                bgcolor: '#99e4ee'
+                                                width: 130,
+                                                bgcolor: '#99e4ee',
+                                                color: '#212121',
+                                                '&:hover': {
+                                                    bgcolor: '#64b5f6',
+                                                },
                                             }}
-                                            style={{ width: 130 }}
                                         >
                                             รายละเอียด
                                         </Button>
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        <Button variant="outlined" 
-                                        startIcon={<BuildIcon />}
-                                        href="/edit-subject"
+                                        <Button variant="outlined"
+                                            startIcon={<BuildIcon />}
+                                            href="/edit-subject"
                                             sx={{
-                                                bgcolor: '#99e4ee'
+                                                width: 130,
+                                                bgcolor: '#99e4ee',
+                                                color: '#212121',
+                                                '&:hover': {
+                                                    bgcolor: '#64b5f6',
+                                                },
                                             }}
-                                            style={{ width: 130 }}
                                         >
                                             แก้ไข
                                         </Button>
@@ -192,10 +216,13 @@ export default function ManageSubject() {
                                     <TableCell align="left">
                                         <Button variant="outlined" startIcon={<DeleteIcon />}
                                             sx={{
-
-                                                bgcolor: '#99e4ee'
+                                                width: 130,
+                                                bgcolor: '#99e4ee',
+                                                color: '#212121',
+                                                '&:hover': {
+                                                    bgcolor: '#64b5f6',
+                                                },
                                             }}
-                                            style={{ width: 130 }}
                                         >
                                             ลบ
                                         </Button>

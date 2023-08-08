@@ -22,8 +22,8 @@ export default function Home() {
                 <Box
                     sx={{
                         bgcolor: 'background.paper',
-                        pt: 15,
-                        pb: 6,
+                        pt: 10,
+
 
                     }}
                 >
@@ -34,35 +34,36 @@ export default function Home() {
                             align="center"
                             color="text.primary"
                             gutterBottom
+                            sx={{ color: '#ad1457' }}
                         >
-                            ยินดีต้อนรับสู่
+                            WELCOME
                         </Typography>
 
                         <Typography
                             variant="h5"
                             align="center"
-                            color="text.secondary"
-                            paragraph
+                            sx={{ marginBottom: '30px' }}
                         >
                             ระบบจัดตารางเรียน
                         </Typography>
 
                         <Stack
-                            sx={{ pt: 5 }}
                             direction="column"
-                            spacing={3}
                             justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
                         >
                             <Button
                                 variant="contained"
                                 size="large"
                                 href="/create-table"
                                 sx={{
-                                    bgcolor: '#AA00FF',
-                                    color: '#000000',
+                                    width: '300px',
+                                    bgcolor: '#212121',
+                                    color: '#ff9800',
                                     fontFamily: 'monospace',
                                     '&:hover': {
-                                        bgcolor: '#8800CC',
+                                        bgcolor: '#455a64',
                                     },
                                 }} >
                                 สร้างตารางเรียน
@@ -72,16 +73,18 @@ export default function Home() {
                                 size="large"
                                 href="/search-all"
                                 sx={{
-                                    bgcolor: '#AA00FF',
-                                    color: '#000000',
+                                    width: '300px',
+                                    bgcolor: '#212121',
+                                    color: '#ff9800',
                                     fontFamily: 'monospace',
                                     '&:hover': {
-                                        bgcolor: '#8800CC',
+                                        bgcolor: '#455a64',
                                     },
                                 }} >
                                 ค้นหารายวิชา
                             </Button>
                         </Stack>
+
                     </Container>
                 </Box>
             </main>
