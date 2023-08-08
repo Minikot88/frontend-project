@@ -9,8 +9,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Appbar from '../component/app-bar';
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
 
 export default function Home() {
