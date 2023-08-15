@@ -55,7 +55,7 @@ export default function SearchAll() {
 
             <BreadcrumbsPage
                 pages={[
-                    { title: "Search" },
+                    { title: "ค้นหา" },
                 ]} />
 
             <main>
@@ -87,12 +87,12 @@ export default function SearchAll() {
                                         display: 'flex',
                                         alignItems: 'center',
                                         width: 'sm',
-                                        bgcolor: '#e040fb'
+                                        bgcolor: '#BBE2F2'
                                     }}
                                 >
                                     <InputBase
                                         sx={{ ml: 2, flex: 1, }}
-                                        placeholder="Search"
+                                        placeholder="ค้นหา"
                                         inputProps={{ 'aria-label': 'search' }}
                                     />
                                     <IconButton

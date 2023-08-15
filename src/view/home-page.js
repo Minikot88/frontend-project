@@ -22,7 +22,6 @@ export default function Home() {
                         bgcolor: 'background.paper',
                         pt: 10,
 
-
                     }}
                 >
                     <Container maxWidth="sm">
@@ -32,7 +31,7 @@ export default function Home() {
                             align="center"
                             color="text.primary"
                             gutterBottom
-                            sx={{ color: '#ad1457' }}
+                            sx={{ color: '#0468BF' }}
                         >
                             WELCOME
                         </Typography>
@@ -56,12 +55,12 @@ export default function Home() {
                                 size="large"
                                 href="/create-table"
                                 sx={{
-                                    width: '300px',
-                                    bgcolor: '#212121',
-                                    color: '#ff9800',
+                                    width: '250px',
+                                    bgcolor: '#0468BF',
+                                    color: '#210021',
                                     fontFamily: 'monospace',
                                     '&:hover': {
-                                        bgcolor: '#455a64',
+                                        bgcolor: '#0487D9',
                                     },
                                 }} >
                                 สร้างตารางเรียน
@@ -71,12 +70,12 @@ export default function Home() {
                                 size="large"
                                 href="/search-all"
                                 sx={{
-                                    width: '300px',
-                                    bgcolor: '#212121',
-                                    color: '#ff9800',
+                                    width: '250px',
+                                    bgcolor: '#0468BF',
+                                    color: '#210021',
                                     fontFamily: 'monospace',
                                     '&:hover': {
-                                        bgcolor: '#455a64',
+                                        bgcolor: '#0487D9',
                                     },
                                 }} >
                                 ค้นหารายวิชา

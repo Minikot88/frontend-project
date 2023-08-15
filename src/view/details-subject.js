@@ -3,16 +3,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
 
 import Appbar from '../component/app-bar';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
-import TableSubject from '../component/table-subject';
 import DetailsCard from '../component/details-card';
-import './detail.css'
+
 
 
 const theme = createTheme();
@@ -67,7 +62,7 @@ export default function DetailSubject() {
                         </div>
 
                     </Container>
-                    <TableSubject></TableSubject>
+                
                 </Box>
             </main>
 

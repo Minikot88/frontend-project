@@ -16,7 +16,7 @@ export default function Appbar() {
     return (
         <AppBar position="static"
             sx={{
-                bgcolor: '#212121',
+                bgcolor: '#0468BF',
             }}>
             <Container maxWidth="xl" 
            
@@ -25,8 +25,8 @@ export default function Appbar() {
                     
                     <img
                         src={Photo}
-                        width="55"
-                        height="55"
+                        width="45"
+                        height="45"
                         sx={{ display: { xs: 'none', md: 'flex' } }}
                     />
                    
@@ -41,7 +41,7 @@ export default function Appbar() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: '#ff9800',
+                            color: '#ffffff',
                             textDecoration: 'none',
                             marginLeft: 1,
                         }}
@@ -86,34 +86,36 @@ export default function Appbar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <Stack direction="row" spacing={1}>
-                                <Button
+                                {/* <Button
                                     color="inherit"
                                     variant="outlined"
                                     href="/signup"
                                     sx={{
-                                        bgcolor: '#212121',
-                                        color: '#ede7f6',
+                                        bgcolor: '#43CAD9',
+                                        color: '#212121',
                                         fontFamily: 'monospace',
                                         '&:hover': {
-                                            bgcolor: '#90a4ae',
+                                            bgcolor: '#F24C3D',
                                         },
                                     }}
                                 >
                                     Sign Up
-                                </Button>
-                                <Button color="inherit"
-                                    variant="outlined"
+                                </Button> */}
+                                <Button 
                                     href="/signin"
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
                                     sx={{
-                                        bgcolor: '#ede7f6',
-                                        color: '#212121',
+                                        bgcolor: '#0487D9',
+                                        color: '#210021',
                                         fontFamily: 'monospace',
                                         '&:hover': {
-                                            bgcolor: '#8800CC',
+                                            bgcolor: '#049DD9',
                                         },
                                     }}
                                 >
-                                    sign in
+                                    Log In
                                 </Button>
                             </Stack>
                         </Tooltip>

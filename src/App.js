@@ -14,17 +14,17 @@ import CreateTable from "./view/create-table";
 import SheduleMe from "./view/schedule-me";
 import ForgotPassword from "./view/forgot-password";
 import HomeMember from "./view/home-member";
+import SignInn from "./view/signin2";
 
 //component
 import TableAll from "./component/table-all";
-import TableSubject from "./component/table-subject";
 import DetailsCard from "./component/details-card";
+import AppBerr from "./component/app-bar-2";
 
 //admin
 import AddSubjectPage from "./admin/add-subject";
 import EditSubjectPage from "./admin/edit-subject";
 import ManageSubject from "./admin/manage-subject";
-import DetailSubjectAdmin from "./admin/detail-subjectadmin";
 import HomeAdmin from "./admin/home.admin";
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        
         <Route path="/search-all" element={<SearchAll />} />
         <Route path="/search-select" element={<SearchSelect />} />
         <Route path="/details-subject" element={<DetailSubject />} />
@@ -43,17 +44,17 @@ function App() {
         <Route path="/schedule-me" element={<SheduleMe />} />
         <Route path="/home-member" element={<HomeMember />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/signin2" element={<SignInn />} />
 
         //component
         <Route path="/table-all" element={<TableAll />} />
-        <Route path="/table-subject" element={<TableSubject />} />
         <Route path="/details-card" element={<DetailsCard />} />
+        <Route path="/app-bar-2" element={<AppBerr />} />
 
         //addmin
         <Route path="/add-subject" element={<AddSubjectPage />} />
         <Route path="/edit-subject" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
-        <Route path="/detail-subjectadmin" element={<DetailSubjectAdmin />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
       </Routes>
     </BrowserRouter>

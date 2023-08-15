@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -20,22 +20,28 @@ import Appbar from '../component/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
 import TablePage from '../component/table-all';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function SearchSelect() {
+    const [subject, setSubject] = useState()
+
+    useEffect(() => {
+        const getAllSubjects = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getallsubject`)
+                if (response) {
+                    setSubject(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllSubjects()
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
@@ -111,7 +117,7 @@ export default function SearchSelect() {
                             <TableCell align="center">
                                 ชื่อวิชา
                             </TableCell>
-
+  
                             <TableCell align="center">
                                 จำนวนตอน
                             </TableCell>
@@ -125,31 +131,31 @@ export default function SearchSelect() {
 
                     <TableBody>
 
-                        {rows.map((row) => (
+                        {subject?.map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row?.Subject_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center" >
-                                    <Button 
-                                    variant="outlined" 
-                                    size="small"
-                                    href="/select-subject"
-                                     >
-                                        332-233
+                                    <Button
+                                        variant="outlined"
+                                        size="small"
+                                        href="/select-subject"
+                                    >
+                                        {row?.Subject_id}
                                     </Button>
                                 </TableCell>
 
                                 <TableCell align="center" component="th" scope="row">
-                                    {row.name}
+                                    {row?.Subject_id}
                                 </TableCell>
 
                                 <TableCell align="center">
-                                    {row.calories}
+                                    {row?.num_section}
                                 </TableCell>
 
                                 <TableCell align="center">
-                                    {row.fat}
+                                    {row?.Credit}
                                 </TableCell>
 
 

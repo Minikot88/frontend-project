@@ -5,7 +5,9 @@ import PropTypes from "prop-types"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import { Grid, Typography } from "@mui/material"
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 
 {/* <BreadcrumbLayout
 pages={[
@@ -23,10 +25,10 @@ const BreadcrumbsPage = ({ pages }) => {
       <Grid item md={12} xs={12}>
 
         <Breadcrumbs
-          separator={<NavigateNextIcon
+          separator={<KeyboardDoubleArrowRightIcon
             fontSize="small"
             style={{
-              color: "#ab003c"
+              color: "#002100"
             }}
 
           />}
@@ -34,17 +36,17 @@ const BreadcrumbsPage = ({ pages }) => {
           aria-label="breadcrumb"
           color
           style={{
-            color: "#2962ff"
+            color: "#0468BF"
           }}
         >
           <Link key={"home"} to={"/"}
             component={RouterLink}
             underline="hover"
             style={{
-              color: "#ab003c",
+              color: "#b2102f",
             }}
           >
-            Home
+            หน้าหลัก
           </Link>
 
           {pages?.map((page) =>

@@ -17,6 +17,7 @@ import axios from 'axios';
 import photo from '../photo/add-friend.png'
 import Appbar from '../component/app-bar';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -37,22 +38,24 @@ export default function SignUp() {
 
   const [user, setUser] = useState({})
   const [confirmPassword, setConfirmPassword] = useState('')
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
     try {
-      if (user.Password !== confirmPassword) {
+      if (user.password !== confirmPassword) {
         alert('Your password is not match.');
-        return; // Don't proceed further if passwords don't match
+        return;
       } else {
         const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
         if (response) {
-          alert('Data added sucessfully!');
+          alert('sucessfully!');
           window.location.reload();
+          navigate(`/signin`)
         }
       }
     } catch (err) {
@@ -81,7 +84,7 @@ export default function SignUp() {
           }}
         >
 
-          <img src={photo} width="80" height="80" />
+          <img src={photo} width="70" height="70" />
 
           <Typography
             component="h1"
@@ -98,9 +101,8 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="Member_id"
-                  id="Member_id"
-                  label="Member ID"
+                  name="user_id"
+                  label="Student ID"
                   autoFocus
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -109,8 +111,7 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="Fname"
-                  id="Fname"
+                  name="fname"
                   label="First Name"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -119,9 +120,8 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="Lname"
                   label="Last Name"
-                  name="Lname"
+                  name="lname"
                   onChange={(e) => handleInputChange(e)}
                 />
               </Grid>
@@ -129,9 +129,8 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="Email"
                   label="Email Address"
-                  name="Email"
+                  name="email"
                   autoComplete="Email"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -141,8 +140,7 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="Username"
-                  id="Username"
+                  name="username"
                   label="Username"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -151,10 +149,9 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="Password"
+                  name="password"
                   label="Password"
                   type="Password"
-                  id="Password"
                   onChange={(e) => handleInputChange(e)}
                 />
               </Grid>
@@ -169,7 +166,7 @@ export default function SignUp() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{mb:'10px'}}> 
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="ตกลงการสมัครสมาชิก"
@@ -177,16 +174,25 @@ export default function SignUp() {
               </Grid>
 
             </Grid>
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              style={{ marginTop: 2, marginBottom: 2, backgroundColor: '#AA00FF' }}
+              sx={{
+                bgcolor: '#0487D9',
+                color: '#210021',
+                '&:hover': {
+                  bgcolor: '#0468BF',
+                },
+              }}
+
             >
               Sign Up
             </Button>
+
             <Grid container justifyContent="flex-end">
-              <Grid item>
+              <Grid item sx={{mt:'10px'}}>
                 <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>

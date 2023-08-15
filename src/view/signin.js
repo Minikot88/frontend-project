@@ -13,6 +13,10 @@ import Appbar from '../component/app-bar';
 import Photo from '../photo/hacker.png'
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
 
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -30,23 +34,53 @@ const theme = createTheme();
 
 export default function SignIn() {
 
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate(-1)
+    }
+  }, [])
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/signIn`, {
+        psername: username,
+        Password: password
+      });
+      console.log(response?.statusText);
+      console.log(password)
+
+      if (response.status === 200 && response.statusText === "success") {
+        alert("เข้าสู่ระบบสำเร็จ");
+        console.log(response.data);
+        localStorage.setItem('token', response.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.token}`;
+        navigate(`/home-member`);
+        window.location.reload();
+      } else if (response.status === 200 && response.statusText === "Invalid username/password") {
+        alert("Invalid");
+        window.location.reload();
+      } else {
+        alert('Invalid username/password');
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <ThemeProvider theme={theme}>
+
       <Appbar></Appbar>
 
       <BreadcrumbsPage
-                pages={[
-                    { title: "Sign in" },
-                ]} />
+        pages={[
+          { title: "Log In" },
+        ]} />
 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -58,6 +92,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
+
           <img src={Photo} width="80" height="80" />
 
           <Typography
@@ -69,18 +104,20 @@ export default function SignIn() {
 
             Sign In
           </Typography>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
             noValidate sx={{ mt: 2 }}>
             <TextField
               autoComplete="given-name"
-              name="Username"
+              name="username"
               required
               fullWidth
-              id="Username"
               label="Username"
               autoFocus
+              onChange={(e) => setUsername(e.target.value)}
+
             />
             <TextField
               margin="normal"
@@ -88,25 +125,32 @@ export default function SignIn() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              type="Password"
+              autoComplete="current-Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              style={{ marginTop: 2, marginBottom: 2, backgroundColor: '#AA00FF' }}
+              sx={{
+                bgcolor: '#0487D9',
+                color: '#210021',
+                //fontFamily: 'monospace',
+                '&:hover': {
+                  bgcolor: '#0468BF',
+                },
+              }}
             >
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -115,7 +159,7 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 10, mb: 4 }} />
+        <Copyright sx={{ mt: 11, mb: 4 }} />
       </Container>
     </ThemeProvider >
   );
