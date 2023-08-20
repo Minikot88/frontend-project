@@ -102,7 +102,7 @@ export default function SignIn() {
               marginTop: 2,
             }} >
 
-            Sign In
+            Log In
           </Typography>
 
           <Box
@@ -136,14 +136,14 @@ export default function SignIn() {
               variant="contained"
               sx={{
                 bgcolor: '#0487D9',
-                color: '#210021',
+                color: '#FFFFFF',
                 //fontFamily: 'monospace',
                 '&:hover': {
                   bgcolor: '#0468BF',
                 },
               }}
             >
-              Sign In
+              Log In
             </Button>
             <Grid container>
               {/* <Grid item xs>

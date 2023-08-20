@@ -75,10 +75,15 @@ export default function SearchAll() {
                             color="text.primary"
                             gutterBottom
                         >
-                            ภาคการศีกษาที่ 1 ปีการศีกษา 2580
+                            ค้นหารายวิชา
                         </Typography>
-
-                        <Box component="form" noValidate sx={{ mt: 4 }}>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 1,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
                             <Grid item xs={12} sm={6}>
                                 <Paper
                                     component="form"
@@ -86,22 +91,78 @@ export default function SearchAll() {
                                         p: '2px 4px',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        width: 'sm',
-                                        bgcolor: '#BBE2F2'
+                                        justifyContent: 'center',
+                                        width: '300px',
+                                        height: '33px',
+                                        bgcolor: '#FFFFFF',
+                                        border: '0.8px solid #252525',
+                                        '&:hover': {
+                                            bgcolor: '#eeeeee',
+                                        },
                                     }}
                                 >
                                     <InputBase
-                                        sx={{ ml: 2, flex: 1, }}
-                                        placeholder="ค้นหา"
+                                        sx={{ ml: 1, flex: 1, }}
+                                        placeholder="รหัสวิชา"
                                         inputProps={{ 'aria-label': 'search' }}
                                     />
-                                    <IconButton
-                                        type="button"
-                                        sx={{ p: '10px' }}
-                                        aria-label="search">
-                                        <SearchIcon />
-                                    </IconButton>
                                 </Paper>
+                            </Grid>
+                        </Box>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 0.5,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Grid item xs={12} sm={6}>
+                                <Paper
+                                    component="form"
+                                    sx={{
+                                        p: '2px 4px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '300px',
+                                        height: '33px',
+                                        bgcolor: '#FFFFFF',
+                                        border: '0.8px solid #252525',
+                                        '&:hover': {
+                                            bgcolor: '#eeeeee',
+                                        },
+                                    }}
+                                >
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1, }}
+                                        placeholder="ชื่อวิชา"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </Paper>
+                            </Grid>
+                        </Box>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 1.5,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Grid item xs={12} sm={6}>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    sx={{
+                                        bgcolor: '#FFFFFF',
+                                        color: '#212121',
+                                        border: '0.8px solid #049DD9',
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }}
+                                >
+                                    ค้นหา
+                                </Button>
                             </Grid>
                         </Box>
                     </Container>

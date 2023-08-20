@@ -1,0 +1,515 @@
+.kanit {
+    font-family: 'Kanit', sans-serif;
+}
+
+/**/
+
+/* thai */
+@font-face {
+font-family: 'Kanit';
+font-style: normal;
+font-weight: 300;
+src: local('Kanit Light'), local('Kanit-Light'), url(https://fonts.gstatic.com/s/kanit/v3/nKKU-Go6G5tXcr4-ORWzVaF5NQ.woff2) format('woff2');
+unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+font-family: 'Kanit';
+font-style: normal;
+font-weight: 300;
+src: local('Kanit Light'), local('Kanit-Light'), url(https://fonts.gstatic.com/s/kanit/v3/nKKU-Go6G5tXcr4-ORWpVaF5NQ.woff2) format('woff2');
+unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+font-family: 'Kanit';
+font-style: normal;
+font-weight: 300;
+src: local('Kanit Light'), local('Kanit-Light'), url(https://fonts.gstatic.com/s/kanit/v3/nKKU-Go6G5tXcr4-ORWnVaE.woff2) format('woff2');
+unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+body {
+	font-family: 'Kanit', sans-serif !important;
+}
+
+button {
+    font-family: 'Kanit', sans-serif !important;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 auto;
+    cursor:pointer;
+}
+
+#schedule{
+	font-family: 'Kanit', sans-serif;
+}
+#schedule .clear{ clear:both; height: 0; line-height: 0;}
+/*#schedule .sc_wrapper{
+}*/
+#schedule .sc_menu{
+	width:100%;
+	height:26px;
+}
+#schedule .sc_menu .sc_header_cell{
+	float:left;
+}
+#schedule .sc_menu .sc_header{
+	float:left;
+	height:26px;
+	position:relative;
+	overflow:hidden;
+}
+#schedule .sc_menu .sc_header .sc_time{
+	text-align:center;
+	border-left:solid 1px #ddd;
+	background:#459fff;
+	font-size: 14px;
+	font-weight: bold;
+}
+#schedule .sc_menu .sc_header_cell,
+#schedule .sc_data{
+	float:left;
+	font-weight:bold;
+	color:#282828;
+	background:#459fff;
+	position:relative;
+}
+#schedule .sc_menu .sc_header_scroll,
+#schedule .sc_data .sc_data_scroll{
+	position:absolute;
+	left:0;
+	top:0;
+	text-align: center;
+	vertical-align: middle;
+}
+#schedule .sc_menu .sc_header_cell,
+#schedule .sc_header .sc_time,
+#schedule .sc_main_scroll .sc_time{
+	color:#FFFFFF;
+	padding:4px 0;
+	line-height:18px;
+	height:18px;
+	display:block;
+}
+#schedule .sc_header .sc_time,
+#schedule .sc_main_scroll .sc_time{
+	float:left;
+}
+/*#schedule .sc_main_box,
+#schedule .sc_data{
+	max-height:500px;
+	overflow:hidden;
+}*/
+#schedule .sc_main_box{
+	float:left;
+	/*overflow-x:auto;
+	overflow-y:auto;*/
+}
+#schedule .sc_main_scroll{
+  background-size: cover;
+}
+#schedule .sc_main{
+	position:relative;
+}
+#schedule .timeline{
+	position:relative;
+}
+#schedule .sc_Bar{
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	position:absolute;
+	border: solid 1px #bdbdbd;
+	background:#f0f0f0;
+	cursor:pointer;
+	z-index:10;
+}
+#schedule .ui-draggable-dragging,
+#schedule .ui-resizeable{
+	z-index:20;
+}
+#schedule .sc_Bar .head{
+	display:block;
+	padding:1px 8px 0;
+	font-size:12px;
+	height:14px;
+	overflow:hidden;
+	font-weight:bold;
+}
+#schedule .sc_Bar .text{
+	display:block;
+	padding:5px 15px 0;
+	height:40px;
+	overflow: hidden;
+	font-size:11px;
+	word-wrap:break-word;
+	line-height: 95%;
+}
+#schedule .timeline,
+#schedule .sc_main .tb{
+	border-bottom:solid 2px #ddd;
+}
+#schedule .sc_data .timeline{
+	overflow:hidden;
+	background-color: #b0b0b0;
+	border: 1px solid #ddd;
+}
+#schedule .sc_data .timeline span{
+	padding:10px;
+	display:block;
+}
+#schedule .sc_data .timeline span.photo{
+	float:left;
+	width:36px;
+	height:36px;
+	padding:10px 0 10px 10px;
+}
+#schedule .sc_data .timeline span.title{
+	float:left;
+	padding:10px 0 10px 10px;
+	width:92px;
+}
+/*#schedule .sc_main_scroll .sc_main{
+}*/
+#schedule .sc_main_scroll .sc_main .tl{
+	float:left;
+	height:100%;
+	border-right:solid 1px #DDD;
+}
+#schedule .sc_main_scroll .sc_main .tl:hover{
+	background:#F0F0F0;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: white;
+    cursor: pointer;
+    padding: 15px 32px;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+}
+
+.column {
+    float: left;
+    width: 25%;
+    padding: 15px;
+}
+
+.subcolumn {
+    float: left;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.myinput[type="checkbox"]:before {
+    position: relative;
+    display: block;
+    width: 11px;
+    height: 11px;
+    border: 1px solid #808080;
+    content: "";
+    background: #FFF;
+  }
+  
+  .myinput[type="checkbox"]:after {
+    position: relative;
+    display: block;
+    left: 2px;
+    top: -11px;
+    width: 7px;
+    height: 7px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #B3B3B3 #dcddde #dcddde #B3B3B3;
+    content: "";
+    background-image: linear-gradient(135deg, #B1B6BE 0%, #FFF 100%);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .myinput[type="checkbox"]:checked:after {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAB2SURBVHjaAGkAlv8A3QDyAP0A/QD+Dam3W+kCAAD8APYAAgTVZaZCGwwA5wr0AvcA+Dh+7UX/x24AqK3Wg/8nt6w4/5q71wAAVP9g/7rTXf9n/+9N+AAAtpJa/zf/S//DhP8H/wAA4gzWj2P4lsf0JP0A/wADAHB0Ngka6UmKAAAAAElFTkSuQmCC'), linear-gradient(135deg, #B1B6BE 0%, #FFF 100%);
+  }
+  
+  .myinput[type="checkbox"]:disabled:after {
+    -webkit-filter: opacity(0.4);
+  }
+  
+  .myinput[type="checkbox"]:not(:disabled):checked:hover:after {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAB2SURBVHjaAGkAlv8A3QDyAP0A/QD+Dam3W+kCAAD8APYAAgTVZaZCGwwA5wr0AvcA+Dh+7UX/x24AqK3Wg/8nt6w4/5q71wAAVP9g/7rTXf9n/+9N+AAAtpJa/zf/S//DhP8H/wAA4gzWj2P4lsf0JP0A/wADAHB0Ngka6UmKAAAAAElFTkSuQmCC'), linear-gradient(135deg, #8BB0C2 0%, #FFF 100%);
+  }
+  
+  .myinput[type="checkbox"]:not(:disabled):hover:after {
+    background-image: linear-gradient(135deg, #8BB0C2 0%, #FFF 100%);
+    border-color: #85A9BB #92C2DA #92C2DA #85A9BB;
+  }
+  
+  .myinput[type="checkbox"]:not(:disabled):hover:before {
+    border-color: #3D7591;
+  }
+  
+  /* Large checkboxes */
+  .myinput.large {
+    height: 22px;
+    width: 22px;
+  }
+  
+  .myinput.large[type="checkbox"]:before {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .myinput.large[type="checkbox"]:after {
+    top: -20px;
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Dropdown Button */
+.dropbtn {
+    font-size: 16px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #b3b3b3;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 1px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.5);
+  z-index: 49;
+}
+.loading-wheel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 50;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% {
+      -webkit-transform: rotate(0);
+  }
+  100% {
+      -webkit-transform: rotate(-360deg);
+  }
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 51; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #fff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+  background-color: #459fff;
+  color: white;
+  text-align: center;
+}
+
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 30%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+#decomodal .modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop2;
+  animation-duration: 0.4s;
+  top: 60%;
+}
+
+#decomodal .modal-header {
+  padding: 2px 16px;
+  background-color: #17a2b8;
+  color: white;
+  text-align: center;
+}
+
+/*#decomodal .modal-dialog {
+  -webkit-transform: translate(0,-50%);
+  -o-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+  top: 70%;
+  margin: 0 auto;
+}*/
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+@keyframes animatetop2 {
+  from {top: 50%; opacity: 0}
+  to {top: 60%; opacity: 1}
+}
+
+.flash-button{
+	
+	animation-name: flash;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+
+  /*Firefox 1+*/
+	-webkit-animation-name: flash;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+
+	/*Safari 3-4*/
+	-moz-animation-name: flash;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+}
+
+@keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+/*Firefox 1+*/
+@-webkit-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+/*Safari 3-4*/
+@-moz-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}

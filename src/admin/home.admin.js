@@ -35,7 +35,6 @@ export default function HomeAdmin() {
                     >
                         ADMIN
                     </Typography>
-
                     <Typography
                         variant="h5"
                         align="center"
@@ -44,7 +43,6 @@ export default function HomeAdmin() {
                     >
                         เปิดโปรรรรร
                     </Typography>
-
                     <Stack
                         sx={{ pt: 1, alignItems: "center" }}
                         direction="column"
@@ -57,14 +55,12 @@ export default function HomeAdmin() {
                             variant="contained"
                             size="large"
                             sx={{
-                                width: 300,
-                                height: 50,
-
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
                             }} >
                             ค้นหารายวิชา
@@ -74,15 +70,14 @@ export default function HomeAdmin() {
                             size="large"
                             href="/create-table"
                             sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
-                            }} >
+                            }}  >
                             สร้างตารางเรียน
                         </Button>
                         <Button
@@ -90,13 +85,12 @@ export default function HomeAdmin() {
                             variant="contained"
                             size="large"
                             sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
                             }} >
                             ตารางเรียนของฉัน
@@ -106,15 +100,14 @@ export default function HomeAdmin() {
                             size="large"
                             href="/manage-subject"
                             sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
-                            }} >
+                            }}  >
                             จัดการรายวิชา
                         </Button>
                     </Stack>

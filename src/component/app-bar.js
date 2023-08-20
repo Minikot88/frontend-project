@@ -7,29 +7,53 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import { Stack } from '@mui/material'
+import Modal from '@mui/material/Modal';
 
 import Photo from '../photo/table.png'
 
+import Login from '../view/login';
+
 export default function Appbar() {
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: '#fafafa',
+        border: '2.5px solid #0468BF',
+        boxShadow: 24,
+        pt: 1,
+        px: 2,
+        pb: 1,
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     return (
         <AppBar position="static"
             sx={{
                 bgcolor: '#0468BF',
             }}>
-            <Container maxWidth="xl" 
-           
+            <Container maxWidth="xl"
+
             >
                 <Toolbar disableGutters>
-                    
+
                     <img
                         src={Photo}
                         width="45"
                         height="45"
                         sx={{ display: { xs: 'none', md: 'flex' } }}
                     />
-                   
+
                     <Typography
                         variant="h6"
                         noWrap
@@ -78,49 +102,39 @@ export default function Appbar() {
                     >
                         MX
                     </Typography>
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
                     </Box>
+                    <div>
+                        <Button onClick={handleOpen}
+                            type="submit"
+                            fullWidth
+                            variant="text"
+                            size="small"
+                            sx={{
+                                boxShadow: 4,
+                                bgcolor: '#0487D9',
+                                color: '#FFFFFF',
+                                fontFamily: 'monospace',
+                                '&:hover': {
+                                    bgcolor: '#049DD9',
+                                },
+                            }}
+                        >Log In
+                        </Button>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <Stack direction="row" spacing={1}>
-                                {/* <Button
-                                    color="inherit"
-                                    variant="outlined"
-                                    href="/signup"
-                                    sx={{
-                                        bgcolor: '#43CAD9',
-                                        color: '#212121',
-                                        fontFamily: 'monospace',
-                                        '&:hover': {
-                                            bgcolor: '#F24C3D',
-                                        },
-                                    }}
-                                >
-                                    Sign Up
-                                </Button> */}
-                                <Button 
-                                    href="/signin"
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{
-                                        bgcolor: '#0487D9',
-                                        color: '#210021',
-                                        fontFamily: 'monospace',
-                                        '&:hover': {
-                                            bgcolor: '#049DD9',
-                                        },
-                                    }}
-                                >
-                                    Log In
-                                </Button>
-                            </Stack>
-                        </Tooltip>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="parent-modal-title"
+                            aria-describedby="parent-modal-description"
+                        >
+                            <Box sx={{ ...style, width: 350, height: 400, }}>
+                               <Login></Login>
+                            </Box>
+                        </Modal>
+                    </div>
 
-                    </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>

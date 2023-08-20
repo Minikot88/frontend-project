@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-7989579-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-7989579-4');
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="fb:app_id" content="386355771895867" />
+    <meta property="og:url" content="https://beedev.in.th/api/sis-scheduler/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="โปรแกรมทำตารางเรียน SIS Scheduler" />
+    <meta property="og:description" content="ประหยัดเวลาสร้างตารางเรียนของคุณให้เหลือเพียงไม่กี่นาที!" />
+    <meta property="og:image" content="https://beedev.in.th/api/sis-scheduler/fbsisog.jpg" />
+    <title>โปรแกรมทำตารางเรียน SIS | PSU SIS Scheduler</title>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript" language="javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript" language="javascript"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+    <script type="text/javascript" src="assets/js/jq.schedule.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles2.css" />
+    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="assets/js/dom-to-image.js"></script>
+    <script src="assets/js/FileSaver.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var $sc = jQuery("#schedule").timeSchedule({
+                startTime: "08:00", // schedule start time(HH:ii)
+                endTime: "20:00", // schedule end time(HH:ii)
+                widthTime: 60 * 10, // cell timestamp example 10 minutes
+                widthTimeX: 15,
+                timeLineY: 70, // height(px)
+                verticalScrollbar: 0, // scrollbar (px)
+                timeLineBorder: 1, // border(top and bottom)
+                bundleMoveWidth: 0, // width to move all schedules to the right of the clicked time line cell
+                debug: "#debug", // debug string output elements
+                rows: {
+                    "0": {
+                        title: "Monday",
+                        schedule: [
+                             {
+                                        start: "13:00",                                        end: "15:50",                                        text: "INTERNET OF THINGS (BSc0606(LAB))",                                        code: "344-323"                                    },
+                                                    ]
+                    },
+                    "1": {
+                        title: "Tuesday",
+                        schedule: [
+                             {
+                                        start: "15:00",                                        end: "15:50",                                        text: "TABLE TENNIS (สนามเทเบิลเทนนิส(ศป))",                                        code: "895-038"                                    },
+                                                    ]
+                    },
+                    "2": {
+                        title: "Wednesday",
+                        schedule: [
+                             {
+                                        start: "08:00",                                        end: "08:50",                                        text: "SOCIAL & PROFESSIONAL ETHICS (CS201)",                                        code: "344-492"                                    },
+                             {
+                                        start: "13:00",                                        end: "14:50",                                        text: "BASIC JAPANESE (LA304(ศป))",                                        code: "891-010"                                    },
+                                                    ]
+                    },
+                    "3": {
+                        title: "Thursday",
+                        schedule: [
+                             {
+                                        start: "13:00",                                        end: "15:50",                                        text: "PROJECT IN COMPUTER SCI II (CS105(LAB))",                                        code: "344-491"                                    },
+                                                    ]
+                    },
+                    "4": {
+                        title: "Friday",
+                        schedule: [
+                             {
+                                        start: "13:00",                                        end: "15:50",                                        text: "DATABASE ADMIN & MAINTENANCE (BSc0604(LAB))",                                        code: "344-433"                                    },
+                             {
+                                        start: "16:00",                                        end: "16:50",                                        text: "CREATIVE CRAFT (ภูมิปัญญศิลป์)",                                        code: "125-101"                                    },
+                                                    ]
+                    }
+                                                        },
+                change: function(node, data) {
+                    $("#logs").append($("<div>").text("change event:" + JSON.stringify(data)));
+                },
+                init_data: function(node, data) {
+                    $("#logs").append($("<div>").text("init event:" + JSON.stringify(data)));
+                },
+                click: function(node, data) {
+                    $("#logs").append($("<div>").text("click event:" + JSON.stringify(data)));
+                },
+                append: function(node, data) {
+                    $("#logs").append($("<div>").text("append event:" + JSON.stringify(data)));
+                },
+                time_click: function(time, data) {
+                    $("#logs").append($("<div>").text("time click event:" + JSON.stringify(data)));
+                },
+            });
+        });
+    </script>
+
+</head>
+
+<body onload="firstload()">
+
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v3.2&appId=386355771895867&autoLogAppEvents=1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div class="loading">
+        <div class="loading-wheel"></div>
+    </div>
+
+    <div style="width: 1300px; margin: auto; display: block;">
+        <div id="bigDiv" style="padding: 15px; background-color: #ffffff; width: 1299px; margin: auto;">
+            <div style="text-align: center;">
+                <h3 id="schedheader" class="kanit"><i class="fa fa-calendar"></i> My Class Schedule</h3>
+            </div>
+            <div id="schedule"></div>
+            <div class="row" style="text-align: left;">
+                <small><i class="fa fa-heart"></i> <b>PSU SIS Scheduler</b> by beedev.in.th/sis</small>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+
+                    <button onclick="setColor()" style="background-color: #ffa200;"><i class="fa fa-random fa-inverse"></i> สุ่มสีคาบเรียนใหม่</button>
+            <button onclick="opendeco()" style="background-color: #17a2b8;margin-bottom: 0px;"><i class="fa fa-magic fa-inverse"></i> ตกแต่งเพิ่มเติม</button>
+            <button onclick="exportImg()" style="background-color: #4CAF50; margin-right:100px;" class="flash-button"><i class="fa fa-download fa-inverse"></i> ดาวน์โหลดตารางเรียน</button>
+            <button onclick="window.open('https://www.facebook.com/psusisscheduler', '_blank')" style="background-color: #3b5998;"><i class="fa fa-facebook fa-inverse"></i> Facebook Page</button>
+            <button onclick="donatemanual()" style="background-color: #d6598b;"><i class="fa fa-heart fa-inverse"></i> สนับสนุนผู้พัฒนา</button>
+
+            <div id="decomodal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close" id="decoclose">&times;</span>
+                        <h2><i class="fa fa-magic fa-inverse"></i> ตกแต่งเพิ่มเติม</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="column">
+                                <div class="subcolumn" style="width:60%;">
+                                    <p><i class="fa fa-bold"></i> <b>หัวข้อตาราง</b></p>
+                                    <input class="kanit" id="schedtext" type="text" value="My Class Schedule" onkeyup="setHeader()" onpaste="setHeader()" oncut="setHeader()">
+                                </div>
+                                <div class="subcolumn" style="width:40%;">
+                                    <div class="dropdown">
+                                        <p class="dropbtn"><i class="fa fa-align-left"></i> <b>ตำแหน่งหัวตาราง</b></p>
+                                        <div class="dropdown-content">
+                                            <a href="#" onclick="setPos('left')">ซ้าย</a>
+                                            <a href="#" onclick="setPos('center')">กลาง</a>
+                                            <a href="#" onclick="setPos('right')">ขวา</a>
+                                        </div>
+                                    </div>
+                                    <p id="postext">กลาง</p>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="subcolumn" style="width:33.33%;">
+                                    <p><i class="fa fa-cog"></i> <b>สีตามวัน</b></p>
+                                    <input type="checkbox" id="schedday" class="myinput large custom" onclick="setDay();" checked />
+                                </div>
+                                <div class="subcolumn" style="width:33.33%;">
+                                    <p><i class="fa fa-cog"></i> <b>สีฟอนท์เวลา</b></p>
+                                    <input type="color" id="head" name="head" value="#FFFFFF" onchange="setTimeText(this.value);">
+                                </div>
+                                <div class="subcolumn" style="width:33.33%;">
+                                    <p><i class="fa fa-cog"></i> <b>สีพื้นหลังเวลา</b></p>
+                                    <input type="color" id="head" name="head" value="#459fff" onchange="setTimeHead(this.value);">
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="subcolumn" style="width:50%;">
+                                    <p><b><i class="fa fa-camera-retro"></i> ภาพพื้นหลังตาราง</b></p>
+                                    <input id="inp" type="file">
+                                    <small for="files"></small>
+                                </div>
+                                <div class="subcolumn" style="width:50%;">
+                                    <p><b><i class="fa fa-bars"></i> แสดงเส้นตาราง</b></p>
+                                    <input type="checkbox" id="schedline" class="myinput large custom" onclick="setLine();" checked />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+    </div>
+
+    <div style="text-align: center; margin-top:20px;">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Scheduler -->
+        <ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-5741500790348932" data-ad-slot="9996241574"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <div class="fb-like" data-href="https://beedev.in.th/api/sis-scheduler/" data-layout="box_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    </div>
+
+    
+            <div style="width: 1300px; margin: auto; display: block; text-align:center;">
+            <div id="bigDiv" style="padding: 15px; background-color: #ffffff; width: 1299px; margin: auto;">
+                <div style="text-align: center;">
+                    <h3 id="schedheader" class="kanit"><i class="fa fa-bug"></i> รายงานปัญหา</h3>
+                    <small>พบปัญหาในการใช้งาน ติดต่อ Admin ได้ที่ <a href="https://www.facebook.com/psusisscheduler">Facebook Page</a> โดย Copy ข้อมูล Session ด้านล่างส่งให้ Admin ด้วย</small>
+                    <div class="row">
+                        <textarea name="sessionlog" id="log" style="width:350px;" rows="5">{DBC6F19A-69B0-F2AD-7C1A-A46C6C77CBB1} 2023-08-15 22:28:05</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var x = navigator.userAgent;
+            var oldtxt = document.getElementById("log").innerHTML;
+            var newtxt = oldtxt + ' ' + x;
+            document.getElementById("log").innerHTML = newtxt;
+        </script>
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2><i class="fa fa-bullhorn fa-inverse"></i> ประกาศ</h2>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>ขณะนี้สามารถสร้างตารางเรียนที่มีวันเสาร์และอาทิตย์ได้แล้ว</li>
+                </ul>
+                <p style="text-align:center;"><b>อัพเดตเมื่อวันที่</b> 18 ธันวาคม 2562 12.00 น.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="qrModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header" id="qrheader">
+                <span class="close" id="qrclose">&times;</span>
+                <h2 id="donateheader"><i class="fa fa-heart fa-inverse"></i> สนับสนุน<h2>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>ปัจจุบันโปรแกรม PSU SIS Scheduler นั้นได้เปิดให้ใช้งานมาแล้วเป็นเวลา 5 ปี โดยไม่ได้มีการคิดค่าใช้จ่ายใดๆตลอดเวลาที่ผ่านมา แต่หากโปรแกรมนี้ได้ช่วยให้คุณได้รับความสะดวกในการสร้างตารางเรียน คุณสามารถสนับสนุนผู้พัฒนาระบบได้โดยการสนับสนุนค่าใช้จ่ายไปยังบัญชีต่อไปนี้ (เป็นจำนวนเท่าไหร่ก็ได้) เพื่อเป็นกำลังใจให้ผู้พัฒนา และนักศึกษารุ่นต่อๆไปจะได้มีโปรแกรมดีๆไว้ให้ใช้งานต่อไปในอนาคต ขอบคุณครับ</li>
+                    <br>
+                    <img src="assets/img/qr-donate.jpeg" alt="qr-code" style="width:85%;">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="assets/js/app2.js"></script>
+</body>
+
+</html>

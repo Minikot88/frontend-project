@@ -1,3 +1,4 @@
+import * as React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -7,16 +8,16 @@ import {
     Button, Typography, useMediaQuery,
     ThemeProvider, createTheme
 } from '@mui/material';
-
 import Appbar from '../component/app-bar';
-
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
-
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function Copyright(props) {
     return (
@@ -30,10 +31,10 @@ function Copyright(props) {
         </Typography>
     );
 }
-
 const theme = createTheme();
 
 export default function AddSubjectPage() {
+
     const [subject, setSubject] = useState({});
     const [sections, setSections] = useState([{ times: [{}] }]);
     const [timeIdCounter, setTimeIdCounter] = useState(0);
@@ -111,7 +112,7 @@ export default function AddSubjectPage() {
 
             <BreadcrumbsPage
                 pages={[
-                    { title: "Manage Subject" , path: `/manage-subject`  },
+                    { title: "Manage Subject", path: `/manage-subject` },
                     { title: "Add Subject" },
                 ]} />
 
@@ -138,18 +139,53 @@ export default function AddSubjectPage() {
                                     variant="outlined"
                                     onChange={handleChange}
                                 />
-                                <TextField
+                                {/* <TextField
                                     name="credit"
                                     label="หน่วยกิต"
                                     variant="outlined"
                                     onChange={handleChange}
-                                />
-                                <TextField
+                                /> */}
+                                <FormControl sx={{ m: 1, minWidth: 120 }} >
+                                    <InputLabel id="demo-simple-select-label">หน่วยกิต</InputLabel>
+                                    <Select
+                                        name="credit"
+                                        label="หน่วยกิต"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={1}>1</MenuItem>
+                                        <MenuItem value={2}>2</MenuItem>
+                                        <MenuItem value={3}>3</MenuItem>
+                                        <MenuItem value={4}>4</MenuItem>
+                                        <MenuItem value={5}>5</MenuItem>
+                                        <MenuItem value={6}>6</MenuItem>
+                                        <MenuItem value={7}>7</MenuItem>
+                                        <MenuItem value={8}>8</MenuItem>
+                                        <MenuItem value={9}>9</MenuItem>
+                                        <MenuItem value={10}>10</MenuItem>
+                                    </Select>
+                                </FormControl>
+
+                                {/* <TextField
                                     name="category"
                                     label="หมวดหมู่วิชา"
                                     variant="outlined"
                                     onChange={handleChange}
-                                />
+                                /> */}
+                                <FormControl sx={{ m: 1, minWidth: 150 }} >
+                                    <InputLabel id="demo-simple-select-label">หมวดหมู่วิชา</InputLabel>
+                                    <Select
+                                        name="category"
+                                        label="หมวดหมู่วิชา"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={1}>วิชาบังคับ</MenuItem>
+                                        <MenuItem value={2}>วิชาเลือก</MenuItem>
+
+                                    </Select>
+                                </FormControl>
+
                             </Stack>
                         </Stack>
 
@@ -200,12 +236,30 @@ export default function AddSubjectPage() {
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
                                             />
-                                            <TextField
+                                            {/* <TextField
                                                 name="date"
                                                 label="วัน"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
+                                            /> */}
+                                            <FormControl sx={{ m: 1, minWidth: 130 }} >
+                                                <InputLabel id="demo-simple-select-label">วัน</InputLabel>
+                                                <Select
+                                                    name="date"
+                                                    label="วัน"
+                                                    variant="outlined"
+                                                    onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                >
+                                                    <MenuItem value={1}>จันทร์</MenuItem>
+                                                    <MenuItem value={2}>อังคาร</MenuItem>
+                                                    <MenuItem value={3}>พุทธ</MenuItem>
+                                                    <MenuItem value={4}>พฤหัสบดี</MenuItem>
+                                                    <MenuItem value={5}>ศุกร์</MenuItem>
+                                                    <MenuItem value={6}>เสาร์</MenuItem>
+                                                    <MenuItem value={7}>อาทิตย์</MenuItem>
+
+                                                </Select>
+                                            </FormControl>
                                             <TextField
                                                 name="start_time"
                                                 label="เวลาเริ่ม"

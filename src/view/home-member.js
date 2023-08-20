@@ -42,7 +42,7 @@ export default function HomeMember() {
                         color="text.secondary"
                         paragraph
                     >
-                        สร้างตารางเรียน
+                        ยินดีตต้อนรับ
                     </Typography>
 
                     <Stack
@@ -57,16 +57,14 @@ export default function HomeMember() {
                             variant="contained"
                             size="large"
                             sx={{
-                                width: 300,
-                                height: 50,
-
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
-                            }} >
+                            }}>
                             ค้นหารายวิชา
                         </Button>
                         <Button
@@ -74,15 +72,14 @@ export default function HomeMember() {
                             size="large"
                             href="/create-table"
                             sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
-                            }} >
+                            }}>
                             สร้างตารางเรียน
                         </Button>
                         <Button
@@ -90,18 +87,17 @@ export default function HomeMember() {
                             variant="contained"
                             size="large"
                             sx={{
-                                width: 300,
-                                height: 50,
-                                bgcolor: '#AA00FF',
-                                color: '#000000',
+                                width: '250px',
+                                bgcolor: '#0468BF',
+                                color: '#FFFFFF',
                                 fontFamily: 'monospace',
                                 '&:hover': {
-                                    bgcolor: '#8800CC',
+                                    bgcolor: '#0487D9',
                                 },
-                            }} >
+                            }}>
                             ตารางเรียนของฉัน
                         </Button>
-                        
+
                     </Stack>
                 </Container>
             </Box>

@@ -14,7 +14,7 @@ import CreateTable from "./view/create-table";
 import SheduleMe from "./view/schedule-me";
 import ForgotPassword from "./view/forgot-password";
 import HomeMember from "./view/home-member";
-import SignInn from "./view/signin2";
+import Login from "./view/login";
 
 //component
 import TableAll from "./component/table-all";
@@ -44,7 +44,7 @@ function App() {
         <Route path="/schedule-me" element={<SheduleMe />} />
         <Route path="/home-member" element={<HomeMember />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/signin2" element={<SignInn />} />
+        <Route path="/login" element={<Login />} />
 
         //component
         <Route path="/table-all" element={<TableAll />} />

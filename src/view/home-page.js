@@ -57,7 +57,7 @@ export default function Home() {
                                 sx={{
                                     width: '250px',
                                     bgcolor: '#0468BF',
-                                    color: '#210021',
+                                    color: '#FFFFFF',
                                     fontFamily: 'monospace',
                                     '&:hover': {
                                         bgcolor: '#0487D9',
@@ -72,7 +72,7 @@ export default function Home() {
                                 sx={{
                                     width: '250px',
                                     bgcolor: '#0468BF',
-                                    color: '#210021',
+                                    color: '#FFFFFF',
                                     fontFamily: 'monospace',
                                     '&:hover': {
                                         bgcolor: '#0487D9',

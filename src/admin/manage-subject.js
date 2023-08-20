@@ -68,13 +68,15 @@ export default function ManageSubject() {
                         startIcon={<NoteAddIcon />}
                         sx={{
                             bgcolor: '#AA00FF',
+                            width: '130',
                             color: '#000000',
                             fontFamily: 'monospace',
+                            bgcolor: '#0468BF',
+                            color: '#FFFFFF',
                             '&:hover': {
-                                bgcolor: '#8800CC',
+                                bgcolor: '#0487D9',
                             },
                         }}
-                        style={{ width: 130 }}
                     >
                         เพิ่มรายวิชา
                     </Button>
@@ -88,43 +90,103 @@ export default function ManageSubject() {
                     }}
                 >
                     <Container maxWidth="sm">
-                        <Grid item xs={12} sm={6}>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                align="center"
-                                color="text.primary"
-                                gutterBottom
-                            >
-                                สร้างตารางเรียน
-                            </Typography>
-                            <Box component="form" noValidate sx={{ mt: 4 }}>
-                                <Grid item xs={12} sm={6}>
-                                    <Paper
-                                        component="form"
-                                        sx={{
-                                            p: '2px 4px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            width: 'sm',
-                                            bgcolor: '#99e4ee'
-                                        }}
-                                    >
-                                        <InputBase
-                                            sx={{ ml: 2, flex: 1, }}
-                                            placeholder="Search"
-                                            inputProps={{ 'aria-label': 'search' }}
-                                        />
-                                        <IconButton
-                                            type="button"
-                                            sx={{ p: '10px' }}
-                                            aria-label="search">
-                                            <SearchIcon />
-                                        </IconButton>
-                                    </Paper>
-                                </Grid>
-                            </Box>
-                        </Grid>
+                        <Typography
+                            component="h1"
+                            variant="h4"
+                            align="center"
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            ค้นหารายวิชา
+                        </Typography>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 1,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Grid item xs={12} sm={6}>
+                                <Paper
+                                    component="form"
+                                    sx={{
+                                        p: '2px 4px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '300px',
+                                        height: '33px',
+                                        bgcolor: '#FFFFFF',
+                                        border: '0.8px solid #252525',
+                                        '&:hover': {
+                                            bgcolor: '#eeeeee',
+                                        },
+                                    }}
+                                >
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1, }}
+                                        placeholder="รหัสวิชา"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </Paper>
+                            </Grid>
+                        </Box>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 0.5,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Grid item xs={12} sm={6}>
+                                <Paper
+                                    component="form"
+                                    sx={{
+                                        p: '2px 4px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '300px',
+                                        height: '33px',
+                                        bgcolor: '#FFFFFF',
+                                        border: '0.8px solid #252525',
+                                        '&:hover': {
+                                            bgcolor: '#eeeeee',
+                                        },
+                                    }}
+                                >
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1, }}
+                                        placeholder="ชื่อวิชา"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </Paper>
+                            </Grid>
+                        </Box>
+                        <Box component="form" noValidate
+                            sx={{
+                                mt: 1.5,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Grid item xs={12} sm={6}>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    sx={{
+                                        bgcolor: '#FFFFFF',
+                                        color: '#212121',
+                                        border: '0.8px solid #049DD9',
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }}
+                                >
+                                    ค้นหา
+                                </Button>
+                            </Grid>
+                        </Box>
                     </Container>
                 </Box>
             </main>
@@ -161,17 +223,17 @@ export default function ManageSubject() {
                                     }}
                                 >
                                     <TableCell align="center" >
-                                    <Button variant="outlined" 
-                                           sx={{
-                                            width: 90,
-                                            bgcolor: '#424242',
-                                            color:'#ffab00',
-                                            '&:hover': {
-                                                bgcolor: '#616161',
-                                            },
-                                        }}
+                                        <Button variant="outlined"
+                                            sx={{
+                                                width: 90,
+                                                bgcolor: '#424242',
+                                                color: '#ffab00',
+                                                '&:hover': {
+                                                    bgcolor: '#616161',
+                                                },
+                                            }}
                                         >
-                                        {row.Subject_id}
+                                            {row.Subject_id}
                                         </Button>
                                     </TableCell>
 
