@@ -6,15 +6,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-
 import Appbar from '../component/app-bar';
-import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import Button from '@mui/material/Button';
-import BuildIcon from '@mui/icons-material/Build';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,7 +17,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
 
@@ -210,20 +204,20 @@ export default function SearchAll() {
                                                 },
                                             }}
                                         >
-                                            {row.Subject_id}
+                                            {row.subject_id}
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {row.Subject_name_th}
+                                        {row.subject_name_th}
                                     </TableCell>
                                     <TableCell align="center" >
-                                        {row.Subject_name_eng}
+                                        {row.subject_name_eng}
                                     </TableCell>
                                     <TableCell align="center" >
-                                        {row.Credit}
+                                        {row.num_section}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {row.Credit}
+                                        {row.credit}
                                     </TableCell>
                                 </TableRow>
                             ))}

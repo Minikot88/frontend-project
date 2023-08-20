@@ -53,7 +53,7 @@ function App() {
 
         //addmin
         <Route path="/add-subject" element={<AddSubjectPage />} />
-        <Route path="/edit-subject" element={<EditSubjectPage />} />
+        <Route path="/edit-subject/:subject_id" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
       </Routes>

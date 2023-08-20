@@ -116,14 +116,14 @@ export default function AddSubjectPage() {
                     { title: "Add Subject" },
                 ]} />
 
-            <Container component="main" maxWidth="100">
+            <Container component="main" maxWidth="300">
 
                 <Box sx={{ p: 5 }}>
                     <Typography textAlign={'center'} variant="h4">
                         เพิ่มรายวิชา
                     </Typography>
 
-                    <Stack spacing={4}>
+                    <Stack spacing={2}>
                         <Stack spacing={2}>
                             <Typography variant="h6">วิชา</Typography>
                             <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
@@ -131,13 +131,19 @@ export default function AddSubjectPage() {
                                     name="subject_id"
                                     label="รหัสวิชา"
                                     variant="outlined"
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                 />
                                 <TextField
                                     name="subject_name"
                                     label="ชื่อวิชา"
                                     variant="outlined"
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
+                                />
+                                <TextField
+                                    name="subject_name_eng"
+                                    label="Subject name"
+                                    variant="outlined"
+                                    onChange={(e) => handleChange(e)}
                                 />
                                 {/* <TextField
                                     name="credit"
@@ -145,13 +151,13 @@ export default function AddSubjectPage() {
                                     variant="outlined"
                                     onChange={handleChange}
                                 /> */}
-                                <FormControl sx={{ m: 1, minWidth: 120 }} >
+                                <FormControl sx={{ minWidth: 100 }} >
                                     <InputLabel id="demo-simple-select-label">หน่วยกิต</InputLabel>
                                     <Select
                                         name="credit"
                                         label="หน่วยกิต"
                                         variant="outlined"
-                                        onChange={handleChange}
+                                        onChange={(e) => handleChange(e)}
                                     >
                                         <MenuItem value={1}>1</MenuItem>
                                         <MenuItem value={2}>2</MenuItem>
@@ -165,35 +171,60 @@ export default function AddSubjectPage() {
                                         <MenuItem value={10}>10</MenuItem>
                                     </Select>
                                 </FormControl>
-
                                 {/* <TextField
                                     name="category"
                                     label="หมวดหมู่วิชา"
                                     variant="outlined"
                                     onChange={handleChange}
                                 /> */}
-                                <FormControl sx={{ m: 1, minWidth: 150 }} >
+                                <FormControl sx={{ minWidth: 180 }} >
                                     <InputLabel id="demo-simple-select-label">หมวดหมู่วิชา</InputLabel>
                                     <Select
                                         name="category"
                                         label="หมวดหมู่วิชา"
                                         variant="outlined"
-                                        onChange={handleChange}
+                                        onChange={(e) => handleChange(e)}
                                     >
                                         <MenuItem value={1}>วิชาบังคับ</MenuItem>
                                         <MenuItem value={2}>วิชาเลือก</MenuItem>
-
                                     </Select>
                                 </FormControl>
-
                             </Stack>
                         </Stack>
 
                         {/* Sections */}
                         {sections.map((section, sectionIndex) => (
                             <Stack direction={isMobile ? 'column' : 'row'} spacing={4} key={sectionIndex}>
+
                                 <Stack spacing={2}>
-                                    <Typography variant="h6">Section 0{sectionIndex + 1}</Typography>
+                                    <Stack direction="row" alignItems="center">
+                                        <Typography variant="h6">Section {String(sectionIndex + 1).padStart(2, '0')}</Typography>
+                                        <Button onClick={handleAddSection}
+                                            sx={{
+                                                color: '#1565c0',
+                                                '&:hover': {
+                                                    bgcolor: '#bbdefb',
+                                                },
+                                            }}
+                                        >
+                                            <AddCircleOutlineIcon />Add
+                                        </Button>
+                                        <Stack >
+                                            {sectionIndex > 0 && (
+                                                <Button
+                                                    onClick={() => handleDeleteSection(sectionIndex)}
+                                                    sx={{
+                                                        color: '#d50000',
+                                                        '&:hover': {
+                                                            bgcolor: '#ff80ab',
+                                                        },
+                                                    }}>
+                                                    <DeleteIcon />Delete
+                                                </Button>
+                                            )}
+                                        </Stack>
+                                    </Stack>
+                                    
                                     <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
                                         <TextField
                                             name="section_id"
@@ -202,34 +233,66 @@ export default function AddSubjectPage() {
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         />
                                         <TextField
+                                            sx={{ width: 100 }}
                                             name="section"
                                             label="Section"
                                             variant="outlined"
+                                            // value={`${String(sectionIndex + 1).padStart(2, '0')}`}
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         />
-                                        <TextField
+                                        {/* <TextField
                                             name="semester"
-                                            label="เทอม"
+                                            label="ภาคการศึกษา"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                        />
-                                        <TextField
+                                        /> */}
+                                        <FormControl sx={{ minWidth: 280 }} >
+                                            <InputLabel id="demo-simple-select-label">ภาคการศึกษา</InputLabel>
+                                            <Select
+                                                name="term"
+                                                label="ภาคการศึกษา"
+                                                variant="outlined"
+                                                onChange={(e) => handleSectionChange(sectionIndex, e)}
+                                            >
+                                                <MenuItem value={1}>1</MenuItem>
+                                                <MenuItem value={2}>2</MenuItem>
+                                                <MenuItem value={3}>3</MenuItem>
+                                            </Select>
+                                        </FormControl>
+
+                                        {/* <TextField
                                             name="year"
                                             label="ปี"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                        />
-                                    </Stack>
+                                        /> */}
 
+                                        <FormControl sx={{ minWidth: 280 }} >
+                                            <InputLabel id="demo-simple-select-label" >ปีการศึกษา</InputLabel>
+                                            <Select
+                                                name="year"
+                                                label="ปี"
+                                                variant="outlined"
+                                                onChange={(e) => handleSectionChange(sectionIndex, e)}
+                                            >
+                                                <MenuItem value={1}>2563</MenuItem>
+                                                <MenuItem value={2}>2564</MenuItem>
+                                                <MenuItem value={3}>2565</MenuItem>
+                                                <MenuItem value={4}>2566</MenuItem>
+                                                <MenuItem value={5}>2567</MenuItem>
+                                                <MenuItem value={6}>2568</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Stack>
                                     {/* Times */}
                                     {section.times.map((timePart, timeIndex) => (
                                         <Stack direction={isMobile ? 'column' : 'row'} spacing={2} key={timeIndex}>
-                                            <TextField
+                                            {/* <TextField
                                                 name="time_id"
                                                 label="Time ID"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
+                                            /> */}
                                             <TextField
                                                 name="room"
                                                 label="ห้องเรียน"
@@ -242,7 +305,7 @@ export default function AddSubjectPage() {
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
                                             /> */}
-                                            <FormControl sx={{ m: 1, minWidth: 130 }} >
+                                            <FormControl sx={{ minWidth: 130 }} >
                                                 <InputLabel id="demo-simple-select-label">วัน</InputLabel>
                                                 <Select
                                                     name="date"
@@ -250,14 +313,13 @@ export default function AddSubjectPage() {
                                                     variant="outlined"
                                                     onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
                                                 >
-                                                    <MenuItem value={1}>จันทร์</MenuItem>
-                                                    <MenuItem value={2}>อังคาร</MenuItem>
-                                                    <MenuItem value={3}>พุทธ</MenuItem>
-                                                    <MenuItem value={4}>พฤหัสบดี</MenuItem>
-                                                    <MenuItem value={5}>ศุกร์</MenuItem>
-                                                    <MenuItem value={6}>เสาร์</MenuItem>
-                                                    <MenuItem value={7}>อาทิตย์</MenuItem>
-
+                                                    <MenuItem value={'จันทร์'}>จันทร์</MenuItem>
+                                                    <MenuItem value={'อังคาร'}>อังคาร</MenuItem>
+                                                    <MenuItem value={'พุธ'}>พุธ</MenuItem>
+                                                    <MenuItem value={'พฤหัสบดี'}>พฤหัสบดี</MenuItem>
+                                                    <MenuItem value={'ศุกร์'}>ศุกร์</MenuItem>
+                                                    <MenuItem value={'เสาร์'}>เสาร์</MenuItem>
+                                                    <MenuItem value={'อาทิตย์'}>อาทิตย์</MenuItem>
                                                 </Select>
                                             </FormControl>
                                             <TextField
@@ -300,38 +362,8 @@ export default function AddSubjectPage() {
                                         </Stack>
                                     ))}
                                 </Stack>
-
-                                {/* Delete Section Button */}
-                                <Stack justifyContent={'center'} alignItems={'center'}>
-                                    {sectionIndex > 0 && (
-                                        <Button
-                                            onClick={() => handleDeleteSection(sectionIndex)}
-                                            sx={{
-                                                color: '#d50000',
-                                                '&:hover': {
-                                                    bgcolor: '#ff80ab',
-                                                },
-                                            }}>
-                                            <DeleteIcon />
-                                        </Button>
-                                    )}
-                                </Stack>
                             </Stack>
                         ))}
-
-                        <Stack>
-                            <Button onClick={handleAddSection}
-                                sx={{
-                                    color: '#1565c0',
-                                    '&:hover': {
-                                        bgcolor: '#bbdefb',
-                                    },
-                                }}
-                            > <AddCircleOutlineIcon />
-                                ..Add Section..
-                                <AddCircleOutlineIcon />
-                            </Button>
-                        </Stack>
                     </Stack>
 
                     <Stack spacing={2} justifyContent={'center'} alignItems={'center'} sx={{ mt: 5 }}>

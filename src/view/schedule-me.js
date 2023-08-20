@@ -22,7 +22,6 @@ import Photo from '../photo/table.png'
 const theme = createTheme();
 
 function createData(name) {
-
     return { name };
 }
 
@@ -60,21 +59,18 @@ export default function SheduleMe() {
                 {/* Hero unit */}
                 <Box
                     sx={{
-                        bgcolor: 'background.paper',
-                        pt: 15,
+                        pt: 2,
                         pb: 6,
-
                     }}
                 >
 
-                    <Container maxWidth="sm" >
-
-                        <div 
-                        style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center'
-
+                    <Container maxWidth="sm" 
+                    sx={{width: '400px',}}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                             }}>
                             <img
                                 src={Photo}
@@ -83,38 +79,42 @@ export default function SheduleMe() {
                                 sx={{ display: { xs: 'none', md: 'flex' } }}
                             />
                             <Typography
-                                variant="h6"
+                                variant="h5"
                                 sx={{
-                                    marginLeft:2,
+                                    marginLeft: 2,
+                                    fontFamily: 'monospace',
                                     fontWeight: 700,
+                                    letterSpacing: '.2rem',
+                                    color: '#212121',
+
                                 }}
                             >
                                 ตารางเรียนของฉัน
                             </Typography>
                         </div>
-
-
                         <Stack
                             marginTop={2}
                         >
                             <TableContainer
                                 component={Box}
-                                
                             >
                                 <Table
-
-                                    sx={{ minWidth: 'sm', }}
+                                    sx={{
+                                        minWidth: 'sm',
+                                    }}
                                     aria-label="simple table"
                                 >
                                     <TableBody>
                                         {rows.map((row) => (
                                             <TableRow
-                                            sx={{ bgcolor: '#f8bbd0',
-                                            '&:hover': {
-                                                bgcolor: '#dd33fa',
-                                            }, 
-                                        }} 
-                                                
+                                                sx={{
+                                                    width: '500px',
+                                                    bgcolor: '#049DD9',
+                                                    '&:hover': {
+                                                        bgcolor: '#BBE2F2',
+                                                    },
+                                                }}
+
                                                 key={row.name}
                                             >
                                                 <TableCell align="center"  >
@@ -127,7 +127,6 @@ export default function SheduleMe() {
                                 </Table>
                             </TableContainer>
                         </Stack>
-
                     </Container>
                 </Box>
             </main>

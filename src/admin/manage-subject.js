@@ -25,10 +25,12 @@ import Appbar from '../component/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
 import BreadcrumbsPage from '../component/BreadcrumbsPage';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function ManageSubject() {
+    const navigate = useNavigate()
     const [subjects, setSubject] = useState()
 
     useEffect(() => {
@@ -45,6 +47,23 @@ export default function ManageSubject() {
         }
         getAllSubjects()
     }, [])
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_API_SERVER}/deletesubject?subject_id=${id}`)
+            if (response) {
+                alert(`Data deleted successfully`)
+                window.location.reload()
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const goEditSubject = (id) => {
+        navigate(`/edit-subject/${id}`)
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
@@ -203,11 +222,48 @@ export default function ManageSubject() {
 
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">รหัสวิชา</TableCell>
-                                <TableCell align="center">ชื่อวิชา</TableCell>
-                                <TableCell align="center"></TableCell>
-                                <TableCell align="center"></TableCell>
-                                <TableCell align="center"></TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        width: 120,
+                                        bgcolor: '#0468BF',
+                                        color: '#FFFFFF',
+                                        '&:hover': {
+                                            bgcolor: '#0487D9',
+                                        },
+                                    }}  > รหัสวิชา </TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        width: 120,
+                                        bgcolor: '#0468BF',
+                                        color: '#FFFFFF',
+                                        '&:hover': {
+                                            bgcolor: '#0487D9',
+                                        },
+                                    }}  >ชื่อวิชา</TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        width: 120,
+                                        bgcolor: '#0468BF',
+
+
+                                    }} ></TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        width: 120,
+                                        bgcolor: '#0468BF',
+
+
+                                    }} ></TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        width: 120,
+                                        bgcolor: '#0468BF',
+                                    }}  ></TableCell>
                             </TableRow>
                         </TableHead>
 
@@ -218,39 +274,39 @@ export default function ManageSubject() {
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0 },
                                         '&:hover': {
-                                            bgcolor: '#f8bbd0',
+                                            bgcolor: '#BBE2F2',
                                         },
                                     }}
                                 >
                                     <TableCell align="center" >
-                                        <Button variant="outlined"
+                                        <Button
+                                            variant="contained"
                                             sx={{
                                                 width: 90,
-                                                bgcolor: '#424242',
-                                                color: '#ffab00',
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
                                                 '&:hover': {
-                                                    bgcolor: '#616161',
+                                                    bgcolor: '#0487D9',
                                                 },
                                             }}
                                         >
-                                            {row.Subject_id}
+                                            {row.subject_id}
                                         </Button>
                                     </TableCell>
-
                                     <TableCell align="center">
-                                        {row.Subject_name_th}
+                                        {row.subject_name_th}
                                     </TableCell>
-
                                     <TableCell align="right" >
-                                        <Button variant="outlined"
+                                        <Button
+                                            variant="contained"
                                             startIcon={<ContentPasteSearchIcon />}
                                             href="/detail-subjectadmin"
                                             sx={{
                                                 width: 130,
-                                                bgcolor: '#99e4ee',
-                                                color: '#212121',
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
                                                 '&:hover': {
-                                                    bgcolor: '#64b5f6',
+                                                    bgcolor: '#2a3eb1',
                                                 },
                                             }}
                                         >
@@ -259,32 +315,36 @@ export default function ManageSubject() {
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        <Button variant="outlined"
+                                        <Button
+                                            variant="contained"
                                             startIcon={<BuildIcon />}
-                                            href="/edit-subject"
                                             sx={{
                                                 width: 130,
-                                                bgcolor: '#99e4ee',
-                                                color: '#212121',
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
                                                 '&:hover': {
-                                                    bgcolor: '#64b5f6',
+                                                    bgcolor: '#ff9100',
                                                 },
                                             }}
+                                            onClick={() => goEditSubject(row?.subject_id)}
                                         >
                                             แก้ไข
                                         </Button>
                                     </TableCell>
 
                                     <TableCell align="left">
-                                        <Button variant="outlined" startIcon={<DeleteIcon />}
+                                        <Button
+                                            variant="contained"
+                                            startIcon={<DeleteIcon />}
                                             sx={{
                                                 width: 130,
-                                                bgcolor: '#99e4ee',
-                                                color: '#212121',
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
                                                 '&:hover': {
-                                                    bgcolor: '#64b5f6',
+                                                    bgcolor: '#ff1744',
                                                 },
                                             }}
+                                            onClick={() => handleDelete(row.subject_id)}
                                         >
                                             ลบ
                                         </Button>

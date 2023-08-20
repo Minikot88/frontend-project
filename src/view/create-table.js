@@ -54,7 +54,10 @@ export default function CreateTable() {
             <main>
                 <Box
                     sx={{
-                        bgcolor: 'background.paper',
+                        bgcolor: '#42a5f5',
+                        '&:hover': {
+                            bgcolor: '#0487D9',
+                        },
                         pt: 1,
                         pb: 3,
 
@@ -64,10 +67,14 @@ export default function CreateTable() {
                         <Grid item xs={12} sm={6}>
                             <Typography
                                 component="h1"
-                                variant="h6"
+                                variant="h5"
                                 align="center"
                                 color="text.primary"
                                 gutterBottom
+
+                                sx={{
+                                    marginTop: '20px',
+                                }}
                             >
                                 สร้างตารางเรียน
                             </Typography>
@@ -76,72 +83,117 @@ export default function CreateTable() {
                 </Box>
             </main>
 
-            <Container maxWidth="650">
-
+            <Container maxWidth="450">
                 <TableContainer
                     component={Paper}
+                    sx={{
+                        marginTop: '20px',
+                        bgcolor: '#FFFFFF',
+                    }}
                 >
                     <Table
-                        sx={{ minWidth: 650 }}
+                        sx={{ minWidth: 450 }}
                         size="small"
                         aria-label="a dense table" >
-
                         <TableHead>
                             <TableRow>
-
-                                <TableCell align="center">
+                                <TableCell align="center"
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }} >
                                     รหัสวิชา
                                 </TableCell>
-
-                                <TableCell align="center">
+                                <TableCell align="center"
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }} >
                                     ชื่อวิชา
                                 </TableCell>
-
-                                <TableCell align="center">
+                                <TableCell align="center"
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }} >
                                     ตอน
                                 </TableCell>
-
-                                <TableCell align="center">
+                                <TableCell align="center"
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }} >
                                     หน่วยกิต
                                 </TableCell>
-
                                 <TableCell align="center" >
-
                                 </TableCell>
-
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
-
                             {rows.map((row) => (
                                 <TableRow
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-
-                                    <TableCell align="center" component="th" scope="row">
+                                    <TableCell align="center" component="th" scope="row"
+                                        sx={{
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }}  >
                                         {row.fat}
                                     </TableCell>
 
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                        sx={{
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }} >
                                         {row.fat}
                                     </TableCell>
 
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                        sx={{
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }}  >
                                         {row.fat}
                                     </TableCell>
 
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                        sx={{
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }}  >
                                         {row.fat}
                                     </TableCell>
 
-                                    <TableCell align="center" >
-                                        <IconButton aria-label="delete" color="error" >
+                                    <TableCell align="center"
+                                        sx={{
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }} >
+                                        <IconButton
+                                            aria-label="delete"
+                                            color="error"
+                                            sx={{
+                                                boxShadow: 3,
+                                                '&:hover': {
+                                                    bgcolor: '#398CBF',
+                                                },
+                                            }} >
                                             <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>
