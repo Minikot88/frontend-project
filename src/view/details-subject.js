@@ -17,6 +17,7 @@ export default function DetailSubject() {
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
 
+
             <BreadcrumbsPage
                 pages={[
                     { title: "รายละเอียดวิชา" },
