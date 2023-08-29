@@ -113,6 +113,7 @@ export default function EditSubjectPage() {
                                 variant="outlined"
                                 value={subject?.credit}
                             >
+                                
                                 <MenuItem value="1">วิชาบังคับ</MenuItem>
                                 <MenuItem value="2">วิชาเลือก</MenuItem>
                             </Select>
