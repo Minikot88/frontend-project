@@ -189,18 +189,20 @@ export default function SearchAll() {
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0 },
                                         '&:hover': {
-                                            bgcolor: '#f8bbd0',
+                                            bgcolor: '#BBE2F2',
                                         },
                                     }}
                                 >
                                     <TableCell align="center" >
-                                        <Button variant="outlined"
+                                        <Button
+                                            variant="contained"
+                                            size="small"
                                             sx={{
-                                                width: 90,
-                                                bgcolor: '#424242',
-                                                color: '#ffab00',
+                                                width: 75,
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
                                                 '&:hover': {
-                                                    bgcolor: '#616161',
+                                                    bgcolor: '#0487D9',
                                                 },
                                             }}
                                         >

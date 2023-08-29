@@ -162,53 +162,66 @@ export default function SearchSelect() {
                     </Container>
                 </Box>
             </main>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center" >
-                                รหัสวิชา
-                            </TableCell>
-                            <TableCell align="center">
-                                ชื่อวิชา
-                            </TableCell>
-                            <TableCell align="center">
-                                จำนวนตอน
-                            </TableCell>
-                            <TableCell align="center">
-                                หน่วยกิต
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {subject?.map((row) => (
-                            <TableRow
-                                key={row?.Subject_id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center" >
-                                    <Button
-                                        variant="outlined"
-                                        size="small"
-                                        href="/select-subject"
-                                    >
-                                        {row?.Subject_id}
-                                    </Button>
-                                </TableCell>
-                                <TableCell align="center" component="th" scope="row">
-                                    {row?.Subject_id}
-                                </TableCell>
-                                <TableCell align="center">
-                                    {row?.num_section}
-                                </TableCell>
-                                <TableCell align="center">
-                                    {row?.Credit}
-                                </TableCell>
+            <Container mixWidth="sm">
+                <TableContainer component={Paper}>
+                    <Table 
+                    sx={{ minWidth: 650 }} 
+                    size="small"
+                    aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center" >รหัสวิชา</TableCell>
+                                <TableCell align="center">ชื่อวิชา</TableCell>
+                                <TableCell align="center">Subject name</TableCell>
+                                <TableCell align="center">จำนวนตอน</TableCell>
+                                <TableCell align="center">หน่วยกิต</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {subject?.map((row) => (
+                                <TableRow
+                                    key={row?.Subject_id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 },
+                                    '&:hover': {
+                                        bgcolor: '#BBE2F2',
+                                    },
+                                 }}
+                                >
+                                    <TableCell align="center" >
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            href="/select-subject"
+                                            sx={{
+                                                width: 75,
+                                                bgcolor: '#0468BF',
+                                                color: '#FFFFFF',
+                                                '&:hover': {
+                                                    bgcolor: '#0487D9',
+                                                },
+                                            }}
+                                        >
+                                            {row?.subject_id}
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="center" component="th" scope="row">
+                                        {row?.subject_name_th}
+                                    </TableCell>
+                                    <TableCell align="center" component="th" scope="row">
+                                        {row?.subject_name_eng}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {row?.num_section}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {row?.credit}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
         </ThemeProvider>
     );
 }
