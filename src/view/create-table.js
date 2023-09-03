@@ -28,6 +28,9 @@ import './detail.css'
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
@@ -41,6 +44,24 @@ const rows = [
 const theme = createTheme();
 
 export default function CreateTable() {
+
+    const [subject, setSubject] = useState()
+
+    useEffect(() => {
+        const getAllSubjects = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getsubjecttable`)
+                if (response) {
+                    setSubject(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllSubjects()
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <Appbar></Appbar>
@@ -132,9 +153,9 @@ export default function CreateTable() {
                         </TableHead>
 
                         <TableBody>
-                            {rows.map((row) => (
+                            {subject?.map((row) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={row?.subject_id}
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0 },
                                         '&:hover': {
@@ -143,23 +164,23 @@ export default function CreateTable() {
                                     }}
                                 >
                                     <TableCell align="center" component="th" scope="row" >
-                                        {row.fat}
+                                        {row?.subject_id}
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        {row.fat}
+                                        {row.subject_name_th}
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        {row.fat}
+                                        {row.subject_name_eng}
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        {row.fat}
+                                        {row.section}
                                     </TableCell>
 
                                     <TableCell align="center" >
-                                        {row.fat}
+                                        {row.credit}
                                     </TableCell>
 
                                     <TableCell align="center">
