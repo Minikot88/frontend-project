@@ -14,9 +14,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-import photo from '../photo/add-friend.png'
-import Appbar from '../component/app-bar';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import photo from '../photos/add-friend.png'
+import Appbar from '../components/app-bar';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
@@ -166,7 +166,7 @@ export default function SignUp() {
                 />
               </Grid>
 
-              <Grid item xs={12} sx={{mb:'10px'}}> 
+              <Grid item xs={12} sx={{ mb: '10px' }}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="ตกลงการสมัครสมาชิก"
@@ -181,7 +181,7 @@ export default function SignUp() {
               variant="contained"
               sx={{
                 bgcolor: '#0487D9',
-                color: '#210021',
+                color: '#FFFFFF',
                 '&:hover': {
                   bgcolor: '#0468BF',
                 },
@@ -192,7 +192,7 @@ export default function SignUp() {
             </Button>
 
             <Grid container justifyContent="flex-end">
-              <Grid item sx={{mt:'10px'}}>
+              <Grid item sx={{ mt: '10px' }}>
                 <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>

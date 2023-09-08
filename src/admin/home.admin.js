@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Appbar from '../component/app-bar';
+import Appbar from '../components/app-bar';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 

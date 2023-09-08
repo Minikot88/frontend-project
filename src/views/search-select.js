@@ -16,10 +16,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import Appbar from '../component/app-bar';
+import Appbar from '../components/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
-import TablePage from '../component/table-all';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import TablePage from '../components/table-all';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import axios from 'axios';
 
 const theme = createTheme();
@@ -164,10 +164,10 @@ export default function SearchSelect() {
             </main>
             <Container mixWidth="sm">
                 <TableContainer component={Paper}>
-                    <Table 
-                    sx={{ minWidth: 650 }} 
-                    size="small"
-                    aria-label="simple table">
+                    <Table
+                        sx={{ minWidth: 650 }}
+                        size="small"
+                        aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" >รหัสวิชา</TableCell>
@@ -181,11 +181,12 @@ export default function SearchSelect() {
                             {subject?.map((row) => (
                                 <TableRow
                                     key={row?.Subject_id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 },
-                                    '&:hover': {
-                                        bgcolor: '#BBE2F2',
-                                    },
-                                 }}
+                                    sx={{
+                                        '&:last-child td, &:last-child th': { border: 0 },
+                                        '&:hover': {
+                                            bgcolor: '#BBE2F2',
+                                        },
+                                    }}
                                 >
                                     <TableCell align="center" >
                                         <Button

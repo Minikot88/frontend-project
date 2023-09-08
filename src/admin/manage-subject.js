@@ -21,9 +21,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import Appbar from '../component/app-bar';
+import Appbar from '../components/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

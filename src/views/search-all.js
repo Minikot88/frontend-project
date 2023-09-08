@@ -6,9 +6,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Appbar from '../component/app-bar';
+import Appbar from '../components/app-bar';
 import { useState, useEffect } from 'react';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import Button from '@mui/material/Button';
 
 import Table from '@mui/material/Table';

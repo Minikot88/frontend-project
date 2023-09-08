@@ -9,9 +9,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Appbar from '../component/app-bar';
-import Photo from '../photo/forgot-password.png'
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import Appbar from '../components/app-bar';
+import Photo from '../photos/forgot-password.png'
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 
 function Copyright(props) {
     return (

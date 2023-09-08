@@ -9,26 +9,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Appbar from '../component/app-bar';
-import Photo from '../photo/hacker.png'
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import Photo from '../photos/hacker.png'
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {' Minikot '}
-            <Link color="inherit" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const theme = createTheme();
 
@@ -48,8 +33,8 @@ export default function Login() {
         event.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/signIn`, {
-                psername: username,
-                Password: password
+                username: username,
+                password: password
             });
             console.log(response?.statusText);
             console.log(password)

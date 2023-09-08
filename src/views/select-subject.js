@@ -16,11 +16,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import Appbar from '../component/app-bar';
+import Appbar from '../components/app-bar';
 import SearchIcon from '@mui/icons-material/Search';
-import TablePage from '../component/table-all';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
-import DetailsCard from '../component/details-card';
+import TablePage from '../components/table-all';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
+import DetailsCard from '../components/details-card';
 import './detail.css'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';

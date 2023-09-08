@@ -9,11 +9,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 
-import Photo from '../photo/table.png'
+import Photo from '../photos/table.png'
 
-import Login from '../view/login';
+import Login from '../views/login';
 
 export default function Appbar() {
+
+    const token = localStorage.getItem('token')
+    console.log(token)
 
     const style = {
         position: 'absolute',
@@ -28,10 +31,13 @@ export default function Appbar() {
         px: 2,
         pb: 1,
     };
+    
     const [open, setOpen] = React.useState(false);
+
     const handleOpen = () => {
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
     };

@@ -8,8 +8,8 @@ import {
     Button, Typography, useMediaQuery,
     ThemeProvider, createTheme
 } from '@mui/material';
-import Appbar from '../component/app-bar';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
+import Appbar from '../components/app-bar';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';

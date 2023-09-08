@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Appbar from '../component/app-bar';
-import BreadcrumbsPage from '../component/BreadcrumbsPage';
-import DetailsCard from '../component/details-card';
+import Appbar from '../components/app-bar';
+import BreadcrumbsPage from '../components/BreadcrumbsPage';
+import DetailsCard from '../components/details-card';
 
 
 

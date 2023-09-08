@@ -1,25 +1,24 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Appbar from "./components/app-bar";
 
 //view
-import SignUp from "./view/signup";
-import SignIn from "./view/signin";
-import Home from "./view/home-page";
-import SearchAll from "./view/search-all";
-import SearchSelect from "./view/search-select";
-import DetailSubject from "./view/details-subject";
-import SelectSubject from "./view/select-subject";
-import CreateTable from "./view/create-table";
-import SheduleMe from "./view/schedule-me";
-import ForgotPassword from "./view/forgot-password";
-import HomeMember from "./view/home-member";
-import Login from "./view/login";
+import SignUp from "./views/signup";
+import Home from "./views/home-page";
+import SearchAll from "./views/search-all";
+import SearchSelect from "./views/search-select";
+import DetailSubject from "./views/details-subject";
+import SelectSubject from "./views/select-subject";
+import CreateTable from "./views/create-table";
+import SheduleMe from "./views/schedule-me";
+import ForgotPassword from "./views/forgot-password";
+import HomeMember from "./views/home-member";
+import Login from "./views/login";
 
 //component
-import TableAll from "./component/table-all";
-import DetailsCard from "./component/details-card";
-import AppBerr from "./component/app-bar-2";
+import TableAll from "./components/table-all";
+import DetailsCard from "./components/details-card";
 
 //admin
 import AddSubjectPage from "./admin/add-subject";
@@ -34,8 +33,6 @@ function App() {
         //view
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-        
         <Route path="/search-all" element={<SearchAll />} />
         <Route path="/search-select" element={<SearchSelect />} />
         <Route path="/details-subject" element={<DetailSubject />} />
@@ -49,7 +46,6 @@ function App() {
         //component
         <Route path="/table-all" element={<TableAll />} />
         <Route path="/details-card" element={<DetailsCard />} />
-        <Route path="/app-bar-2" element={<AppBerr />} />
 
         //addmin
         <Route path="/add-subject" element={<AddSubjectPage />} />
