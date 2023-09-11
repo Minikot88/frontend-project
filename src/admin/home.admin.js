@@ -16,7 +16,6 @@ const theme = createTheme();
 export default function HomeAdmin() {
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
             <Box
                 sx={{
                     bgcolor: 'background.paper',

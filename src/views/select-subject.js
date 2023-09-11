@@ -5,8 +5,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
 
 import Table from '@mui/material/Table';
@@ -17,8 +15,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import Appbar from '../components/app-bar';
-import SearchIcon from '@mui/icons-material/Search';
-import TablePage from '../components/table-all';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import DetailsCard from '../components/details-card';
 import './detail.css'
@@ -42,8 +38,6 @@ const theme = createTheme();
 export default function SelectSubject() {
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
-
             <BreadcrumbsPage
                 pages={[
                     { title: "สร้างตารางเรียน", path: `/create-table` },

@@ -56,16 +56,18 @@ export default function EditSubjectPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
             <BreadcrumbsPage
                 pages={[
                     { title: "Manage Subject", path: `/manage-subject` },
-                    { title: "Add Subject" },
+                    { title: "Edit Subject" },
                 ]} />
-            <Container component="main" maxWidth="100%">
+
+
+
+            <Container minWidth="sm" >
                 <Box sx={{ p: 5 }}>
                     <Typography textAlign={'center'} variant="h4">
-                        เพิ่มรายวิชา
+                        แก้ไขรายวิชา
                     </Typography>
                 </Box>
                 <Grid container spacing={1} columns={{ xs: 2, sm: 8, md: 12 }}>
@@ -75,9 +77,6 @@ export default function EditSubjectPage() {
                             label="รหัสวิชา"
                             variant="outlined"
                             value={subject?.subject_id}
-                        // inputProps={{
-
-                        //   }}
                         />
                     </Grid>
                     <Grid item xs={2}>
@@ -105,17 +104,16 @@ export default function EditSubjectPage() {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <FormControl sx={{ minWidth: 280 }}>
+                        <FormControl sx={{ minWidth: 222 }} >
                             <InputLabel>ภาคการศึกษา</InputLabel>
                             <Select
                                 autoFocus
                                 label="ภาคการศึกษา"
                                 variant="outlined"
                                 value={subject?.credit}
-                            >
-                                
-                                <MenuItem value="1">วิชาบังคับ</MenuItem>
-                                <MenuItem value="2">วิชาเลือก</MenuItem>
+                            >   
+                                <MenuItem value="C">วิชาบังคับ</MenuItem>
+                                <MenuItem value="E">วิชาเลือก</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

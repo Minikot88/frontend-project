@@ -10,14 +10,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import Appbar from '../components/app-bar';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import Photo from '../photos/table.png'
+import Photo from '../image/table.png'
 
 const theme = createTheme();
 
@@ -50,7 +47,6 @@ export default function SheduleMe() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
             <BreadcrumbsPage
                 pages={[
                     { title: "ตารางเรียนของฉัน" },

@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-import photo from '../photos/add-friend.png'
+import photo from '../image/add-friend.png'
 import Appbar from '../components/app-bar';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import { useNavigate } from 'react-router-dom';
@@ -66,8 +66,6 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Appbar></Appbar>
-
       <BreadcrumbsPage
         pages={[
           { title: "Sign up" },

@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Appbar from '../components/app-bar';
@@ -16,7 +15,6 @@ const theme = createTheme();
 export default function HomeMember() {
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
             <Box
                 sx={{
                     bgcolor: 'background.paper',

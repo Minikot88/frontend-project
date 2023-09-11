@@ -66,8 +66,6 @@ export default function ManageSubject() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
-
             <BreadcrumbsPage
                 pages={[
                     { title: "Manage Subject" },
@@ -209,9 +207,7 @@ export default function ManageSubject() {
                     </Container>
                 </Box>
             </main>
-
             <Container mixWidth="sm">
-
                 <TableContainer
                     component={Paper}
                 >

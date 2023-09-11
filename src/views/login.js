@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Photo from '../photos/hacker.png'
+import Photo from '../image/hacker.png'
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,11 +23,11 @@ export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            navigate(-1)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         // navigate(-1)
+    //     }
+    // }, [])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,15 +42,15 @@ export default function Login() {
             if (response.status === 200 && response.statusText === "success") {
                 alert("เข้าสู่ระบบสำเร็จ");
                 console.log(response.data);
-                localStorage.setItem('token', response.token);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${response.token}`;
+                localStorage.setItem('token', response.data);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
                 navigate(`/home-member`);
                 window.location.reload();
-            } else if (response.status === 200 && response.statusText === "Invalid username/password") {
-                alert("Invalid");
+            } else if (response.status === 200 && response.statusText === "The username or password is incorrect.") {
+                alert("The username or password is incorrect.");
                 window.location.reload();
             } else {
-                alert('Invalid username/password');
+                alert('The username or password is incorrect.');
             }
         } catch (err) {
             console.error(err);
@@ -118,19 +118,22 @@ export default function Login() {
                                 },
                             }}
                         >
-                            Log In
+                            LOG IN
                         </Button>
+
                         <Grid container>
-                            {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
-                            <Grid item>
+                            {/* <Grid item xs sx={{m:1}}>
+                                <Link href="#" variant="body2">
+                                    Forgot password?
+                                </Link>
+                            </Grid> */}
+
+                            <Grid item xs sx={{m:1}}>
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
+
                         </Grid>
                     </Box>
                 </Box>

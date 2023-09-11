@@ -49,7 +49,7 @@ export default function CreateTable() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
+           
             <BreadcrumbsPage
                 pages={[
                     { title: "สร้างตารางเรียน" }
@@ -86,7 +86,7 @@ export default function CreateTable() {
                     </Container>
                 </Box>
             </main>
-            <Container mixWidth="sm">
+            <Container minWidth="sm">
                 <TableContainer
                     component={Paper}
                     sx={{ marginTop: '20px', }}

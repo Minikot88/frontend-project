@@ -6,17 +6,17 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
+import { useNavigate } from 'react-router-dom';
 
-import Photo from '../photos/table.png'
-
+import Photo from '../image/table.png'
 import Login from '../views/login';
+import AccountMenu from './account-menu';
 
 export default function Appbar() {
-
+    const navigate = useNavigate()
+    const [login, setLogin] = React.useState(false)
     const token = localStorage.getItem('token')
-    console.log(token)
 
     const style = {
         position: 'absolute',
@@ -31,17 +31,37 @@ export default function Appbar() {
         px: 2,
         pb: 1,
     };
-    
     const [open, setOpen] = React.useState(false);
-
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
 
+    React.useEffect(() => {
+        if (token !== null) {
+            setLogin(true)
+        } else {
+            setLogin(false)
+        }
+        window.addEventListener('storage', () => {
+            alert('คุณออกจากระบบแล้ว')
+            if (token !== null) {
+                setLogin(true)
+
+            }
+        })
+    }, [])
+
+    const handleLogout = () => {
+        localStorage.clear()
+        alert('คุณออกจากระบบแล้ว')
+        setLogin(false);
+        navigate(`/`);
+        // navigate('/login')
+        window.location.reload()
+    }
 
     return (
         <AppBar position="static"
@@ -49,35 +69,53 @@ export default function Appbar() {
                 bgcolor: '#0468BF',
             }}>
             <Container maxWidth="xl"
-
             >
                 <Toolbar disableGutters>
-
                     <img
                         src={Photo}
                         width="45"
                         height="45"
                         sx={{ display: { xs: 'none', md: 'flex' } }}
                     />
+                    {!login ? (
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: '#ffffff',
+                                textDecoration: 'none',
+                                marginLeft: 1,
+                            }}
+                        >
+                            ระบบจัดตารางเรียน
+                        </Typography >
+                    ) : (
 
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: '#ffffff',
-                            textDecoration: 'none',
-                            marginLeft: 1,
-                        }}
-                    >
-                        ระบบจัดตารางเรียน
-                    </Typography>
+                        <Typography variant="h6"
+                            noWrap
+                            component="a"
+                            href="/home-member"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: '#ffffff',
+                                textDecoration: 'none',
+                                marginLeft: 1,
+                            }}
+                        >
+                            ระบบจัดตารางเรียน
+                        </Typography>
+                    )}
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -111,22 +149,42 @@ export default function Appbar() {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     </Box>
                     <div>
-                        <Button onClick={handleOpen}
-                            type="submit"
-                            fullWidth
-                            variant="text"
-                            size="small"
-                            sx={{
-                                boxShadow: 4,
-                                bgcolor: '#0487D9',
-                                color: '#FFFFFF',
-                                fontFamily: 'monospace',
-                                '&:hover': {
-                                    bgcolor: '#049DD9',
-                                },
-                            }}
-                        >Log In
-                        </Button>
+                        {!login ? (
+                            <Button onClick={handleOpen}
+                                type="submit"
+                                fullWidth
+                                variant="text"
+                                size="small"
+                                sx={{
+                                    boxShadow: 4,
+                                    bgcolor: '#0487D9',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'monospace',
+                                    '&:hover': {
+                                        bgcolor: '#049DD9',
+                                    },
+                                }}
+                            >Log In
+                            </Button>
+                        ) : (
+                            // <Button onClick={handleLogout}
+                            //     type="submit"
+                            //     fullWidth
+                            //     variant="text"
+                            //     size="small"
+                            //     sx={{
+                            //         boxShadow: 4,
+                            //         bgcolor: '#0487D9',
+                            //         color: '#FFFFFF',
+                            //         fontFamily: 'monospace',
+                            //         '&:hover': {
+                            //             bgcolor: '#049DD9',
+                            //         },
+                            //     }}
+                            // >Log out
+                            // </Button>
+                            <AccountMenu />
+                        )}
 
                         <Modal
                             open={open}
@@ -135,12 +193,10 @@ export default function Appbar() {
                             aria-describedby="parent-modal-description"
                         >
                             <Box sx={{ ...style, width: 350, height: 400, }}>
-                               <Login></Login>
+                                <Login></Login>
                             </Box>
                         </Modal>
                     </div>
-
-
                 </Toolbar>
             </Container>
         </AppBar>

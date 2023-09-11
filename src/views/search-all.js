@@ -45,8 +45,6 @@ export default function SearchAll() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Appbar />
-
             <BreadcrumbsPage
                 pages={[
                     { title: "ค้นหา" },

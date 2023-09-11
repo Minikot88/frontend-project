@@ -108,8 +108,6 @@ export default function AddSubjectPage() {
     };
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
-
             <BreadcrumbsPage
                 pages={[
                     { title: "Manage Subject", path: `/manage-subject` },

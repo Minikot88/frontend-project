@@ -15,9 +15,6 @@ const theme = createTheme();
 export default function DetailSubject() {
     return (
         <ThemeProvider theme={theme}>
-            <Appbar></Appbar>
-
-
             <BreadcrumbsPage
                 pages={[
                     { title: "รายละเอียดวิชา" },
