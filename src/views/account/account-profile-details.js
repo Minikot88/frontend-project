@@ -11,6 +11,10 @@ import {
     Unstable_Grid2 as Grid
 } from '@mui/material';
 
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+
 const states = [
     {
         value: 'alabama',
@@ -31,6 +35,32 @@ const states = [
 ];
 
 export const AccountProfileDetails = () => {
+
+
+    const navigate = useNavigate()
+    const [user, setUser] = useState()
+    const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        const getAccountByID = async () => {
+            try {
+                const token = await localStorage.getItem('token')
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getAccountByID`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                if (response) {
+                    setUser(response?.data[0])
+                    console.log(response?.data[0])
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAccountByID()
+    }, [])
+
     const [values, setValues] = useState({
         firstName: 'Anika',
         lastName: 'Visser',
@@ -65,8 +95,8 @@ export const AccountProfileDetails = () => {
         >
             <Card>
                 <CardHeader
-                    subheader="The information can be edited"
-                    title="Profile"
+                    title="โปรไฟล์"
+                    subheader="ข้อมูลสามารถแก้ไขได้"
                 />
                 <CardContent sx={{ pt: 0 }}>
                     <Box sx={{ m: -1.5 }}>
@@ -79,13 +109,16 @@ export const AccountProfileDetails = () => {
                                 md={6}
                             >
                                 <TextField
+                                    
                                     fullWidth
-                                    helperText="Please specify the first name"
-                                    label="First name"
+                                    label="รหัสนักศึกษา"
                                     name="firstName"
                                     onChange={handleChange}
                                     required
-                                    value={values.firstName}
+                                    value={user?.user_id}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid
@@ -94,11 +127,14 @@ export const AccountProfileDetails = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Last name"
+                                    label="ชื่อผู้ใช้"
                                     name="lastName"
                                     onChange={handleChange}
                                     required
-                                    value={values.lastName}
+                                    value={user?.username}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid
@@ -107,11 +143,14 @@ export const AccountProfileDetails = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Email Address"
+                                    label="ชื่อ"
                                     name="email"
                                     onChange={handleChange}
                                     required
-                                    value={values.email}
+                                    value={user?.fname}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid
@@ -120,11 +159,14 @@ export const AccountProfileDetails = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Phone Number"
+                                    label="นามสกุล"
                                     name="phone"
                                     onChange={handleChange}
-                                    type="number"
-                                    value={values.phone}
+                                    required
+                                    value={user?.lname}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid
@@ -133,36 +175,20 @@ export const AccountProfileDetails = () => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Country"
+                                    label="อีเมล"
                                     name="country"
                                     onChange={handleChange}
                                     required
-                                    value={values.country}
+                                    value={user?.email}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid
                                 xs={12}
                                 md={6}
                             >
-                                <TextField
-                                    fullWidth
-                                    label="Select State"
-                                    name="state"
-                                    onChange={handleChange}
-                                    required
-                                    select
-                                    SelectProps={{ native: true }}
-                                    value={values.state}
-                                >
-                                    {states.map((option) => (
-                                        <option
-                                            key={option.value}
-                                            value={option.value}
-                                        >
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </TextField>
                             </Grid>
                         </Grid>
                     </Box>

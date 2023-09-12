@@ -15,7 +15,6 @@ import axios from 'axios';
 
 
 import photo from '../image/add-friend.png'
-import Appbar from '../components/app-bar';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import { useNavigate } from 'react-router-dom';
 
@@ -54,8 +53,8 @@ export default function SignUp() {
         const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
         if (response) {
           alert('sucessfully!');
+          navigate(`/`);
           window.location.reload();
-          navigate(`/signin`)
         }
       }
     } catch (err) {

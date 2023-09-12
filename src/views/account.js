@@ -6,7 +6,7 @@ import { AccountProfileDetails } from './account/account-profile-details';
 
 const DetailAccount = () => (
     <>
-     
+
         <Box
             component="main"
             sx={{
@@ -48,9 +48,9 @@ const DetailAccount = () => (
     </>
 );
 
-DetailAccount.getLayout = (DetailAccount) => (
-    <DashboardLayout>
-        {DetailAccount}
-    </DashboardLayout>
-);
+// DetailAccount.getLayout = (DetailAccount) => (
+//     <DashboardLayout>
+//         {DetailAccount}
+//     </DashboardLayout>
+// );
 export default DetailAccount;
