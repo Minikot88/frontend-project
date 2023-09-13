@@ -26,11 +26,11 @@ function createData(name, sec, fat, carbs, protein) {
 }
 
 const rows = [
-    createData('Frozen yoghurt',  1, 24, 4.0),
-    createData('Ice cream sandwich',  2, 37, 4.3),
-    createData('Eclair',  3, 24, 6.0),
-    createData('Cupcake',  4, 67, 4.3),
-    createData('Gingerbread',  5, 49, 3.9),
+    createData('Frozen yoghurt', 1, 24, 4.0),
+    createData('Ice cream sandwich', 2, 37, 4.3),
+    createData('Eclair', 3, 24, 6.0),
+    createData('Cupcake', 4, 67, 4.3),
+    createData('Gingerbread', 5, 49, 3.9),
 ];
 
 const theme = createTheme();
@@ -70,61 +70,43 @@ export default function SelectSubject() {
                                 <DetailsCard
                                     title={'รหัสวิชา'}
                                     description={'234-423'}
-                                    rootClassName="rootClassName1"></DetailsCard>
+                                    rootClassName="rootClassName1">
+                                </DetailsCard>
 
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาไทย'}
                                     description={'คณิตศาสตร์'}
-                                    rootClassName="rootClassName1"></DetailsCard>
+                                    rootClassName="rootClassName1">
+                                </DetailsCard>
 
                                 <DetailsCard
                                     title={'หน่วยกิต'}
                                     description={'3'}
-                                    rootClassName="rootClassName1"></DetailsCard>
+                                    rootClassName="rootClassName1">
+                                </DetailsCard>
 
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาอังกฤษ'}
                                     description={'Math'}
-                                    rootClassName="rootClassName1"></DetailsCard>
-
+                                    rootClassName="rootClassName1">
+                                </DetailsCard>
                             </div>
                         </Grid>
                     </Container>
                 </Box>
             </main>
-
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-
-                            <TableCell align="center" >
-                                เลือก
-                            </TableCell>
-
-                            <TableCell align="center">
-                                ตอน
-                            </TableCell>
-
-                            <TableCell align="center">
-                                จำนวนการรับ
-                            </TableCell>
-
-                            <TableCell align="center">
-                                วันเวลา
-                            </TableCell>
-
-                            <TableCell align="center">
-                                ห้องเรียน
-                            </TableCell>
-
-                            <TableCell align="center">
-                                ผู้สอน
-                            </TableCell>
-
+                            <TableCell align="center"> เลือก </TableCell>
+                            <TableCell align="center"> ตอน </TableCell>
+                            <TableCell align="center"> จำนวนการรับ </TableCell>
+                            <TableCell align="center"> วันเวลา </TableCell>
+                            <TableCell align="center"> ห้องเรียน </TableCell>
+                            <TableCell align="center"> ผู้สอน </TableCell>
                         </TableRow>
                     </TableHead>
-
                     <TableBody>
 
                         {rows.map((row) => (
@@ -133,32 +115,13 @@ export default function SelectSubject() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center" >
-                                    <Button  href="/create-table" >
-                                        <AddCircleIcon />
-                                    </Button>
+                                    <Button href="/create-table" > <AddCircleIcon /> </Button>
                                 </TableCell>
-
-                                <TableCell align="center" component="th" scope="row">
-                                    {row.sec}
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    {row.fat}
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    {row.fat}
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    {row.fat}
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    {row.fat}
-                                </TableCell>
-
-
+                                <TableCell align="center" component="th" scope="row"> {row.sec} </TableCell>
+                                <TableCell align="center"> {row.fat} </TableCell>
+                                <TableCell align="center"> {row.fat} </TableCell>
+                                <TableCell align="center"> {row.fat} </TableCell>
+                                <TableCell align="center"> {row.fat} </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

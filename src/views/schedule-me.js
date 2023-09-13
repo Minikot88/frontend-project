@@ -31,20 +31,6 @@ const rows = [
 ];
 
 export default function SheduleMe() {
-
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
-
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
@@ -59,7 +45,6 @@ export default function SheduleMe() {
                         pb: 6,
                     }}
                 >
-
                     <Container maxWidth="sm" 
                     sx={{width: '400px',}}>
                         <div

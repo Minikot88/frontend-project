@@ -8,8 +8,6 @@ import Appbar from '../components/app-bar';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import DetailsCard from '../components/details-card';
 
-
-
 const theme = createTheme();
 
 export default function DetailSubject() {

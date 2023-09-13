@@ -1,12 +1,11 @@
 
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
-import { Layout as DashboardLayout } from './account/layout';
-import { AccountProfile } from './account/account-profile';
-import { AccountProfileDetails } from './account/account-profile-details';
+import { Layout as DashboardLayout } from '../components/account/layout';
+import { AccountProfile } from '../components/account/account-profile';
+import { AccountProfileDetails } from '../components/account/account-profile-details';
 
 const DetailAccount = () => (
     <>
-
         <Box
             component="main"
             sx={{

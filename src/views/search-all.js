@@ -6,7 +6,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Appbar from '../components/app-bar';
 import { useState, useEffect } from 'react';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import Button from '@mui/material/Button';
@@ -29,7 +28,7 @@ export default function SearchAll() {
     useEffect(() => {
         const getAllSubjects = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getAccountByID`)
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getallsubject`)
                 if (response) {
                     setSubject(response?.data)
                     console.log(response?.data)

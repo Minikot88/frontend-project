@@ -22,10 +22,12 @@ import DetailsCard from "./components/details-card";
 import AccountMenu from "./components/account-menu";
 
 //admin
-import AddSubjectPage from "./admin/add-subject";
-import EditSubjectPage from "./admin/edit-subject";
-import ManageSubject from "./admin/manage-subject";
+import AddSubjectPage from "./admin/subject/add-subject";
+import EditSubjectPage from "./admin/subject/edit-subject";
+import ManageSubject from "./admin/subject/manage-subject";
 import HomeAdmin from "./admin/home.admin";
+import ViewUserPage from "./admin/accountUser/viewUsers";
+
 import axios from "axios";
 
 function App() {
@@ -68,6 +70,8 @@ function App() {
         <Route path="/edit-subject/:subject_id" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
+        <Route path="/viewUser" element={<ViewUserPage />} />
+        
       </Routes>
     </BrowserRouter>
 
