@@ -106,6 +106,7 @@ export default function AddSubjectPage() {
         updatedSections.splice(index, 1);
         setSections(updatedSections);
     };
+
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
