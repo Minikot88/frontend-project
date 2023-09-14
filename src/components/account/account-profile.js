@@ -49,14 +49,14 @@ export const AccountProfile = () => {
             flexDirection: 'column'
           }}
         >
-          <Avatar
-            //src={user.avatar}
+          {/* <Avatar
+            src={user.avatar}
             sx={{
               height: 80,
               mb: 2,
               width: 80
             }}
-          />
+          /> */}
           <Typography
             gutterBottom
             variant="h5"
@@ -72,14 +72,14 @@ export const AccountProfile = () => {
         </Box>
       </CardContent>
       <Divider />
-      <CardActions>
+      {/* <CardActions>
         <Button
           fullWidth
           variant="text"
         >
           Upload picture
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

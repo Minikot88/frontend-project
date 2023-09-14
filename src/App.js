@@ -53,7 +53,7 @@ function App() {
         <Route path="/search-all" element={<SearchAll />} />
         <Route path="/search-select" element={<SearchSelect />} />
         <Route path="/details-subject" element={<DetailSubject />} />
-        <Route path="/select-subject" element={<SelectSubject />} />
+        <Route path="/select-subject/:id" element={<SelectSubject />} />
         <Route path="/create-table" element={<CreateTable />} />
         <Route path="/schedule-me" element={<SheduleMe />} />
         <Route path="/home-member" element={<HomeMember />} />

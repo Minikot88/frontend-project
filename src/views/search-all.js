@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import { useState, useEffect } from 'react';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 import Table from '@mui/material/Table';
@@ -23,6 +24,7 @@ const theme = createTheme();
 
 export default function SearchAll() {
 
+    const navigate = useNavigate()
     const [subjects, setSubject] = useState()
 
     useEffect(() => {
@@ -40,6 +42,39 @@ export default function SearchAll() {
         getAllSubjects()
     }, [])
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const opens = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleSubjectById = () => {
+        setAnchorEl(null);
+        navigate(`/select-subject`);
+    };
+
+    const [subject_id, setSubject_id] = useState()
+
+    useEffect(() => {
+        const GetSubjectbyID = async () => {
+            try {
+                const token = await localStorage.getItem('token')
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSubject-Byid`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                if (response) {
+                    setSubject_id(response?.data[0])
+                    console.log(response?.data[0])
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        GetSubjectbyID()
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
@@ -48,14 +83,7 @@ export default function SearchAll() {
                 ]} />
 
             <main>
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 2,
-                        pb: 6,
-
-                    }}
-                >
+                <Box sx={{bgcolor: 'background.paper', pt: 2, pb: 6, }} >
                     <Container maxWidth="sm">
                         <Typography
                             component="h1"
@@ -67,12 +95,7 @@ export default function SearchAll() {
                             ค้นหารายวิชา
                         </Typography>
                         <Box component="form" noValidate
-                            sx={{
-                                mt: 1,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
+                            sx={{ mt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                             <Grid item xs={12} sm={6}>
                                 <Paper
                                     component="form"
@@ -157,7 +180,7 @@ export default function SearchAll() {
                     </Container>
                 </Box>
             </main>
-            <Container mixWidth="sm">
+            <Container minWidth="sm">
 
                 <TableContainer
                     component={Paper}
@@ -190,6 +213,7 @@ export default function SearchAll() {
                                 >
                                     <TableCell align="center" >
                                         <Button
+                                        onClick={handleSubjectById}
                                             variant="contained"
                                             size="small"
                                             sx={{

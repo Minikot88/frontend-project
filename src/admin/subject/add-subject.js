@@ -285,12 +285,12 @@ export default function AddSubjectPage() {
                                     {/* Times */}
                                     {section.times.map((timePart, timeIndex) => (
                                         <Stack direction={isMobile ? 'column' : 'row'} spacing={2} key={timeIndex}>
-                                            {/* <TextField
+                                            <TextField
                                                 name="time_id"
                                                 label="Time ID"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            /> */}
+                                            />
                                             <TextField
                                                 name="room"
                                                 label="ห้องเรียน"

@@ -15,31 +15,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const states = [
-    {
-        value: 'alabama',
-        label: 'Alabama'
-    },
-    {
-        value: 'new-york',
-        label: 'New York'
-    },
-    {
-        value: 'san-francisco',
-        label: 'San Francisco'
-    },
-    {
-        value: 'los-angeles',
-        label: 'Los Angeles'
-    }
-];
-
 export const AccountProfileDetails = () => {
 
-
     const navigate = useNavigate()
-    const [user, setUser] = useState()
-    const token = localStorage.getItem('token')
+    const [user, setUser] = useState({})
+
+    const handleInput = (e) => {
+        setUser((updateUser) => ({
+            ...updateUser,
+            [e.target.name]: e.target.value
+        }));
+    };
 
     useEffect(() => {
         const getAccountByID = async () => {
@@ -52,7 +38,6 @@ export const AccountProfileDetails = () => {
                 })
                 if (response) {
                     setUser(response?.data[0])
-                    console.log(response?.data[0])
                 }
             } catch (err) {
                 console.error(err)
@@ -61,38 +46,25 @@ export const AccountProfileDetails = () => {
         getAccountByID()
     }, [])
 
-    const [values, setValues] = useState({
-        firstName: 'Anika',
-        lastName: 'Visser',
-        email: 'demo@devias.io',
-        phone: '',
-        state: 'los-angeles',
-        country: 'USA'
-    });
-
-    const handleChange = useCallback(
-        (event) => {
-            setValues((prevState) => ({
-                ...prevState,
-                [event.target.name]: event.target.value
-            }));
-        },
-        []
-    );
-
-    const handleSubmit = useCallback(
-        (event) => {
-            event.preventDefault();
-        },
-        []
-    );
+    const updateUser = async () => {
+        try{
+            const token = await localStorage.getItem('token')
+            const response = await axios.put(`${process.env.REACT_APP_API_SERVER}/update-user`, user, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if(response?.status === 200){
+                alert("updated");
+                window.location.reload()
+            }
+        }catch(err){
+            console.error(err)
+        }
+    }
 
     return (
-        <form
-            autoComplete="off"
-            noValidate
-            onSubmit={handleSubmit}
-        >
+        <form>
             <Card>
                 <CardHeader
                     title="โปรไฟล์"
@@ -102,23 +74,22 @@ export const AccountProfileDetails = () => {
                     <Box sx={{ m: -1.5 }}>
                         <Grid
                             container
-                            spacing={3}
+                            spacing={2}
                         >
                             <Grid
                                 xs={12}
                                 md={6}
                             >
                                 <TextField
-                                    
                                     fullWidth
+                                    disabled
                                     label="รหัสนักศึกษา"
-                                    name="firstName"
-                                    onChange={handleChange}
+                                    name="user_id"
                                     required
                                     value={user?.user_id}
                                     InputLabelProps={{
                                         shrink: true,
-                                      }}
+                                    }}
                                 />
                             </Grid>
                             <Grid
@@ -128,13 +99,13 @@ export const AccountProfileDetails = () => {
                                 <TextField
                                     fullWidth
                                     label="ชื่อผู้ใช้"
-                                    name="lastName"
-                                    onChange={handleChange}
+                                    name="username"
                                     required
+                                    onChange={(e) => handleInput(e)}
                                     value={user?.username}
                                     InputLabelProps={{
                                         shrink: true,
-                                      }}
+                                    }}
                                 />
                             </Grid>
                             <Grid
@@ -144,13 +115,13 @@ export const AccountProfileDetails = () => {
                                 <TextField
                                     fullWidth
                                     label="ชื่อ"
-                                    name="email"
-                                    onChange={handleChange}
+                                    name="fname"
                                     required
+                                    onChange={(e) => handleInput(e)}
                                     value={user?.fname}
                                     InputLabelProps={{
                                         shrink: true,
-                                      }}
+                                    }}
                                 />
                             </Grid>
                             <Grid
@@ -160,13 +131,13 @@ export const AccountProfileDetails = () => {
                                 <TextField
                                     fullWidth
                                     label="นามสกุล"
-                                    name="phone"
-                                    onChange={handleChange}
+                                    name="lname"
                                     required
+                                    onChange={(e) => handleInput(e)}
                                     value={user?.lname}
                                     InputLabelProps={{
                                         shrink: true,
-                                      }}
+                                    }}
                                 />
                             </Grid>
                             <Grid
@@ -174,15 +145,16 @@ export const AccountProfileDetails = () => {
                                 md={6}
                             >
                                 <TextField
+                                    disabled
                                     fullWidth
                                     label="อีเมล"
-                                    name="country"
-                                    onChange={handleChange}
+                                    name="email"
                                     required
+                                    onChange={(e) => handleInput(e)}
                                     value={user?.email}
                                     InputLabelProps={{
                                         shrink: true,
-                                      }}
+                                    }}
                                 />
                             </Grid>
                             <Grid
@@ -195,7 +167,7 @@ export const AccountProfileDetails = () => {
                 </CardContent>
                 <Divider />
                 <CardActions sx={{ justifyContent: 'flex-end' }}>
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={() => updateUser()}>
                         Save details
                     </Button>
                 </CardActions>

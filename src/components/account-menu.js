@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -23,20 +24,6 @@ export default function AccountMenu() {
     const [user, setUser] = useState()
     const [login, setLogin] = React.useState(false)
     const token = localStorage.getItem('token')
-
-    // const style = {
-    //     position: 'absolute',
-    //     top: '50%',
-    //     left: '50%',
-    //     transform: 'translate(-50%, -50%)',
-    //     width: 400,
-    //     bgcolor: '#fafafa',
-    //     border: '2.5px solid #0468BF',
-    //     boxShadow: 24,
-    //     pt: 1,
-    //     px: 2,
-    //     pb: 1,
-    // };
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -73,7 +60,7 @@ export default function AccountMenu() {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleCloses = () => {
+    const handleClosesAccount = () => {
         setAnchorEl(null);
         navigate(`/account`);
     };
@@ -82,7 +69,7 @@ export default function AccountMenu() {
         const getAccountByID = async () => {
             try {
                 const token = await localStorage.getItem('token')
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getAccountByID`,{
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getAccountByID`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -97,7 +84,6 @@ export default function AccountMenu() {
         }
         getAccountByID()
     }, [])
-
 
     return (
         <React.Fragment>
@@ -123,31 +109,28 @@ export default function AccountMenu() {
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={opens}
-                onClose={handleCloses}
-                onClick={handleCloses}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleCloses}>
-                    <Avatar /> My account
+                <MenuItem onClick={handleClosesAccount}>
+                    <ListItemIcon>
+                        <PermIdentityIcon fontSize="small" />
+                    </ListItemIcon>
+                    My account
                 </MenuItem>
-                
                 <Divider />
-
-                <MenuItem onClick={handleCloses}>
+                <MenuItem >
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
                 </MenuItem>
-
             </Menu>
         </React.Fragment>
     );

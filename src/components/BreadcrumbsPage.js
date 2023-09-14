@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import { Grid, Typography } from "@mui/material"
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { useNavigate } from 'react-router-dom';
 
 {/* <BreadcrumbLayout
 pages={[
@@ -15,8 +16,55 @@ pages={[
 /> */}
 
 const BreadcrumbsPage = ({ pages }) => {
-  // const location = useLocation()
-  // console.log(location)
+
+  const navigate = useNavigate()
+  const [login, setLogin] = React.useState(false)
+  const token = localStorage.getItem('token')
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: '#fafafa',
+    border: '2.5px solid #0468BF',
+    boxShadow: 24,
+    pt: 1,
+    px: 2,
+    pb: 1,
+  };
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  React.useEffect(() => {
+    if (token !== null) {
+      setLogin(true)
+    } else {
+      setLogin(false)
+    }
+    window.addEventListener('storage', () => {
+      alert('คุณออกจากระบบแล้ว')
+      if (token !== null) {
+        setLogin(true)
+
+      }
+    })
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.clear()
+    alert('คุณออกจากระบบแล้ว')
+    setLogin(false);
+    navigate(`/`);
+    window.location.reload()
+  }
+
   return (
     <Grid container spacing={2} py={2} px={4}>
       <Grid item md={12} xs={12}>
@@ -36,25 +84,36 @@ const BreadcrumbsPage = ({ pages }) => {
             color: "#0468BF"
           }}
         >
-          <Link key={"home"} to={"/"}
-            component={RouterLink}
-            underline="hover"
-            style={{
-              color: "#b2102f",
-            }}
-          >
-            หน้าหลัก
-          </Link>
-
-          {pages?.map((page) =>
-            page?.path ? (
-              <Link key={page?.title} to={page?.path} component={RouterLink} 
+          {!login ? (
+            <Link key={"home"} to={"/"}
+              component={RouterLink}
               underline="hover"
               style={{
-                color: "#ab003c",
-              }} >
+                color: "#b2102f",
+              }}
+            >
+              หน้าหลัก
+            </Link>
+          ) : (
+            <Link key={"home"} to={"/home-member"}
+              component={RouterLink}
+              underline="hover"
+              style={{
+                color: "#b2102f",
+              }}
+            >
+              หน้าหลัก
+            </Link>
+          )}
+          {pages?.map((page) =>
+            page?.path ? (
+              <Link key={page?.title} to={page?.path} component={RouterLink}
+                underline="hover"
+                style={{
+                  color: "#ab003c",
+                }} >
                 {page?.title}
-                
+
               </Link>
             ) : (
               <Typography key={page?.title}>{page?.title}</Typography>

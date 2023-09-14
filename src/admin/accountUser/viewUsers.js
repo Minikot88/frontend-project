@@ -37,8 +37,8 @@ import USERLIST from './user';
 const TABLE_HEAD = [
   { id: 'role', label: 'รหัสนักศึกษา', alignRight: false },
   { id: 'name', label: 'ชื่อ', alignRight: false },
-  { id: 'company', label: 'นามสกุล', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'lname', label: 'นามสกุล', alignRight: false },
+  { id: 'isVerified', label: 'Username', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -110,8 +110,8 @@ export default function ViewUserPage() {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), 
-      selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1));
     }
     setSelected(newSelected);
   };
@@ -126,33 +126,29 @@ export default function ViewUserPage() {
     setPage(0);
     setFilterName(event.target.value);
   };
+
+  const navigate = useNavigate()
+  const [user, setUser] = useState()
+  const token = localStorage.getItem('token')
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const isNotFound = !filteredUsers.length && !!filterName;
 
-  const navigate = useNavigate()
-    const [user, setUser] = useState()
-    const token = localStorage.getItem('token')
-
-    useEffect(() => {
-        const getAccountByID = async () => {
-            try {
-                const token = await localStorage.getItem('token')
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getAccountByID`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (response) {
-                    setUser(response?.data[0])
-                    console.log(response?.data[0])
-                }
-            } catch (err) {
-                console.error(err)
-            }
+  useEffect(() => {
+    const getAccountByID = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getViewUser`)
+        if (response) {
+          setUser(response?.data)
+          console.log(response?.data)
         }
-        getAccountByID()
-    }, [])
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getAccountByID()
+  }, [])
 
   return (
     <>
@@ -176,72 +172,73 @@ export default function ViewUserPage() {
             </Stack>
           </div>
           <Card style={{ flex: 1 }} >
+
             <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-              <TableContainer sx={{ minWidth: 800, Height: 50 }}>
-                <Table>
-                  <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={USERLIST.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                      const { id, name, role, company, } = row;
-                      const selectedUser = selected.indexOf(name) !== -1;
+            <TableContainer sx={{ minWidth: 800, Height: 50 }}>
+              <Table>
+                <UserListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={USERLIST.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
 
-                      return (
-                        <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                          </TableCell>
+                  {user?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const { id, name, role, user_id, lname,fname,username,status } = row;
+                    const selectedUser = selected.indexOf(user_id) !== -1;
 
-                          <TableCell align="left">
-                              <Typography variant="subtitle2" noWrap>{name}</Typography>
-                          </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{name}</TableCell>
-                          <TableCell align="left">{company} </TableCell>
-                          <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
+                    return (
+                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, user_id)} />
+                        </TableCell>
 
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} >
-                          <Box>
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Box>
+                        <TableCell align="left">
+                          <Typography variant="subtitle2" noWrap>{user_id}</Typography>
+                        </TableCell>
+                        <TableCell align="left">{fname}</TableCell>
+                        <TableCell align="left">{lname}</TableCell>
+                        <TableCell align="left">{username}</TableCell>
+                        <TableCell align="left">{status} </TableCell>
+                        <TableCell align="right">
+                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                            <Iconify icon={'eva:more-vertical-fill'} />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
-                    </TableBody>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
                   )}
-                </Table>
-              </TableContainer>
-           
+                </TableBody>
+
+                {isNotFound && (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} >
+                        <Box>
+                          <Typography variant="h6" paragraph>
+                            Not found
+                          </Typography>
+                          <Typography variant="body2">
+                            No results found for &nbsp;
+                            <strong>&quot;{filterName}&quot;</strong>.
+                            <br /> Try checking for typos or using complete words.
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                )}
+              </Table>
+            </TableContainer>
 
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
@@ -261,7 +258,7 @@ export default function ViewUserPage() {
           onClose={handleCloseMenu}
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          
+
         >
           <MenuItem>
             <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />

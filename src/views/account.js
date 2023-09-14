@@ -21,17 +21,14 @@ const DetailAccount = () => (
                         </Typography>
                     </div>
                     <div>
-                        <Grid
-                            container
-                            spacing={3}
-                        >
-                            <Grid
+                        <Grid>
+                            {/* <Grid
                                 xs={12}
                                 md={6}
                                 lg={4}
                             >
                                 <AccountProfile />
-                            </Grid>
+                            </Grid> */}
                             <Grid
                                 xs={12}
                                 md={6}

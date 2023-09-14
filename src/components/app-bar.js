@@ -59,10 +59,8 @@ export default function Appbar() {
         alert('คุณออกจากระบบแล้ว')
         setLogin(false);
         navigate(`/`);
-        // navigate('/login')
         window.location.reload()
     }
-
     return (
         <AppBar position="static"
             sx={{
@@ -97,7 +95,6 @@ export default function Appbar() {
                             ระบบจัดตารางเรียน
                         </Typography >
                     ) : (
-
                         <Typography variant="h6"
                             noWrap
                             component="a"
@@ -116,7 +113,6 @@ export default function Appbar() {
                             ระบบจัดตารางเรียน
                         </Typography>
                     )}
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -144,7 +140,7 @@ export default function Appbar() {
                             marginRight: 3,
                         }}
                     >
-                        MX
+                        MX PSU
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     </Box>
@@ -167,22 +163,6 @@ export default function Appbar() {
                             >Log In
                             </Button>
                         ) : (
-                            // <Button onClick={handleLogout}
-                            //     type="submit"
-                            //     fullWidth
-                            //     variant="text"
-                            //     size="small"
-                            //     sx={{
-                            //         boxShadow: 4,
-                            //         bgcolor: '#0487D9',
-                            //         color: '#FFFFFF',
-                            //         fontFamily: 'monospace',
-                            //         '&:hover': {
-                            //             bgcolor: '#049DD9',
-                            //         },
-                            //     }}
-                            // >Log out
-                            // </Button>
                             <AccountMenu />
                         )}
 

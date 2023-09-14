@@ -17,11 +17,13 @@ import TableRow from '@mui/material/TableRow';
 
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function SearchSelect() {
 
+    const navigate = useNavigate()
     const [subject, setSubject] = useState()
 
     useEffect(() => {
@@ -38,14 +40,6 @@ export default function SearchSelect() {
         }
         getAllSubjects()
     }, [])
-
-
-
-
-
-
-
-    
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
@@ -63,7 +57,7 @@ export default function SearchSelect() {
 
                     }}
                 >
-                    <Container maxWidth="sm">
+                    <Container minWidth="sm">
                         <Typography
                             component="h1"
                             variant="h4"
@@ -164,10 +158,9 @@ export default function SearchSelect() {
                     </Container>
                 </Box>
             </main>
-            <Container maxWidth="sm">
+            <Container minWidth="sm">
                 <TableContainer component={Paper}>
                     <Table
-                        sx={{ maxWidth: 650 }}
                         size="small"
                         aria-label="simple table">
                         <TableHead>
@@ -192,9 +185,9 @@ export default function SearchSelect() {
                                 >
                                     <TableCell align="center" >
                                         <Button
+                                            onClick={()=> navigate(`/select-subject/${row?.subject_id}`)}
                                             variant="contained"
                                             size="small"
-                                            href="/select-subject"
                                             sx={{
                                                 width: 75,
                                                 bgcolor: '#0468BF',

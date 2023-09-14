@@ -7,6 +7,10 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,21 +25,34 @@ import './detail.css'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-function createData(name, sec, fat, carbs, protein) {
-    return { name, sec, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 1, 24, 4.0),
-    createData('Ice cream sandwich', 2, 37, 4.3),
-    createData('Eclair', 3, 24, 6.0),
-    createData('Cupcake', 4, 67, 4.3),
-    createData('Gingerbread', 5, 49, 3.9),
-];
-
 const theme = createTheme();
 
 export default function SelectSubject() {
+    const {id} = useParams()
+    const navigate = useNavigate()
+    const [subject, setSubject] = useState()
+    const [login, setLogin] = React.useState(false)
+    const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        const GetSubjectbyID = async () => {
+            try {
+                const token = await localStorage.getItem('token')
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSubject-Byid?subject_id=${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                if (response) {
+                    setSubject(response?.data[0])
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        GetSubjectbyID()
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
@@ -46,14 +63,7 @@ export default function SelectSubject() {
                 ]} />
 
             <main>
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 2,
-                        pb: 6,
-
-                    }}
-                >
+                <Box sx={{ bgcolor: 'background.paper', pt: 2, pb: 6, }}>
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={6}>
                             <Typography
@@ -65,26 +75,22 @@ export default function SelectSubject() {
                             >
                                 รายละเอียดวิชา
                             </Typography>
-
                             <div className="detail-sudject">
                                 <DetailsCard
                                     title={'รหัสวิชา'}
-                                    description={'234-423'}
+                                    description={'name'}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
-
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาไทย'}
                                     description={'คณิตศาสตร์'}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
-
                                 <DetailsCard
                                     title={'หน่วยกิต'}
                                     description={'3'}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
-
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาอังกฤษ'}
                                     description={'Math'}
@@ -96,6 +102,7 @@ export default function SelectSubject() {
                 </Box>
             </main>
             <TableContainer component={Paper}>
+
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -104,27 +111,27 @@ export default function SelectSubject() {
                             <TableCell align="center"> จำนวนการรับ </TableCell>
                             <TableCell align="center"> วันเวลา </TableCell>
                             <TableCell align="center"> ห้องเรียน </TableCell>
-                            <TableCell align="center"> ผู้สอน </TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
 
-                        {rows.map((row) => (
+                    <TableBody>
+                      
                             <TableRow
-                                key={row.name}
+                               
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="center" >
                                     <Button href="/create-table" > <AddCircleIcon /> </Button>
                                 </TableCell>
-                                <TableCell align="center" component="th" scope="row"> {row.sec} </TableCell>
-                                <TableCell align="center"> {row.fat} </TableCell>
-                                <TableCell align="center"> {row.fat} </TableCell>
-                                <TableCell align="center"> {row.fat} </TableCell>
-                                <TableCell align="center"> {row.fat} </TableCell>
+                                <TableCell align="center" component="th" scope="row"> {subject?.credit} </TableCell>
+                                <TableCell align="center"> {subject?.subject_id} </TableCell>
+                                <TableCell align="center"> {subject?.subject_id} </TableCell>
+                                <TableCell align="center"> {subject?.subject_id} </TableCell>
+                                <TableCell align="center"> {subject?.subject_id} </TableCell>
                             </TableRow>
-                        ))}
+                      
                     </TableBody>
+
                 </Table>
             </TableContainer>
         </ThemeProvider>
