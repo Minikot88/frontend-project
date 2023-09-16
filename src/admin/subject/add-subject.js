@@ -8,8 +8,6 @@ import {
     Button, Typography, useMediaQuery,
     ThemeProvider, createTheme
 } from '@mui/material';
-import Appbar from '../../components/app-bar';
-import BreadcrumbsPage from '../../components/BreadcrumbsPage';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
@@ -39,6 +37,46 @@ export default function AddSubjectPage() {
     const [sections, setSections] = useState([{ times: [{}] }]);
     const [timeIdCounter, setTimeIdCounter] = useState(0);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const getMaxTimeId = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getmaxtime`);
+            if (response) {
+                const maxId = response?.data[0].maxId;
+
+                if (maxId) {
+                    const currentId = parseInt(maxId.slice(1));
+                    const nextId = currentId + 1;
+                    return `T${nextId.toString().padStart(5, '0')}`;
+                } else {
+                    return 'T00001';
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
+
+    const getMaxSectionId = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getmaxsection`);
+            if (response) {
+                const maxId = response?.data[0].maxId;
+
+                if (maxId) {
+                    const currentId = parseInt(maxId.slice(1));
+                    const nextId = currentId + 1;
+                    return `S${nextId.toString().padStart(5, '0')}`;
+                } else {
+                    return 'S00001';
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -70,17 +108,35 @@ export default function AddSubjectPage() {
 
     const addSubject = async () => {
         try {
+            // Get the next available time_id and section_id
+            const nextTimeId = await getMaxTimeId();
+            const nextSectionId = await getMaxSectionId();
+
+            // Update the subject and sections objects
+            const updatedSubject = { ...subject, time_id: nextTimeId, section_id: nextSectionId };
+            const updatedSections = sections.map((section) => ({
+                ...section,
+                section_id: nextSectionId,
+                times: section.times.map((time) => ({
+                    ...time,
+                    time_id: nextTimeId,
+                })),
+            }));
+
+            // Send the POST request with updatedSubject and updatedSections
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/add-subject`, {
-                subject: subject,
-                sections: sections,
+                subject: updatedSubject,
+                sections: updatedSections,
             });
-            if (response) {
+
+            if (response?.status === 200) {
                 alert('Adding successfully');
             }
         } catch (err) {
             console.error(err);
         }
     };
+
 
     const handleAddSection = () => {
         setSections([...sections, { times: [{}] }]);
@@ -109,12 +165,6 @@ export default function AddSubjectPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <BreadcrumbsPage
-                pages={[
-                    { title: "Manage Subject", path: `/manage-subject` },
-                    { title: "Add Subject" },
-                ]} />
-
             <Container component="main" maxWidth="300">
 
                 <Box sx={{ p: 5 }}>
@@ -223,14 +273,14 @@ export default function AddSubjectPage() {
                                             )}
                                         </Stack>
                                     </Stack>
-                                    
+
                                     <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
-                                        <TextField
+                                        {/* <TextField
                                             name="section_id"
                                             label="Section ID"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                        />
+                                        /> */}
                                         <TextField
                                             sx={{ width: 100 }}
                                             name="section"
@@ -274,26 +324,26 @@ export default function AddSubjectPage() {
                                                 variant="outlined"
                                                 onChange={(e) => handleSectionChange(sectionIndex, e)}
                                             >
-                                                <MenuItem value={1}>2563</MenuItem>
-                                                <MenuItem value={2}>2564</MenuItem>
-                                                <MenuItem value={3}>2565</MenuItem>
-                                                <MenuItem value={4}>2566</MenuItem>
-                                                <MenuItem value={5}>2567</MenuItem>
-                                                <MenuItem value={6}>2568</MenuItem>
+                                                <MenuItem value={2563}>2563</MenuItem>
+                                                <MenuItem value={2564}>2564</MenuItem>
+                                                <MenuItem value={2565}>2565</MenuItem>
+                                                <MenuItem value={2566}>2566</MenuItem>
+                                                <MenuItem value={2567}>2567</MenuItem>
+                                                <MenuItem value={2568}>2568</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Stack>
                                     {/* Times */}
                                     {section.times.map((timePart, timeIndex) => (
                                         <Stack direction={isMobile ? 'column' : 'row'} spacing={2} key={timeIndex}>
-                                            <TextField
+                                            {/* <TextField
                                                 name="time_id"
                                                 label="Time ID"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
+                                            /> */}
                                             <TextField
-                                                name="room"
+                                                name="classroom"
                                                 label="ห้องเรียน"
                                                 variant="outlined"
                                                 onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}

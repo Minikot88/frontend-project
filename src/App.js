@@ -15,6 +15,12 @@ import ForgotPassword from "./views/forgot-password";
 import HomeMember from "./views/home-member";
 import Login from "./views/login";
 import DetailAccount from "./views/account";
+import AllSubjectsView from "./views/all-subject-view";
+import StudentSchedule from "./views/schedule";
+import SelectedSubjectsView from "./views/selected-subjects-view";
+import SubjectSectionsView from "./views/subject-sections-view";
+import SubjectPage from "./views/subject-view";
+import UpdateSubjectView from "./admin/subject/update-subject";
 
 //component
 import Appbar from "./components/app-bar";
@@ -60,6 +66,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<DetailAccount />} />
+        <Route path="/all-subject-view" element={<AllSubjectsView />} />
+        <Route path="/schedule" element={<StudentSchedule />} />
+        <Route path="/selected-subjects-view" element={<SelectedSubjectsView />} />
+        <Route path="/subject-sections-view/:subjectId" element={<SubjectSectionsView />} />
+        <Route path="/subject-view/:id" element={<SubjectPage />} />
+        <Route path="/update-subject/:subject_id" element={<UpdateSubjectView />} />
 
         //component
         <Route path="/details-card" element={<DetailsCard />} />
