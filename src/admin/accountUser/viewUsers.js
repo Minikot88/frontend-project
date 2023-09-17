@@ -188,7 +188,7 @@ export default function ViewUserPage() {
                 <TableBody>
 
                   {user?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, user_id, lname,fname,username,status } = row;
+                    const { id, name, role, user_id, lname, fname, username, status } = row;
                     const selectedUser = selected.indexOf(user_id) !== -1;
 
                     return (

@@ -4,7 +4,7 @@ import {
     useMediaQuery, IconButton, Dialog,
     DialogTitle, DialogContent, DialogActions,
 } from "@mui/material";
-import { AddCircleOutline, Delete } from "@mui/icons-material"; // Import the icon
+import { AddCircleOutline, Delete } from "@mui/icons-material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

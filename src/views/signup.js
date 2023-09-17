@@ -169,9 +169,7 @@ export default function SignUp() {
                   label="ตกลงการสมัครสมาชิก"
                 />
               </Grid>
-
             </Grid>
-
             <Button
               type="submit"
               fullWidth
@@ -183,18 +181,16 @@ export default function SignUp() {
                   bgcolor: '#0468BF',
                 },
               }}
-
             >
               Sign Up
             </Button>
-
-            <Grid container justifyContent="flex-end">
+            {/* <Grid container justifyContent="flex-end">
               <Grid item sx={{ mt: '10px' }}>
                 <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

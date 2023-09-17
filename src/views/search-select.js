@@ -123,9 +123,7 @@ export default function SearchSelect() {
                                         },
                                     }}
                                 >
-                                    <InputBase
-                                        sx={{ ml: 1, flex: 1, }}
-                                        placeholder="ชื่อวิชา"
+                                    <InputBase sx={{ ml: 1, flex: 1, }} placeholder="ชื่อวิชา"
                                         inputProps={{ 'aria-label': 'search' }}
                                     />
                                 </Paper>
@@ -185,7 +183,7 @@ export default function SearchSelect() {
                                 >
                                     <TableCell align="center" >
                                         <Button
-                                            onClick={()=> navigate(`/select-subject/${row?.subject_id}`)}
+                                            onClick={() => navigate(`/select-subject/${row?.subject_id}`)}
                                             variant="contained"
                                             size="small"
                                             sx={{
