@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Grid from '@mui/material/Grid';
 
 function Copyright(props) {
     return (
@@ -40,7 +41,7 @@ export default function AddSubjectPage() {
 
     const getMaxTimeId = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getmaxtime`);
+            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getMaxTime`);
             if (response) {
                 const maxId = response?.data[0].maxId;
 
@@ -60,7 +61,7 @@ export default function AddSubjectPage() {
 
     const getMaxSectionId = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getmaxsection`);
+            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getMaxSection`);
             if (response) {
                 const maxId = response?.data[0].maxId;
 
@@ -165,8 +166,7 @@ export default function AddSubjectPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="300">
-
+            <Container component="main" maxWidth="lg">
                 <Box sx={{ p: 5 }}>
                     <Typography textAlign={'center'} variant="h4">
                         เพิ่มรายวิชา
@@ -190,47 +190,28 @@ export default function AddSubjectPage() {
                                 />
                                 <TextField
                                     name="subject_name_eng"
-                                    label="Subject name"
+                                    label="ชื่อวิชา (ภาษาอังกฤษ)"
                                     variant="outlined"
                                     onChange={(e) => handleChange(e)}
                                 />
-                                {/* <TextField
-                                    name="credit"
-                                    label="หน่วยกิต"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                /> */}
                                 <FormControl sx={{ minWidth: 100 }} >
-                                    <InputLabel id="demo-simple-select-label">หน่วยกิต</InputLabel>
+                                    <InputLabel id="credit-label">หน่วยกิต</InputLabel>
                                     <Select
                                         name="credit"
-                                        label="หน่วยกิต"
+                                        labelId="credit-label"
                                         variant="outlined"
                                         onChange={(e) => handleChange(e)}
                                     >
-                                        <MenuItem value={1}>1</MenuItem>
-                                        <MenuItem value={2}>2</MenuItem>
-                                        <MenuItem value={3}>3</MenuItem>
-                                        <MenuItem value={4}>4</MenuItem>
-                                        <MenuItem value={5}>5</MenuItem>
-                                        <MenuItem value={6}>6</MenuItem>
-                                        <MenuItem value={7}>7</MenuItem>
-                                        <MenuItem value={8}>8</MenuItem>
-                                        <MenuItem value={9}>9</MenuItem>
-                                        <MenuItem value={10}>10</MenuItem>
+                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                                            <MenuItem key={value} value={value}>{value}</MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
-                                {/* <TextField
-                                    name="category"
-                                    label="หมวดหมู่วิชา"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                /> */}
                                 <FormControl sx={{ minWidth: 180 }} >
-                                    <InputLabel id="demo-simple-select-label">หมวดหมู่วิชา</InputLabel>
+                                    <InputLabel id="category-label">หมวดหมู่วิชา</InputLabel>
                                     <Select
                                         name="category"
-                                        label="หมวดหมู่วิชา"
+                                        labelId="category-label"
                                         variant="outlined"
                                         onChange={(e) => handleChange(e)}
                                     >
@@ -241,25 +222,32 @@ export default function AddSubjectPage() {
                             </Stack>
                         </Stack>
 
+
                         {/* Sections */}
                         {sections.map((section, sectionIndex) => (
                             <Stack direction={isMobile ? 'column' : 'row'} spacing={4} key={sectionIndex}>
-
                                 <Stack spacing={2}>
-                                    <Stack direction="row" alignItems="center">
-                                        <Typography variant="h6">Section {String(sectionIndex + 1).padStart(2, '0')}</Typography>
-                                        <Button onClick={handleAddSection}
-                                            sx={{
-                                                color: '#1565c0',
-                                                '&:hover': {
-                                                    bgcolor: '#bbdefb',
-                                                },
-                                            }}
-                                        >
-                                            <AddCircleOutlineIcon />Add
-                                        </Button>
-                                        <Stack >
-                                            {sectionIndex > 0 && (
+                                    <Grid container spacing={2} alignItems="center">
+                                        <Grid item>
+                                            <Typography variant="h6">
+                                                Section {String(sectionIndex + 1).padStart(2, '0')}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button
+                                                onClick={handleAddSection}
+                                                sx={{
+                                                    color: '#1565c0',
+                                                    '&:hover': {
+                                                        bgcolor: '#bbdefb',
+                                                    },
+                                                }}
+                                            >
+                                                <AddCircleOutlineIcon /> Add
+                                            </Button>
+                                        </Grid>
+                                        {sectionIndex > 0 && (
+                                            <Grid item>
                                                 <Button
                                                     onClick={() => handleDeleteSection(sectionIndex)}
                                                     sx={{
@@ -267,159 +255,174 @@ export default function AddSubjectPage() {
                                                         '&:hover': {
                                                             bgcolor: '#ff80ab',
                                                         },
-                                                    }}>
-                                                    <DeleteIcon />Delete
+                                                    }}
+                                                >
+                                                    <DeleteIcon /> Delete
                                                 </Button>
-                                            )}
-                                        </Stack>
-                                    </Stack>
+                                            </Grid>
+                                        )}
+                                    </Grid>
 
-                                    <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
+                                    <Grid container spacing={2}>
                                         {/* <TextField
                                             name="section_id"
                                             label="Section ID"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         /> */}
-                                        <TextField
-                                            sx={{ width: 100 }}
-                                            name="section"
-                                            label="Section"
-                                            variant="outlined"
-                                            // value={`${String(sectionIndex + 1).padStart(2, '0')}`}
-                                            onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                        />
+                                        <Grid item xs={12} sm={6} md={4} lg={3}>
+                                            <TextField
+                                                sx={{ minWidth: 280 }}
+                                                name="section"
+                                                label="Section"
+                                                variant="outlined"
+                                                // value={`${String(sectionIndex + 1).padStart(2, '0')}`}
+                                                onChange={(e) => handleSectionChange(sectionIndex, e)}
+                                            />
+                                        </Grid>
                                         {/* <TextField
                                             name="semester"
                                             label="ภาคการศึกษา"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         /> */}
-                                        <FormControl sx={{ minWidth: 280 }} >
-                                            <InputLabel id="demo-simple-select-label">ภาคการศึกษา</InputLabel>
-                                            <Select
-                                                name="term"
-                                                label="ภาคการศึกษา"
-                                                variant="outlined"
-                                                onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                            >
-                                                <MenuItem value={1}>1</MenuItem>
-                                                <MenuItem value={2}>2</MenuItem>
-                                                <MenuItem value={3}>3</MenuItem>
-                                            </Select>
-                                        </FormControl>
-
+                                        <Grid item xs={12} sm={6} md={4} lg={3}>
+                                            <FormControl sx={{ minWidth: 280 }} >
+                                                <InputLabel id="term-label">ภาคการศึกษา</InputLabel>
+                                                <Select
+                                                    name="term"
+                                                    labelId="term-label"
+                                                    label="ภาคการศึกษา"
+                                                    variant="outlined"
+                                                    onChange={(e) => handleSectionChange(sectionIndex, e)}
+                                                >
+                                                    {[1, 2, 3].map((value) => (
+                                                        <MenuItem key={value} value={value}>{value}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
                                         {/* <TextField
                                             name="year"
                                             label="ปี"
                                             variant="outlined"
                                             onChange={(e) => handleSectionChange(sectionIndex, e)}
                                         /> */}
-
-                                        <FormControl sx={{ minWidth: 280 }} >
-                                            <InputLabel id="demo-simple-select-label" >ปีการศึกษา</InputLabel>
-                                            <Select
-                                                name="year"
-                                                label="ปี"
-                                                variant="outlined"
-                                                onChange={(e) => handleSectionChange(sectionIndex, e)}
-                                            >
-                                                <MenuItem value={2563}>2563</MenuItem>
-                                                <MenuItem value={2564}>2564</MenuItem>
-                                                <MenuItem value={2565}>2565</MenuItem>
-                                                <MenuItem value={2566}>2566</MenuItem>
-                                                <MenuItem value={2567}>2567</MenuItem>
-                                                <MenuItem value={2568}>2568</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Stack>
-                                    {/* Times */}
-                                    {section.times.map((timePart, timeIndex) => (
-                                        <Stack direction={isMobile ? 'column' : 'row'} spacing={2} key={timeIndex}>
-                                            {/* <TextField
-                                                name="time_id"
-                                                label="Time ID"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            /> */}
-                                            <TextField
-                                                name="classroom"
-                                                label="ห้องเรียน"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
-                                            {/* <TextField
-                                                name="date"
-                                                label="วัน"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            /> */}
-                                            <FormControl sx={{ minWidth: 130 }} >
-                                                <InputLabel id="demo-simple-select-label">วัน</InputLabel>
+                                        <Grid item xs={12} sm={6} md={4} lg={3}>
+                                            <FormControl sx={{ minWidth: 280 }} >
+                                                <InputLabel id="year-label" >ปีการศึกษา</InputLabel>
                                                 <Select
-                                                    name="date"
-                                                    label="วัน"
+                                                    name="year"
+                                                    labelId="year-label"
+                                                    label="ปี"
                                                     variant="outlined"
-                                                    onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                    onChange={(e) => handleSectionChange(sectionIndex, e)}
                                                 >
-                                                    <MenuItem value={'จันทร์'}>จันทร์</MenuItem>
-                                                    <MenuItem value={'อังคาร'}>อังคาร</MenuItem>
-                                                    <MenuItem value={'พุธ'}>พุธ</MenuItem>
-                                                    <MenuItem value={'พฤหัสบดี'}>พฤหัสบดี</MenuItem>
-                                                    <MenuItem value={'ศุกร์'}>ศุกร์</MenuItem>
-                                                    <MenuItem value={'เสาร์'}>เสาร์</MenuItem>
-                                                    <MenuItem value={'อาทิตย์'}>อาทิตย์</MenuItem>
+                                                    {[2563, 2564, 2565, 2566, 2567, 2568].map((value) => (
+                                                        <MenuItem key={value} value={value}>{value}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
-                                            <TextField
-                                                name="start_time"
-                                                label="เวลาเริ่ม"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
-                                            <TextField
-                                                name="end_time"
-                                                label="หมดเวลา"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
-                                            />
-                                            <Stack direction="row">
-                                                <Button onClick={() => handleAddTime(sectionIndex)}
-                                                    sx={{
-                                                        color: '#1565c0',
-                                                        '&:hover': {
-                                                            bgcolor: '#bbdefb',
-                                                        },
-                                                    }}
-                                                >
-                                                    <AddAlarmIcon />
-                                                </Button>
-                                                {timeIndex > 0 && (
+                                        </Grid>
+                                    </Grid>
+
+                                    {/* Times */}
+                                    {section.times.map((timePart, timeIndex) => (
+                                        <Grid container spacing={2} direction={isMobile ? 'column' : 'row'} key={timeIndex}>
+                                            {/* <TextField
+                                           name="time_id"
+                                           label="Time ID"
+                                           variant="outlined"
+                                           onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                       /> */}
+                                            <Grid item>
+                                                <TextField
+                                                    name="classroom"
+                                                    label="ห้องเรียน"
+                                                    variant="outlined"
+                                                    onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                />
+                                            </Grid>
+                                            {/* <TextField
+                                           name="date"
+                                           label="วัน"
+                                           variant="outlined"
+                                           onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                       /> */}
+                                            <Grid item>
+                                                <FormControl sx={{ minWidth: 130 }}>
+                                                    <InputLabel id="date-label">วัน</InputLabel>
+                                                    <Select
+                                                        name="date"
+                                                        labelId="date-label"
+                                                        label="วัน"
+                                                        variant="outlined"
+                                                        onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                    >
+                                                        {['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'อาทิตย์'].map((value) => (
+                                                            <MenuItem key={value} value={value}>{value}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    name="start_time"
+                                                    label="เวลาเริ่ม"
+                                                    variant="outlined"
+                                                    onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    name="end_time"
+                                                    label="หมดเวลา"
+                                                    variant="outlined"
+                                                    onChange={(e) => handleTimeChange(sectionIndex, timeIndex, e)}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Stack direction="row">
                                                     <Button
-                                                        onClick={() => handleDeleteTime(sectionIndex, timePart.id)}
+                                                        onClick={() => handleAddTime(sectionIndex)}
                                                         sx={{
-                                                            color: '#d50000',
+                                                            color: '#1565c0',
                                                             '&:hover': {
-                                                                bgcolor: '#ff80ab',
+                                                                bgcolor: '#bbdefb',
                                                             },
                                                         }}
                                                     >
-                                                        <RemoveCircleOutlineIcon />
+                                                        <AddAlarmIcon />
                                                     </Button>
-                                                )}
-                                            </Stack>
-                                        </Stack>
+                                                    {timeIndex > 0 && (
+                                                        <Button
+                                                            onClick={() => handleDeleteTime(sectionIndex, timePart.id)}
+                                                            sx={{
+                                                                color: '#d50000',
+                                                                '&:hover': {
+                                                                    bgcolor: '#ff80ab',
+                                                                },
+                                                            }}
+                                                        >
+                                                            <RemoveCircleOutlineIcon />
+                                                        </Button>
+                                                    )}
+                                                </Stack>
+                                            </Grid>
+                                        </Grid>
                                     ))}
+
                                 </Stack>
                             </Stack>
                         ))}
                     </Stack>
-
-                    <Stack spacing={2} justifyContent={'center'} alignItems={'center'} sx={{ mt: 5 }}>
-                        <Button variant="contained" onClick={addSubject}>
-                            submit
-                        </Button>
-                    </Stack>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center" sx={{ mt: 5 }}>
+                        <Grid item>
+                            <Button variant="contained" onClick={addSubject}>
+                                submit
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box >
                 <Copyright sx={{ mt: 10, mb: 4 }} />
             </Container>

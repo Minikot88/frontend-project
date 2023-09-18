@@ -33,6 +33,8 @@ import EditSubjectPage from "./admin/subject/edit-subject";
 import ManageSubject from "./admin/subject/manage-subject";
 import HomeAdmin from "./admin/home.admin";
 import ViewUserPage from "./admin/accountUser/viewUsers";
+import { AddSubject } from "./admin/subject/add-Subjects";
+
 
 import axios from "axios";
 
@@ -83,6 +85,7 @@ function App() {
         <Route path="/manage-subject" element={<ManageSubject />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
         <Route path="/viewUser" element={<ViewUserPage />} />
+        <Route path="/add-Subjects" element={<AddSubject />} />
         
       </Routes>
     </BrowserRouter>
