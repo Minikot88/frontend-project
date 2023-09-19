@@ -55,7 +55,7 @@ export default function SearchSelect() {
           sx={{
             bgcolor: "background.paper",
             pt: 2,
-            pb: 6,
+            pb: 4,
           }}
         >
           <Container minWidth="sm">
