@@ -46,9 +46,9 @@ export const AddSubject = () => {
         if (maxId) {
           const currentId = parseInt(maxId.slice(1));
           const nextId = currentId + 1;
-          return `T${nextId.toString().padStart(5, "0")}`;
+          return nextId; // Return the next ID without the 'T' prefix
         } else {
-          return "T00001";
+          return 1; // Start from 1 if no max ID is found
         }
       }
     } catch (error) {
@@ -68,9 +68,9 @@ export const AddSubject = () => {
         if (maxId) {
           const currentId = parseInt(maxId.slice(1));
           const nextId = currentId + 1;
-          return `S${nextId.toString().padStart(5, "0")}`;
+          return nextId;
         } else {
-          return "S00001";
+          return 1;
         }
       }
     } catch (error) {
@@ -110,40 +110,52 @@ export const AddSubject = () => {
   const addSubject = async () => {
     try {
       // Get the next available time_id and section_id
-      const nextTimeId = await getMaxTimeId();
-      const nextSectionId = await getMaxSectionId();
-
+      const maxTimeId = await getMaxTimeId();
+      const maxSectionId = await getMaxSectionId();
+  
+      // Initialize a counter for time_id and section_id
+      let timeIdCounter = maxTimeId;
+      let sectionIdCounter = maxSectionId;
+  
       // Update the subject and sections objects
-      const updatedSubject = {
-        ...subject,
-        time_id: nextTimeId,
-        section_id: nextSectionId,
-      };
-      const updatedSections = sections.map((section) => ({
-        ...section,
-        section_id: nextSectionId,
-        times: section.times.map((time) => ({
-          ...time,
-          time_id: nextTimeId,
-        })),
-      }));
-
-      // Send the POST request with updatedSubject and updatedSections
+      const updatedSections = sections.map((section) => {
+        // Generate a unique section_id using the sectionIdCounter
+        const nextSectionTimeId = `S${sectionIdCounter.toString().padStart(5, "0")}`;
+  
+        const times = section.times.map((time) => {
+          // Generate a unique time_id using the timeIdCounter
+          const nextTimeId = `T${timeIdCounter.toString().padStart(5, "0")}`;
+          timeIdCounter++; // Increment the counter for the next time set
+          return {
+            ...time,
+            time_id: nextTimeId,
+          };
+        });
+  
+        sectionIdCounter++; // Increment the counter for the next section
+        return {
+          ...section,
+          section_id: nextSectionTimeId,
+          times,
+        };
+      });
+  
+      // Send the POST request with updatedSections
       const response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/add-subject`,
         {
-          subject: updatedSubject,
+          subject,
           sections: updatedSections,
         }
       );
-
+  
       if (response?.status === 200) {
         alert("Adding successfully");
       }
     } catch (err) {
       console.error(err);
     }
-  };
+  };  
 
   const handleAddSection = () => {
     setSections([...sections, { times: [{}] }]);
