@@ -14,10 +14,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-
-import Appbar from '../../components/app-bar';
-import { CardContent } from '@mui/material';
-import CardMenuLayout from '../../components/card-menu-layout';
+import SearchIcon from '@mui/icons-material/Search';
+import BallotIcon from '@mui/icons-material/Ballot';
+import BackupTableIcon from '@mui/icons-material/BackupTable';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SubjectIcon from '@mui/icons-material/Subject';
 
 const theme = createTheme();
 
@@ -29,10 +31,8 @@ export default function HomeAdmin() {
                     bgcolor: 'background.paper',
                     pt: 5,
                     pb: 6,
-
                 }}
             >
-
                 <Container maxWidth="sm">
                     <Typography
                         component="h1"
@@ -41,8 +41,7 @@ export default function HomeAdmin() {
                         color="text.primary"
                         gutterBottom
                     >
-
-                        ADMIN
+                        Welcome to Admin
                     </Typography>
                     <Typography
                         variant="h5"
@@ -50,7 +49,7 @@ export default function HomeAdmin() {
                         color="text.secondary"
                         paragraph
                     >
-                        เปิดโปรรรรร
+                        *หน้าจัดการระบบต่าง ๆ*
                     </Typography>
                     <Grid
                         container
@@ -62,12 +61,12 @@ export default function HomeAdmin() {
                     >
                         <Grid item>
                             <Button
+                                startIcon={<SearchIcon />}
                                 variant="contained"
                                 size="large"
                                 href="/create-table"
                                 sx={{
-                                    width: '180px',
-
+                                    width: '200px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -76,18 +75,18 @@ export default function HomeAdmin() {
                                     },
                                 }}
                             >
-                               ค้นหารายวิชา
+                                ค้นหารายวิชา
                             </Button>
                         </Grid>
 
                         <Grid item>
                             <Button
+                                startIcon={<EditCalendarIcon />}
                                 variant="contained"
                                 size="large"
                                 href="/create-table"
                                 sx={{
-                                    width: '180px',
-
+                                    width: '200px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -101,11 +100,31 @@ export default function HomeAdmin() {
                         </Grid>
                         <Grid item>
                             <Button
+                                startIcon={<BallotIcon />}
+                                variant="contained"
+                                size="large"
+                                href="/all-subject-view"
+                                sx={{
+                                    width: '200px',
+                                    bgcolor: '#0468BF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'monospace',
+                                    '&:hover': {
+                                        bgcolor: '#0487D9',
+                                    },
+                                }}
+                            >
+                                รายวิชาทั้งหมด
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                startIcon={<BackupTableIcon />}
                                 href="/schedule-me"
                                 variant="contained"
                                 size="large"
                                 sx={{
-                                    width: '180px',
+                                    width: '200px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -119,11 +138,12 @@ export default function HomeAdmin() {
                         </Grid>
                         <Grid item>
                             <Button
-                                href="/schedule-me"
+                                startIcon={<ManageAccountsIcon />}
+                                href="/viewUser"
                                 variant="contained"
                                 size="large"
                                 sx={{
-                                    width: '180px',
+                                    width: '200px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -137,11 +157,12 @@ export default function HomeAdmin() {
                         </Grid>
                         <Grid item>
                             <Button
+                                startIcon={<SubjectIcon />}
                                 variant="contained"
                                 size="large"
                                 href="/manage-subject"
                                 sx={{
-                                    width: '180px',
+                                    width: '200px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -156,7 +177,6 @@ export default function HomeAdmin() {
                     </Grid>
                 </Container>
             </Box>
-
         </ThemeProvider>
     );
 }
