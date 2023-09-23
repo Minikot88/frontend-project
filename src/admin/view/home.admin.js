@@ -33,7 +33,7 @@ export default function HomeAdmin() {
                 }}
             >
 
-                <Container maxWidth="lg">
+                <Container maxWidth="sm">
                     <Typography
                         component="h1"
                         variant="h2"
@@ -60,21 +60,6 @@ export default function HomeAdmin() {
                         alignItems="center"
                         sx={{ pt: 1 }}
                     >
-
-                        <Grid item xs={3}>
-                            <CardMenuLayout
-                                path={`/archiveview`}
-                                description="ค้นหารายวิชา"
-                                icon={
-                                    <DeleteIcon
-                                        sx={{
-                                            color: '#FF75A0',
-                                            textDecoration: 'none',
-                                        }}
-                                        style={{ fontSize: "82px" }}
-                                    />}
-                            />
-                        </Grid>
                         <Grid item>
                             <Button
                                 variant="contained"
@@ -82,7 +67,27 @@ export default function HomeAdmin() {
                                 href="/create-table"
                                 sx={{
                                     width: '180px',
-                                    height: '150px',
+
+                                    bgcolor: '#0468BF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'monospace',
+                                    '&:hover': {
+                                        bgcolor: '#0487D9',
+                                    },
+                                }}
+                            >
+                               ค้นหารายวิชา
+                            </Button>
+                        </Grid>
+
+                        <Grid item>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                href="/create-table"
+                                sx={{
+                                    width: '180px',
+
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -101,7 +106,6 @@ export default function HomeAdmin() {
                                 size="large"
                                 sx={{
                                     width: '180px',
-                                    height: '150px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',
@@ -115,12 +119,29 @@ export default function HomeAdmin() {
                         </Grid>
                         <Grid item>
                             <Button
+                                href="/schedule-me"
+                                variant="contained"
+                                size="large"
+                                sx={{
+                                    width: '180px',
+                                    bgcolor: '#0468BF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'monospace',
+                                    '&:hover': {
+                                        bgcolor: '#0487D9',
+                                    },
+                                }}
+                            >
+                                จัดการผู้ใช้
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
                                 variant="contained"
                                 size="large"
                                 href="/manage-subject"
                                 sx={{
                                     width: '180px',
-                                    height: '150px',
                                     bgcolor: '#0468BF',
                                     color: '#FFFFFF',
                                     fontFamily: 'monospace',

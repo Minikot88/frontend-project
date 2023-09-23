@@ -9,6 +9,7 @@ import {
     IconButton
 } from '@mui/material'
 import { green, teal } from '@mui/material/colors'
+import Button from '@mui/material/Button';
 
 
 const CardMenuLayout = (props) => {
@@ -20,9 +21,7 @@ const CardMenuLayout = (props) => {
     const { pathname } = useLocation()
 
     return (
-        <Card
-
-            component={Link}
+        <Button
             to={path}
             sx={{
                 maxWidth: '180px',
@@ -32,10 +31,10 @@ const CardMenuLayout = (props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                padding: '10px',
-                border: 'none', // ลบขีดเส้น
+                padding: '5px',
+                bgcolor:'#0A7ABF',
                 ":hover": {
-                    background: 'rgba(0,150,136,0.2)',
+                    background: '#66D8F2',
                 }
             }}
         >
@@ -51,17 +50,18 @@ const CardMenuLayout = (props) => {
                     wordWrap: 'break-word',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    
                 }}>
-                    <Typography variant="h6" underline="none">
+                    <Typography variant="h6" >
                         {title}
                     </Typography>
-                    <Typography variant="h5" sx={{ textDecoration: 'none' }}>
+                    <Typography variant="h5" sx={{ color:'#FFFFFF' }}>
                         {description}
                     </Typography>
                 </CardContent>
             </Box>
-        </Card>
+        </Button>
     )
 }
 CardMenuLayout.propTypes = {
