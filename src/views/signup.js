@@ -36,6 +36,7 @@ const theme = createTheme();
 export default function SignUp() {
 
   const [user, setUser] = useState({})
+  const [item, setItem] = useState({})
   const [confirmPassword, setConfirmPassword] = useState('')
   const navigate = useNavigate()
 
@@ -52,7 +53,7 @@ export default function SignUp() {
       } else {
         const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
         if (response) {
-          alert('sucessfully!');
+          alert('สมัครสมาชิกสำเร็จ : Successfully applied for membership');
           navigate(`/`);
           window.location.reload();
         }
@@ -69,7 +70,6 @@ export default function SignUp() {
         pages={[
           { title: "Sign up" },
         ]} />
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -80,9 +80,7 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-
           <img src={photo} width="70" height="70" />
-
           <Typography
             component="h1"
             variant="h6"
@@ -91,8 +89,7 @@ export default function SignUp() {
             }} >
             Sign Up
           </Typography>
-
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -101,7 +98,14 @@ export default function SignUp() {
                   name="user_id"
                   label="Student ID"
                   autoFocus
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.user_id : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      user_id: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -110,7 +114,14 @@ export default function SignUp() {
                   fullWidth
                   name="fname"
                   label="First Name"
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.fname : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      fname: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -119,7 +130,14 @@ export default function SignUp() {
                   fullWidth
                   label="Last Name"
                   name="lname"
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.lname : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      lname: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,17 +147,30 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="Email"
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.email : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      email: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   name="username"
                   label="Username"
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.username : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      username: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -149,10 +180,16 @@ export default function SignUp() {
                   name="password"
                   label="Password"
                   type="Password"
-                  onChange={(e) => handleInputChange(e)}
+                  value={item ? item?.password : ""}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setItem({
+                      ...item,
+                      password: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   required
@@ -162,13 +199,7 @@ export default function SignUp() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </Grid>
-
-              <Grid item xs={12} sx={{ mb: '10px' }}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="ตกลงการสมัครสมาชิก"
-                />
-              </Grid>
+              <Grid item xs={12} sx={{ mb: '8px' }}></Grid>
             </Grid>
             <Button
               type="submit"
@@ -181,16 +212,17 @@ export default function SignUp() {
                   bgcolor: '#0468BF',
                 },
               }}
+              disabled={
+                item?.user_id === undefined ||
+                item?.fname === undefined ||
+                item?.lname === undefined ||
+                item?.username === undefined ||
+                item?.password === undefined 
+              }
+
             >
               Sign Up
             </Button>
-            {/* <Grid container justifyContent="flex-end">
-              <Grid item sx={{ mt: '10px' }}>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

@@ -139,8 +139,7 @@ export const AddSubject = () => {
           times,
         };
       });
-  
-      // Send the POST request with updatedSections
+
       const response = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/add-subject`,
         {

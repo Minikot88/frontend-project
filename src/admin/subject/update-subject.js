@@ -1,10 +1,14 @@
 import {
-    Button, InputLabel, Stack,
-    TextField, Typography, createTheme,
-    useMediaQuery, IconButton, Dialog,
-    DialogTitle, DialogContent, DialogActions,
+    Button, InputLabel, Stack, Card, Box,
+    TextField, Typography, createTheme, CardContent,
+    CardHeader,
+    useMediaQuery, IconButton, Dialog, Container,
+    DialogTitle, DialogContent, DialogActions, Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { AddCircleOutline, Delete } from "@mui/icons-material";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -25,6 +29,15 @@ export default function UpdateSubjectView() {
         year: "",
         times: [],
     });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSubject((prevSubject) => ({
+            ...prevSubject,
+            [name]: value,
+        }));
+    };
+
 
     useEffect(() => {
         const getSubjectByID = async () => {
@@ -226,6 +239,7 @@ export default function UpdateSubjectView() {
             <InputLabel>{label}</InputLabel>
             <TextField
                 fullWidth
+                required
                 name={name}
                 value={subject[name] || ""}
                 onChange={handleInputChange}
@@ -261,24 +275,139 @@ export default function UpdateSubjectView() {
 
     return (
         <div>
-            <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
-                <Typography variant="h5">
-                    แก้ไขรายวิชา {subject_id}
-                </Typography>
-            </Stack>
-            <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }} direction={isMobile ? "column" : "row"}>
-                {renderTextField("รหัสวิชา", "subject_id")}
-                {renderTextField("ชื่อวิชา", "subject_name_th")}
-                {renderTextField("ชื่อวิชาภาษาอังกฤษ", "subject_name_eng")}
-                {renderTextField("หน่วยกิต", "credit")}
-                {renderTextField("ประเภท", "category")}
-            </Stack>
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    py: 4,
+                }}
+            >
+                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
+                    <Typography variant="h5">
+                        แก้ไขรายวิชา {subject_id}
+                    </Typography>
+                </Stack>
 
-            <Stack justifyContent={"center"} alignItems={"center"} spacing={5} sx={{ p: 2 }}>
-                {subjectSchedule?.map((items, index) => (
-                    <Stack key={index} spacing={2}>
-                        <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                            {/* <TextField
+                <Container maxWidth="lg">
+                    {/* <Card>
+                        <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ p: 2 }}>
+                            <Grid item xs={12} sm={6} md={2}>
+                                {renderTextField("รหัสวิชา", "subject_id")}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={2}>
+                                {renderTextField("ชื่อวิชา", "subject_name_th")}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={2}>
+                                {renderTextField("ชื่อวิชาภาษาอังกฤษ", "subject_name_eng")}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={2}>
+                                {renderTextField("หน่วยกิต", "credit")}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={2}>
+                                {renderTextField("ประเภท", "category")}
+                            </Grid>
+                        </Grid>
+                    </Card> */}
+                    <Card>
+                        <CardHeader title="วิชา" />
+                        <CardContent sx={{ pt: 0 }}>
+                            <Box sx={{ m: -1.5 }}>
+                                <Grid container direction="row" spacing={2}>
+                                    <Grid item xs={12} md={4}>
+                                        <TextField
+                                            fullWidth
+                                            name="subject_id"
+                                            label="รหัสวิชา"
+                                            required
+                                            value={subject?.subject_id}
+                                            onChange={(e) => handleChange(e)}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} md={4}>
+                                        <TextField
+                                            fullWidth
+                                            name="subject_name"
+                                            label="ชื่อวิชา"
+                                            variant="outlined"
+                                            required
+                                            value={subject?.subject_name}
+                                            onChange={(e) => handleChange(e)}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} md={4}>
+                                        <TextField
+                                            fullWidth
+                                            name="subject_name_eng"
+                                            label="ชื่อวิชา (ภาษาอังกฤษ)"
+                                            variant="outlined"
+                                            value={subject?.subject_name_eng}
+                                            onChange={(e) => handleChange(e)}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} md={4}>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="credit-label">หน่วยกิต</InputLabel>
+                                            <Select
+                                                name="credit"
+                                                labelId="credit-label"
+                                                variant="outlined"
+                                                value={subject ? `${subject?.credit}` : " "}
+                                                onChange={(e) => handleChange(e)}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                            >
+                                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                                                    <MenuItem key={value} value={value}>
+                                                        {value}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={6} md={4}>
+                                        <FormControl fullWidth variant="outlined">
+                                            <InputLabel id="category-label">หมวดหมู่วิชา</InputLabel>
+                                            <Select
+                                                name="category"
+                                                labelId="category-label"
+                                                value={subject ? `${subject?.category}` : " "}
+                                                onChange={(e) => handleChange(e)}
+                                                label="หมวดหมู่วิชา"
+                                                sx={{
+                                                    "& .MuiSelect-selectMenu": {
+                                                        paddingRight: "32px",
+                                                    },
+                                                }}
+                                            >
+                                                <MenuItem value="C">วิชาบังคับ</MenuItem>
+                                                <MenuItem value="E">วิชาเลือก</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid xs={6} md={4}></Grid>
+                                </Grid>
+                            </Box>
+                        </CardContent>
+                    </Card>
+
+                </Container>
+
+                <Stack justifyContent={"center"} alignItems={"center"} spacing={5} sx={{ p: 2 }}>
+                    {subjectSchedule?.map((items, index) => (
+                        <Stack key={index} spacing={2}>
+                            <Stack spacing={2} direction={isMobile ? "column" : "row"}>
+                                {/* <TextField
                                 label="section_id"
                                 name="section_id"
                                 value={items?.section_id}
@@ -286,34 +415,34 @@ export default function UpdateSubjectView() {
                                     handleInputSectionChange(index, "section_id", e.target.value)
                                 }
                             /> */}
-                            <TextField
-                                label="section"
-                                name="section"
-                                value={items?.section}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "section", e.target.value)
-                                }
-                            />
-                            <TextField
-                                label="term"
-                                name="term"
-                                value={items?.term}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "term", e.target.value)
-                                }
-                            />
-                            <TextField
-                                label="year"
-                                name="year"
-                                value={items?.year}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "year", e.target.value)
-                                }
-                            />
-                        </Stack>
+                                <TextField
+                                    label="section"
+                                    name="section"
+                                    value={items?.section}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "section", e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    label="term"
+                                    name="term"
+                                    value={items?.term}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "term", e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    label="year"
+                                    name="year"
+                                    value={items?.year}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "year", e.target.value)
+                                    }
+                                />
+                            </Stack>
 
-                        <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                            {/* <TextField
+                            <Stack spacing={2} direction={isMobile ? "column" : "row"}>
+                                {/* <TextField
                                 label="time_id"
                                 name="time_id"
                                 value={items?.time_id}
@@ -321,147 +450,148 @@ export default function UpdateSubjectView() {
                                     handleInputSectionChange(index, "time_id", e.target.value)
                                 }
                             /> */}
-                            <TextField
-                                label="classroom"
-                                name="classroom"
-                                value={items?.classroom}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "classroom", e.target.value)
-                                }
-                            />
-                            <TextField
-                                label="date"
-                                name="date"
-                                value={items?.date}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "date", e.target.value)
-                                }
-                            />
-                            <TextField
-                                label="start_time"
-                                name="start_time"
-                                value={items?.start_time} onChange={(e) =>
-                                    handleInputSectionChange(index, "start_time", e.target.value)
-                                }
-                            />
-                            <TextField
-                                label="end_time"
-                                name="end_time"
-                                value={items?.end_time}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "end_time", e.target.value)
-                                }
-                            />
+                                <TextField
+                                    label="classroom"
+                                    name="classroom"
+                                    value={items?.classroom}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "classroom", e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    label="date"
+                                    name="date"
+                                    value={items?.date}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "date", e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    label="start_time"
+                                    name="start_time"
+                                    value={items?.start_time} onChange={(e) =>
+                                        handleInputSectionChange(index, "start_time", e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    label="end_time"
+                                    name="end_time"
+                                    value={items?.end_time}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "end_time", e.target.value)
+                                    }
+                                />
+                            </Stack>
                         </Stack>
+                    ))}
+
+                    <Stack justifyContent="center" alignItems="center">
+                        <IconButton color="primary" onClick={handleAddSectionTime}>
+                            <AddCircleOutline /> {/* Add the icon */}
+                        </IconButton>
                     </Stack>
-                ))}
 
-                <Stack justifyContent="center" alignItems="center">
-                    <IconButton color="primary" onClick={handleAddSectionTime}>
-                        <AddCircleOutline /> {/* Add the icon */}
-                    </IconButton>
-                </Stack>
-
-                <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                    <DialogTitle>เพิ่ม Section</DialogTitle>
-                    <DialogContent>
-                        <Stack spacing={2}>
-                            {/* Form inputs for new section data */}
-                            <Stack direction={isMobile ? "column" : "row"} spacing={2}>
-                                {/* <TextField
+                    <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
+                        <DialogTitle>เพิ่ม Section</DialogTitle>
+                        <DialogContent>
+                            <Stack spacing={2}>
+                                {/* Form inputs for new section data */}
+                                <Stack direction={isMobile ? "column" : "row"} spacing={2}>
+                                    {/* <TextField
                                     label="Section ID"
                                     name="section_id"
                                     value={newSectionData.section_id}
                                     onChange={handleNewSectionChange}
                                     fullWidth
                                 /> */}
-                                <TextField
-                                    label="Section"
-                                    name="section"
-                                    value={newSectionData.section}
-                                    onChange={handleNewSectionChange}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Term"
-                                    name="term"
-                                    value={newSectionData.term}
-                                    onChange={handleNewSectionChange}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Year"
-                                    name="year"
-                                    value={newSectionData.year}
-                                    onChange={handleNewSectionChange}
-                                    fullWidth
-                                />
-                            </Stack>
-                            {/* Times */}
+                                    <TextField
+                                        label="Section"
+                                        name="section"
+                                        value={newSectionData.section}
+                                        onChange={handleNewSectionChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Term"
+                                        name="term"
+                                        value={newSectionData.term}
+                                        onChange={handleNewSectionChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Year"
+                                        name="year"
+                                        value={newSectionData.year}
+                                        onChange={handleNewSectionChange}
+                                        fullWidth
+                                    />
+                                </Stack>
+                                {/* Times */}
 
-                            {newSectionData.times?.map((time, index) => (
-                                <Stack direction={isMobile ? "column" : "row"} spacing={2} key={index}>
-                                    {/* <TextField
+                                {newSectionData.times?.map((time, index) => (
+                                    <Stack direction={isMobile ? "column" : "row"} spacing={2} key={index}>
+                                        {/* <TextField
                                         label="Time ID"
                                         name="time_id"
                                         value={time.time_id}
                                         onChange={(e) => handleTimeChange(index, e)}
                                         fullWidth
                                     /> */}
-                                    <TextField
-                                        label="Classroom"
-                                        name="classroom"
-                                        value={time.classroom}
-                                        onChange={(e) => handleTimeChange(index, e)}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        label="Date"
-                                        name="date"
-                                        value={time.date}
-                                        onChange={(e) => handleTimeChange(index, e)}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        label="Start Time"
-                                        name="start_time"
-                                        value={time.start_time}
-                                        onChange={(e) => handleTimeChange(index, e)}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        label="End Time"
-                                        name="end_time"
-                                        value={time.end_time}
-                                        onChange={(e) => handleTimeChange(index, e)}
-                                        fullWidth
-                                    />
-                                    <IconButton onClick={() => handleRemoveTime(index)}>
-                                        <Delete />
-                                    </IconButton>
-                                </Stack>
-                            ))}
-                            <IconButton onClick={handleAddTime}>
-                                <AddCircleOutline /> {/* Add another time */}
-                            </IconButton>
-                        </Stack>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDialog} color="primary">
-                            ยกเลิก
-                        </Button>
-                        <Button onClick={handleAddSection} color="primary">
-                            เพิ่ม
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                                        <TextField
+                                            label="Classroom"
+                                            name="classroom"
+                                            value={time.classroom}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Date"
+                                            name="date"
+                                            value={time.date}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Start Time"
+                                            name="start_time"
+                                            value={time.start_time}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="End Time"
+                                            name="end_time"
+                                            value={time.end_time}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                            fullWidth
+                                        />
+                                        <IconButton onClick={() => handleRemoveTime(index)}>
+                                            <Delete />
+                                        </IconButton>
+                                    </Stack>
+                                ))}
+                                <IconButton onClick={handleAddTime}>
+                                    <AddCircleOutline /> {/* Add another time */}
+                                </IconButton>
+                            </Stack>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialog} color="primary">
+                                ยกเลิก
+                            </Button>
+                            <Button onClick={handleAddSection} color="primary">
+                                เพิ่ม
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
 
-            </Stack>
-            <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
-                <Button variant="contained" onClick={handleUpdate}>
-                    ยืนยันการแก้ไข
-                </Button>
-            </Stack>
+                </Stack>
+                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
+                    <Button variant="contained" onClick={handleUpdate}>
+                        ยืนยันการแก้ไข
+                    </Button>
+                </Stack>
+            </Box>
         </div >
     );
 }

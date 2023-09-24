@@ -65,7 +65,7 @@ export default function ManageSubject() {
   };
 
   const goEditSubject = (id) => {
-    navigate(`/edit-subject/${id}`);
+    navigate(`/update-subject/${id}`);
   };
 
   return (

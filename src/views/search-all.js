@@ -83,7 +83,7 @@ export default function SearchAll() {
                 ]} />
 
             <main>
-                <Box sx={{bgcolor: 'background.paper', pt: 2, pb: 6, }} >
+                <Box sx={{ bgcolor: 'background.paper', pt: 2, pb: 6, }} >
                     <Container maxWidth="sm">
                         <Typography
                             component="h1"
@@ -213,7 +213,7 @@ export default function SearchAll() {
                                 >
                                     <TableCell align="center" >
                                         <Button
-                                        onClick={handleSubjectById}
+                                            onClick={handleSubjectById}
                                             variant="contained"
                                             size="small"
                                             sx={{

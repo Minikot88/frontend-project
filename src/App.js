@@ -29,7 +29,6 @@ import AccountMenu from "./components/account-menu";
 import MenuIcon from "./components/menu";
 
 //admin
-import AddSubjectPage from "./admin/subject/add-subject";
 import EditSubjectPage from "./admin/subject/edit-subject";
 import ManageSubject from "./admin/subject/manage-subject";
 import ViewUserTable from "./admin/view/view-userTable";
@@ -82,7 +81,6 @@ function App() {
         <Route path="/menu" element={<MenuIcon />} />
 
         //addmin
-        <Route path="/add-subject" element={<AddSubjectPage />} />
         <Route path="/edit-subject/:subject_id" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
         <Route path="/home.admin" element={<HomeAdmin />} />
