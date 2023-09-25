@@ -12,12 +12,23 @@ import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Paper from '@mui/material/Paper';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Modal from '@mui/material/Modal';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { DeteilUpdateSubject } from "./deteil-update-subject";
+import Menu from '@mui/material/Menu';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const theme = createTheme();
 
 export default function UpdateSubjectView() {
+
     const { subject_id } = useParams();
     const [subject, setSubject] = useState({});
+    const [section, setSection] = useState({});
     const [subjectSchedule, setSubjectSchedule] = useState();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,6 +40,16 @@ export default function UpdateSubjectView() {
         year: "",
         times: [],
     });
+    const handleClose = () => setOpen(false);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const openMenu = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -110,6 +131,27 @@ export default function UpdateSubjectView() {
         };
         getSubjectScheduleByID();
     }, [subject_id]);
+
+    useEffect(() => {
+        const getSectionByid = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSectionByid`)
+                if (response) {
+                    setSection(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getSectionByid()
+    }, [])
+
+    const sections = [
+        { subject_id: "Section 01" },
+        { subject_id: "Section 02" },
+        // Add more sections as needed
+    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -214,10 +256,8 @@ export default function UpdateSubjectView() {
 
     const handleAddSection = async () => {
         try {
-            // Get the next available section_id
             const nextSectionId = await getMaxSectionId();
 
-            // Update newSectionData with the section_id
             const updatedSectionData = {
                 ...newSectionData,
                 section_id: nextSectionId,
@@ -272,6 +312,48 @@ export default function UpdateSubjectView() {
         }
     };
 
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+
+    const StyledMenu = styled((props) => (
+        <Menu
+            elevation={0}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            {...props}
+        />
+    ))(({ theme }) => ({
+        '& .MuiPaper-root': {
+            borderRadius: 6,
+            marginTop: theme.spacing(1),
+            minWidth: 120,
+            color:
+                theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+            boxShadow:
+                'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+            '& .MuiMenu-list': {
+                padding: '4px 0',
+            },
+            '& .MuiMenuItem-root': {
+                '& .MuiSvgIcon-root': {
+                    fontSize: 18,
+                    color: theme.palette.text.secondary,
+                    marginRight: theme.spacing(1.5),
+                },
+            },
+        },
+    }));
 
     return (
         <div>
@@ -308,7 +390,7 @@ export default function UpdateSubjectView() {
                             </Grid>
                         </Grid>
                     </Card> */}
-                    <Card>
+                    <Card >
                         <CardHeader title="วิชา" />
                         <CardContent sx={{ pt: 0 }}>
                             <Box sx={{ m: -1.5 }}>
@@ -330,11 +412,11 @@ export default function UpdateSubjectView() {
                                     <Grid item xs={6} md={4}>
                                         <TextField
                                             fullWidth
-                                            name="subject_name"
+                                            name="subject_name_th"
                                             label="ชื่อวิชา"
                                             variant="outlined"
                                             required
-                                            value={subject?.subject_name}
+                                            value={subject?.subject_name_th}
                                             onChange={(e) => handleChange(e)}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -401,7 +483,115 @@ export default function UpdateSubjectView() {
                         </CardContent>
                     </Card>
 
+                    <Card sx={{ mt: '5px' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                            <CardHeader title="Section" />
+                            <Grid item>
+                                <IconButton
+                                    size="small"
+                                    variant="outlined"
+                                    onClick={handleAddSectionTime}
+                                    sx={{
+                                        color: "#1565c0",
+                                        "&:hover": {
+                                            bgcolor: "#bbdefb",
+                                        },
+                                    }}
+                                >
+                                    <AddCircleOutlineIcon fontSize="small" />
+                                </IconButton>
+                            </Grid>
+                        </Box>
+                        <CardContent sx={{ pt: 0 }}>
+                            <Box sx={{ m: -1.5 }}>
+                                <Grid container direction="row" spacing={2}>
+                                    {sections.map((section, index) => (
+                                        <Grid item xs={6} md={2} sm={4} key={index}>
+                                            <Button
+                                                variant="contained"
+                                                fullWidth
+                                                id="basic-button"
+                                                aria-controls={open ? 'basic-menu' : undefined}
+                                                aria-haspopup="true"
+                                                aria-expanded={open ? 'true' : undefined}
+                                                onClick={handleClick}
+                                                endIcon={<KeyboardArrowDownIcon />}
+                                            >
+                                                {section.subject_id}
+                                            </Button>
+                                            <StyledMenu
+                                                anchorEl={anchorEl}
+                                                open={openMenu}
+                                                onClose={handleCloseMenu}
+                                                MenuListProps={{
+                                                    'aria-labelledby': 'demo-customized-button',
+                                                }}
+                                            >
+                                                <MenuItem
+                                                    onClick={handleCloseMenu}
+
+                                                >
+                                                    <DeleteIcon />
+                                                    ลบ
+                                                </MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        handleCloseMenu();
+                                                        handleAddSectionTime();
+                                                    }}>
+                                                    <EditIcon />
+                                                    แก้ไข
+                                                </MenuItem>
+                                            </StyledMenu>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Box>
+                        </CardContent>
+                    </Card>
+
+                    <Modal
+                        open={isDialogOpen}
+                    >
+                        <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '90%',
+                            bgcolor: 'background.paper',
+                            border: '2px solid #000',
+                            boxShadow: 24,
+                            p: 2,
+                        }}>
+                            <DeteilUpdateSubject />
+                            <Grid
+                                container
+                                spacing={2}
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{ mt: 2 }}
+                            >
+                                <Button
+                                    sx={{ marginRight: '10px', }}
+                                    onClick={handleCloseDialog}
+                                    variant="contained"
+                                >
+                                    ยกเลิก
+                                </Button>
+                                <Button
+                                    onClick={handleAddSection}
+                                    variant="contained"
+                                >
+                                    เพิ่ม
+                                </Button>
+                            </Grid>
+                        </Box>
+
+                    </Modal>
                 </Container>
+
+
 
                 <Stack justifyContent={"center"} alignItems={"center"} spacing={5} sx={{ p: 2 }}>
                     {subjectSchedule?.map((items, index) => (
@@ -485,15 +675,21 @@ export default function UpdateSubjectView() {
                         </Stack>
                     ))}
 
-                    <Stack justifyContent="center" alignItems="center">
-                        <IconButton color="primary" onClick={handleAddSectionTime}>
-                            <AddCircleOutline /> {/* Add the icon */}
-                        </IconButton>
-                    </Stack>
+                    {/* <Stack justifyContent="center" alignItems="center">
+                        <Button
+                            color="secondary"
+                            size="small"
+                            variant="outlined"
+                            onClick={handleAddSectionTime}
+                            startIcon={<AddCircleOutline />}
+                        >
+                            Section
+                        </Button>
+                    </Stack> */}
 
-                    <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
+                    <Dialog onClose={handleCloseDialog}>
                         <DialogTitle>เพิ่ม Section</DialogTitle>
-                        <DialogContent>
+                        <DialogContent >
                             <Stack spacing={2}>
                                 {/* Form inputs for new section data */}
                                 <Stack direction={isMobile ? "column" : "row"} spacing={2}>
@@ -504,6 +700,15 @@ export default function UpdateSubjectView() {
                                     onChange={handleNewSectionChange}
                                     fullWidth
                                 /> */}
+                                    <Grid item xs={12} md={4}>
+                                        <TextField
+                                            fullWidth
+                                            name="section"
+                                            label="Section"
+                                            variant="outlined"
+                                            onChange={handleNewSectionChange}
+                                        />
+                                    </Grid>
                                     <TextField
                                         label="Section"
                                         name="section"
@@ -584,6 +789,7 @@ export default function UpdateSubjectView() {
                             </Button>
                         </DialogActions>
                     </Dialog>
+
 
                 </Stack>
                 <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>

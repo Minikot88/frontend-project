@@ -34,6 +34,7 @@ import ManageSubject from "./admin/subject/manage-subject";
 import ViewUserTable from "./admin/view/view-userTable";
 import { AddSubject } from "./admin/subject/add-Subjects";
 import HomeAdmin from "./admin/view/home.admin";
+import { DeteilUpdateSubject } from "./admin/subject/deteil-update-subject";
 
 
 import axios from "axios";
@@ -86,6 +87,7 @@ function App() {
         <Route path="/home.admin" element={<HomeAdmin />} />
         <Route path="/viewUser" element={<ViewUserTable />} />
         <Route path="/add-Subjects" element={<AddSubject />} />
+        <Route path="/deteil-update-subject" element={<DeteilUpdateSubject />} />
         
       </Routes>
     </BrowserRouter>
