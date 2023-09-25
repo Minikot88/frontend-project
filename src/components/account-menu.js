@@ -24,12 +24,13 @@ export default function AccountMenu() {
     const [user, setUser] = useState()
     const [login, setLogin] = React.useState(false)
     const token = localStorage.getItem('token')
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-        setOpen(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-        setOpen(false);
+        setAnchorEl(null);
     };
 
     React.useEffect(() => {
@@ -53,12 +54,6 @@ export default function AccountMenu() {
         navigate(`/`);
         window.location.reload()
     }
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const opens = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const handleClosesAccount = () => {
         setAnchorEl(null);
@@ -90,12 +85,12 @@ export default function AccountMenu() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ ml: 2 }}
-                        aria-controls={open ? 'account-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
+                         onClick={handleClick}
+                         size="small"
+                         sx={{ ml: 2 }}
+                         aria-controls={open ? 'account-menu' : undefined}
+                         aria-haspopup="true"
+                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar
                             variant="rounded"
@@ -108,24 +103,26 @@ export default function AccountMenu() {
             <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
-                open={opens}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
             >
-                <MenuItem onClick={handleClosesAccount}>
+                <MenuItem
+                    onClick={handleClosesAccount}>
                     <ListItemIcon>
                         <PermIdentityIcon fontSize="small" />
                     </ListItemIcon>
                     My account
                 </MenuItem>
                 <Divider />
-                <MenuItem >
+                {/* <MenuItem >
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
+                </MenuItem> */}
+                <MenuItem
+                    onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

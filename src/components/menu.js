@@ -8,7 +8,12 @@ import Logout from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 export default function MenuIcon() {
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -16,6 +21,28 @@ export default function MenuIcon() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const navigate = useNavigate();
+    const [user, setUser] = useState();
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_SERVER}/deleteUser?user_id=${id}`
+            );
+            if (response) {
+                setUser(response?.data)
+                alert(`Data deleted successfully`);
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const goEditSubject = (id) => {
+        navigate(`/update-subject/${id}`);
     };
 
     return (
@@ -39,13 +66,13 @@ export default function MenuIcon() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => handleDelete(user?.user_id)}  >
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>
                     ลบ
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => goEditSubject(user?.user_id)}>
                     <ListItemIcon>
                         <AutoFixHighIcon fontSize="small" />
                     </ListItemIcon>

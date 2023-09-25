@@ -308,7 +308,7 @@ export default function ManageSubject() {
                       <Button
                         variant="contained"
                         startIcon={<ContentPasteSearchIcon />}
-                        href="/detail-subjectadmin"
+                        href="/details-subject/:id"
                         sx={{
                           width: 130,
                           bgcolor: "#0468BF",

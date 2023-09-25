@@ -35,7 +35,7 @@ export default function CreateTable() {
     useEffect(() => {
         const getAllSubjects = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getsubjecttable`)
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/subject`)
                 if (response) {
                     setSubject(response?.data)
                     console.log(response?.data)
@@ -49,7 +49,7 @@ export default function CreateTable() {
 
     return (
         <ThemeProvider theme={theme}>
-           
+
             <BreadcrumbsPage
                 pages={[
                     { title: "สร้างตารางเรียน" }
@@ -64,7 +64,6 @@ export default function CreateTable() {
                         },
                         pt: 1,
                         pb: 3,
-
                     }}
                 >
                     <Container maxWidth="sm">
@@ -97,26 +96,11 @@ export default function CreateTable() {
                         aria-label="a dense table" >
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}
-                                >
-                                    รหัสวิชา
-                                </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}
-                                >
-                                    ชื่อวิชา
-                                </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}
-                                >
-                                    Subject name
-                                </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}
-                                >
-                                    ตอน
-                                </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}
-                                >
-                                    หน่วยกิต
-                                </TableCell>
+                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> รหัสวิชา </TableCell>
+                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> ชื่อวิชา </TableCell>
+                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> Subject name </TableCell>
+                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> ตอน</TableCell>
+                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> หน่วยกิต  </TableCell>
                                 <TableCell align="center" > </TableCell>
                             </TableRow>
                         </TableHead>
@@ -170,6 +154,7 @@ export default function CreateTable() {
                     Add
                 </Button>
                 <Button
+                    href="/selected-subjects-view"
                     variant="outlined"
                     sx={{
                         boxShadow: 3,

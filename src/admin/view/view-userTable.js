@@ -82,7 +82,7 @@ export default function ViewUserTable() {
           `${process.env.REACT_APP_API_SERVER}/getViewUser`
         );
         if (response) {
-          setUsers(response?.data); 
+          setUsers(response?.data);
           console.log(response?.data);
         }
       } catch (err) {
@@ -117,7 +117,7 @@ export default function ViewUserTable() {
           >
             รายชื่อผู้ใช้
           </Typography>
-          <div style={{ height: 500, width: '100%' }}>
+          <div style={{ width: '100%' }}>
             <DataGrid
               rows={users}
               columns={columns}
@@ -127,8 +127,7 @@ export default function ViewUserTable() {
                   paginationModel: { page: 0, pageSize: 5 },
                 },
               }}
-              pageSizeOptions={[5, 10]}
-            // checkboxSelection
+              pageSizeOptions={[5, 10, 15, 20]}
             />
           </div>
         </Container>
