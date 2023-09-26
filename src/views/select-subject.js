@@ -29,23 +29,42 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 const theme = createTheme();
 
 export default function SelectSubject() {
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate()
-    const [subject, setSubject] = useState()
+    const [subjects, setSubject] = useState()
+    const [subject, setSubjects] = useState()
     const [login, setLogin] = React.useState(false)
     const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        const getSubjectbyID = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
+                })
+                if (response) {
+                    setSubject(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getSubjectbyID()
+    }, [])
 
     useEffect(() => {
         const GetSubjectbyID = async () => {
             try {
                 const token = await localStorage.getItem('token')
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSubject-Byid?subject_id=${id}`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
                 if (response) {
-                    setSubject(response?.data[0])
+                    setSubjects(response?.data[0])
+                    console.log(response?.data[0])
                 }
             } catch (err) {
                 console.error(err)
@@ -79,22 +98,22 @@ export default function SelectSubject() {
                             <div className="detail-sudject">
                                 <DetailsCard
                                     title={'รหัสวิชา'}
-                                    description={'name'}
+                                    description={subject?.subject_id}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาไทย'}
-                                    description={'คณิตศาสตร์'}
+                                    description={subject?.subject_name_th}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
                                 <DetailsCard
                                     title={'หน่วยกิต'}
-                                    description={'3'}
+                                    description={subject?.credit}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
                                 <DetailsCard
                                     title={'ชื่อวิชาภาษาอังกฤษ'}
-                                    description={'Math'}
+                                    description={subject?.subject_name_eng}
                                     rootClassName="rootClassName1">
                                 </DetailsCard>
                             </div>
@@ -103,35 +122,38 @@ export default function SelectSubject() {
                 </Box>
             </main>
             <TableContainer component={Paper}>
-
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center"> เลือก </TableCell>
                             <TableCell align="center"> ตอน </TableCell>
-                            <TableCell align="center"> จำนวนการรับ </TableCell>
-                            <TableCell align="center"> วันเวลา </TableCell>
+                            <TableCell align="center"> วัน</TableCell>
+                            <TableCell align="center"> เวลาเริ่ม </TableCell>
+                            <TableCell align="center"> หมดเริ่ม </TableCell>
                             <TableCell align="center"> ห้องเรียน </TableCell>
                         </TableRow>
                     </TableHead>
-
                     <TableBody>
-                      
-                            <TableRow
-                               
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center" >
-                                    <Button href="/create-table" > <AddCircleIcon /> </Button>
-                                </TableCell>
-                                <TableCell align="center" component="th" scope="row"> {subject?.credit} </TableCell>
-                                <TableCell align="center"> {subject?.subject_id} </TableCell>
-                                <TableCell align="center"> {subject?.subject_id} </TableCell>
-                                <TableCell align="center"> {subject?.subject_id} </TableCell>
-                                <TableCell align="center"> {subject?.subject_id} </TableCell>
+                        {subjects && subjects.length > 0 ? (
+                            subjects.map((row, index) => (
+                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} key={index}>
+                                    <TableCell align="center">
+                                        <Button href="/create-table"> <AddCircleIcon /> </Button>
+                                    </TableCell>
+                                    <TableCell align="center"> {row?.section} </TableCell>
+                                    <TableCell align="center"> {row?.date} </TableCell>
+                                    <TableCell align="center"> {row?.start_time} </TableCell>
+                                    <TableCell align="center"> {row?.end_time} </TableCell>
+                                    <TableCell align="center"> {row?.classroom} </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6} align="center">No data available</TableCell>
                             </TableRow>
-                      
+                        )}
                     </TableBody>
+
 
                 </Table>
             </TableContainer>

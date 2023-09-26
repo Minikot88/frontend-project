@@ -8,13 +8,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import MenuIcon from '../../components/menu';
-
+import Button from "@mui/material/Button";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import BreadcrumbsPage from '../../components/BreadcrumbsPage';
+import BasicSpeedDial from '../../components/speedDial';
 
 
 const columns = [
@@ -108,6 +111,17 @@ export default function ViewUserTable() {
         }}
       >
         <Container maxWidth="lg">
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="flex-end"
+            marginRight={2}
+          >
+            
+            <BasicSpeedDial></BasicSpeedDial>
+            
+          </Stack>
+
           <Typography
             component="h1"
             variant="h4"
