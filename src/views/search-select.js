@@ -41,6 +41,16 @@ export default function SearchSelect() {
     };
     getAllSubjects();
   }, []);
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredCards = subject?.filter((item) =>
+    item?.subject_name_th.includes(searchQuery) ||
+    item?.subject_name_eng?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+    item?.subject_id.includes(searchQuery)
+  );
+
+
   return (
     <ThemeProvider theme={theme}>
       <BreadcrumbsPage
@@ -96,73 +106,13 @@ export default function SearchSelect() {
                   }}
                 >
                   <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="รหัสวิชา"
-                    inputProps={{ "aria-label": "search" }}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    sx={{ ml: 1, flex: 1, }}
+                    placeholder="ค้นหา"
+                    inputProps={{ 'aria-label': 'search' }}
                   />
                 </Paper>
-              </Grid>
-            </Box>
-            <Box
-              component="form"
-              noValidate
-              sx={{
-                mt: 0.5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <Paper
-                  component="form"
-                  sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "300px",
-                    height: "33px",
-                    bgcolor: "#FFFFFF",
-                    border: "0.8px solid #252525",
-                    "&:hover": {
-                      bgcolor: "#eeeeee",
-                    },
-                  }}
-                >
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="ชื่อวิชา"
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </Paper>
-              </Grid>
-            </Box>
-            <Box
-              component="form"
-              noValidate
-              sx={{
-                mt: 1.5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    bgcolor: "#FFFFFF",
-                    color: "#212121",
-                    border: "0.8px solid #049DD9",
-                    "&:hover": {
-                      bgcolor: "#BBE2F2",
-                    },
-                  }}
-                >
-                  ค้นหา
-                </Button>
               </Grid>
             </Box>
           </Container>
@@ -181,7 +131,7 @@ export default function SearchSelect() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {subject?.map((row) => (
+              {filteredCards?.map((row) => (
                 <TableRow
                   key={row?.Subject_id}
                   sx={{

@@ -150,6 +150,7 @@ export const AddSubject = () => {
   
       if (response?.status === 200) {
         alert("Adding successfully");
+        window.location.reload();
       }
     } catch (err) {
       console.error(err);

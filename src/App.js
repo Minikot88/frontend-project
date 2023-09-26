@@ -37,6 +37,7 @@ import HomeAdmin from "./admin/view/home.admin";
 import { DeteilUpdateSubject } from "./admin/subject/deteil-update-subject";
 import AddUser from "./admin/view/addUser";
 import AddAdmin from "./admin/view/addAdmin";
+import { UpdateAccount } from "./admin/view/update-account";
 
 
 import axios from "axios";
@@ -92,6 +93,7 @@ function App() {
         <Route path="/deteil-update-subject" element={<DeteilUpdateSubject />} />
         <Route path="/addUser" element={<AddUser />} />
         <Route path="/addAdmin" element={<AddAdmin />} />
+        <Route path="/update-account/:id" element={<UpdateAccount />} />
         
       </Routes>
     </BrowserRouter>

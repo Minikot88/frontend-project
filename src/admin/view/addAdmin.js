@@ -38,9 +38,9 @@ export default function AddAdmin() {
                 alert('Your password is not match.');
                 return;
             } else {
-                const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
+                const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/registerAdmin`, user);
                 if (response) {
-                    alert('สมัครสมาชิกสำเร็จ : Successfully applied for membership');
+                    alert('เพิ่มผู้ดูแลระบบสำเร็จ : Successfully applied for membership');
                     navigate(`/`);
                     window.location.reload();
                 }
@@ -53,12 +53,14 @@ export default function AddAdmin() {
 
     return (
         <ThemeProvider theme={theme}>
-            {/* <BreadcrumbsPage
-        pages={[
-          { title: "Sign up" },
-        ]} /> */}
-          <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-                <Card sx={{bgcolor:'#bdbdbd', alignItems: 'center' }}>
+            <BreadcrumbsPage
+                pages={[
+                    { title: "รายชื่อผู้ใช้", path: `/viewUser` },
+                    { title: "เพิ่มผู้ดูแลระบบ" },
+                ]}
+            />
+            <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                <Card sx={{ bgcolor: '#49BF9E', alignItems: 'center' }}>
                     <Container maxWidth="xs">
                         <Box
                             sx={{
@@ -68,33 +70,11 @@ export default function AddAdmin() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                sx={{
-                                    marginTop: 2,
-                                }} >
+                            <Typography variant="h6" sx={{ marginTop: 1, }} >
                                 Add Admin
                             </Typography>
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2, mb: 5, }}>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12}>
-                                        <TextField
-                                            required
-                                            fullWidth
-                                            name="user_id"
-                                            label="Student ID"
-                                            autoFocus
-                                            value={item ? item?.user_id : ""}
-                                            onChange={(e) => {
-                                                handleInputChange(e);
-                                                setItem({
-                                                    ...item,
-                                                    user_id: e.target.value,
-                                                });
-                                            }}
-                                        />
-                                    </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             required
@@ -127,7 +107,7 @@ export default function AddAdmin() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -144,7 +124,24 @@ export default function AddAdmin() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            name="user_id"
+                                            label="Telephone Number"
+                                            autoFocus
+                                            value={item ? item?.user_id : ""}
+                                            onChange={(e) => {
+                                                handleInputChange(e);
+                                                setItem({
+                                                    ...item,
+                                                    user_id: e.target.value,
+                                                });
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -160,7 +157,7 @@ export default function AddAdmin() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -177,7 +174,7 @@ export default function AddAdmin() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -188,28 +185,26 @@ export default function AddAdmin() {
                                     </Grid>
                                     <Grid item xs={12} sx={{ mb: '8px' }}></Grid>
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={12}>
                                     <Button
                                         type="submit"
                                         fullWidth
                                         variant="contained"
                                         sx={{
-                                            bgcolor: '#0487D9',
+                                            bgcolor: '#020D0C',
                                             color: '#FFFFFF',
                                             '&:hover': {
-                                                bgcolor: '#0468BF',
+                                                bgcolor: '#205B73',
                                             },
                                         }}
                                         disabled={
-                                            item?.user_id === undefined ||
                                             item?.fname === undefined ||
                                             item?.lname === undefined ||
                                             item?.username === undefined ||
                                             item?.password === undefined
                                         }
-
                                     >
-                                        Sign Up
+                                        Add admin
                                     </Button>
                                 </Grid>
                             </Box>

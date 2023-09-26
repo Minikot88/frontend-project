@@ -40,7 +40,7 @@ export default function AddUser() {
             } else {
                 const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
                 if (response) {
-                    alert('สมัครสมาชิกสำเร็จ : Successfully applied for membership');
+                    alert('เพิ่มผู้ใช้สำเร็จ : Successfully applied for membership');
                     navigate(`/`);
                     window.location.reload();
                 }
@@ -50,15 +50,16 @@ export default function AddUser() {
         }
     };
 
-
     return (
         <ThemeProvider theme={theme}>
-            {/* <BreadcrumbsPage
-        pages={[
-          { title: "Sign up" },
-        ]} /> */}
-          <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-                <Card sx={{bgcolor:'#bdbdbd', alignItems: 'center' }}>
+            <BreadcrumbsPage
+                pages={[
+                    { title: "รายชื่อผู้ใช้", path: `/viewUser` },
+                    { title: "เพิ่มผู้ใช้" },
+                ]}
+            />
+            <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                <Card sx={{ bgcolor: '#BDE3F2', alignItems: 'center' }}>
                     <Container maxWidth="xs">
                         <Box
                             sx={{
@@ -68,12 +69,7 @@ export default function AddUser() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                sx={{
-                                    marginTop: 2,
-                                }} >
+                            <Typography variant="h6" sx={{ marginTop: 1, }} >
                                 Add User
                             </Typography>
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2, mb: 5, }}>
@@ -127,7 +123,7 @@ export default function AddUser() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -144,7 +140,7 @@ export default function AddUser() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -160,7 +156,7 @@ export default function AddUser() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -177,7 +173,7 @@ export default function AddUser() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} sm={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -194,10 +190,10 @@ export default function AddUser() {
                                         fullWidth
                                         variant="contained"
                                         sx={{
-                                            bgcolor: '#0487D9',
+                                            bgcolor: '#0D8BD9',
                                             color: '#FFFFFF',
                                             '&:hover': {
-                                                bgcolor: '#0468BF',
+                                                bgcolor: '#0FB2F2',
                                             },
                                         }}
                                         disabled={
@@ -207,9 +203,8 @@ export default function AddUser() {
                                             item?.username === undefined ||
                                             item?.password === undefined
                                         }
-
                                     >
-                                        Sign Up
+                                        add User
                                     </Button>
                                 </Grid>
                             </Box>

@@ -1,16 +1,11 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import MenuIcon from '../../components/menu';
-import Button from "@mui/material/Button";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +13,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import BreadcrumbsPage from '../../components/BreadcrumbsPage';
 import BasicSpeedDial from '../../components/speedDial';
-
 
 const columns = [
   {
@@ -67,7 +61,7 @@ const columns = [
     headerAlign: 'center',
     renderCell: (params) => (
       <IconButton aria-label="delete">
-        <MenuIcon />
+        <MenuIcon id={params.row?.user_id}/>
       </IconButton>
     ),
   },
@@ -99,17 +93,10 @@ export default function ViewUserTable() {
     <main>
       <BreadcrumbsPage
         pages={[
-          { title: "สร้างตารางเรียน", path: `/create-table` },
-          { title: "ค้นหารายวิชา" },
+          { title: "รายชื่อผู้ใช้" },
         ]}
       />
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          pt: 3,
-          pb: 4,
-        }}
-      >
+      <Box>
         <Container maxWidth="lg">
           <Stack
             direction="row"
@@ -117,11 +104,8 @@ export default function ViewUserTable() {
             justifyContent="flex-end"
             marginRight={2}
           >
-            
             <BasicSpeedDial></BasicSpeedDial>
-            
           </Stack>
-
           <Typography
             component="h1"
             variant="h4"
@@ -135,7 +119,7 @@ export default function ViewUserTable() {
             <DataGrid
               rows={users}
               columns={columns}
-              getRowId={(row) => row.user_id}
+              getRowId={(row) => row?.user_id}
               initialState={{
                 pagination: {
                   paginationModel: { page: 0, pageSize: 5 },

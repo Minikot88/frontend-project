@@ -68,6 +68,14 @@ export default function ManageSubject() {
     navigate(`/update-subject/${id}`);
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredCards = subjects?.filter((item) =>
+    item?.subject_name_th.includes(searchQuery) ||
+    item?.subject_name_eng?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+    item?.subject_id.includes(searchQuery)
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <BreadcrumbsPage pages={[{ title: "จัดการรายวิชา" }]} />
@@ -80,7 +88,6 @@ export default function ManageSubject() {
         >
           <Button
             variant="outlined"
-            //href="/add-subject"
             href="/add-Subjects"
             startIcon={<NoteAddIcon />}
             sx={{
@@ -143,73 +150,13 @@ export default function ManageSubject() {
                   }}
                 >
                   <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="รหัสวิชา"
-                    inputProps={{ "aria-label": "search" }}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    sx={{ ml: 1, flex: 1, }}
+                    placeholder="ค้นหา"
+                    inputProps={{ 'aria-label': 'search' }}
                   />
                 </Paper>
-              </Grid>
-            </Box>
-            <Box
-              component="form"
-              noValidate
-              sx={{
-                mt: 0.5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <Paper
-                  component="form"
-                  sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "300px",
-                    height: "33px",
-                    bgcolor: "#FFFFFF",
-                    border: "0.8px solid #252525",
-                    "&:hover": {
-                      bgcolor: "#eeeeee",
-                    },
-                  }}
-                >
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="ชื่อวิชา"
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </Paper>
-              </Grid>
-            </Box>
-            <Box
-              component="form"
-              noValidate
-              sx={{
-                mt: 1.5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    bgcolor: "#FFFFFF",
-                    color: "#212121",
-                    border: "0.8px solid #049DD9",
-                    "&:hover": {
-                      bgcolor: "#BBE2F2",
-                    },
-                  }}
-                >
-                  ค้นหา
-                </Button>
               </Grid>
             </Box>
           </Container>
@@ -257,6 +204,19 @@ export default function ManageSubject() {
                   sx={{
                     width: 120,
                     bgcolor: "#0468BF",
+                    color: "#FFFFFF",
+                    "&:hover": {
+                      bgcolor: "#0487D9",
+                    },
+                  }}
+                >
+                  subject name
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    width: 120,
+                    bgcolor: "#0468BF",
                   }}
                 ></TableCell>
                 <TableCell
@@ -277,8 +237,8 @@ export default function ManageSubject() {
             </TableHead>
 
             <TableBody>
-              {subjects &&
-                subjects.map((row, index) => (
+              {filteredCards &&
+                filteredCards.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -304,6 +264,7 @@ export default function ManageSubject() {
                       </Button>
                     </TableCell>
                     <TableCell align="center">{row.subject_name_th}</TableCell>
+                    <TableCell align="center">{row.subject_name_eng}</TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"

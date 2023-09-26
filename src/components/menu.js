@@ -12,7 +12,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function MenuIcon() {
+export default function MenuIcon(props) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -24,15 +24,12 @@ export default function MenuIcon() {
     };
 
     const navigate = useNavigate();
-    const [user, setUser] = useState();
 
     const handleDelete = async (id) => {
         try {
             const response = await axios.delete(
-                `${process.env.REACT_APP_API_SERVER}/deleteUser?user_id=${id}`
-            );
+                `${process.env.REACT_APP_API_SERVER}/deleteUser?user_id=${id}`);
             if (response) {
-                setUser(response?.data)
                 alert(`Data deleted successfully`);
                 window.location.reload();
             }
@@ -42,7 +39,7 @@ export default function MenuIcon() {
     };
 
     const goEditSubject = (id) => {
-        navigate(`/update-subject/${id}`);
+        navigate(`/update-account/${id}`);
     };
 
     return (
@@ -66,13 +63,13 @@ export default function MenuIcon() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => handleDelete(user?.user_id)}  >
+                <MenuItem onClick={() => handleDelete(props?.id)}  >
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>
                     ลบ
                 </MenuItem>
-                <MenuItem onClick={() => goEditSubject(user?.user_id)}>
+                <MenuItem onClick={() => goEditSubject(props?.id)}>
                     <ListItemIcon>
                         <AutoFixHighIcon fontSize="small" />
                     </ListItemIcon>

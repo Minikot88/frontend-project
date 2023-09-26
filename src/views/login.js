@@ -23,29 +23,34 @@ export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         // navigate(-1)
-    //     }
-    // }, [])
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/signIn`, {
                 username: username,
                 password: password
-            });
-            console.log(response?.statusText);
-            console.log(password)
-
+            })
             if (response.status === 200 && response.statusText === "success") {
                 alert("เข้าสู่ระบบสำเร็จ");
                 console.log(response.data);
-                localStorage.setItem('token', response.data);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-                navigate(`/home-member`);
-                window.location.reload();
+
+                const token = response.data
+                const data = await axios.get(process.env.REACT_APP_API_SERVER + '/getAccountByID', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                if (data.data[0].status === 1) {
+                    localStorage.setItem('token', token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    navigate(`/home.admin`)
+                    window.location.reload();
+                } else {
+                    localStorage.setItem('token', token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    navigate(`/home-member`)
+                    window.location.reload();
+                }
             } else if (response.status === 200 && response.statusText === "The username or password is incorrect.") {
                 alert("The username or password is incorrect.");
                 window.location.reload();
@@ -54,6 +59,7 @@ export default function Login() {
             }
         } catch (err) {
             console.error(err);
+            alert('The username or password is incorrect.');
         }
     };
 
@@ -79,7 +85,6 @@ export default function Login() {
 
                         Log In
                     </Typography>
-
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
@@ -104,7 +109,6 @@ export default function Login() {
                             autoComplete="current-Password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
-
                         <Button
                             type="submit"
                             fullWidth
@@ -120,20 +124,12 @@ export default function Login() {
                         >
                             LOG IN
                         </Button>
-
                         <Grid container>
-                            {/* <Grid item xs sx={{m:1}}>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid> */}
-
-                            <Grid item xs sx={{m:1}}>
+                            <Grid item xs sx={{ m: 1 }}>
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
-
                         </Grid>
                     </Box>
                 </Box>
