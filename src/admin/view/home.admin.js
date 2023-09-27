@@ -64,7 +64,7 @@ export default function HomeAdmin() {
                                 startIcon={<SearchIcon />}
                                 variant="contained"
                                 size="large"
-                                href="/create-table"
+                                href="/search-all"
                                 sx={{
                                     width: '200px',
                                     bgcolor: '#0468BF',

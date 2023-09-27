@@ -12,10 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import Photo from '../image/table.png'
 import Login from '../views/login';
 import AccountMenu from './account-menu';
+import axios from 'axios';
 
 export default function Appbar() {
     const navigate = useNavigate()
     const [login, setLogin] = React.useState(false)
+    const [user, setUser] = React.useState({})
     const token = localStorage.getItem('token')
 
     const style = {
@@ -31,6 +33,7 @@ export default function Appbar() {
         px: 2,
         pb: 1,
     };
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -54,13 +57,28 @@ export default function Appbar() {
         })
     }, [])
 
-    const handleLogout = () => {
-        localStorage.clear()
-        alert('คุณออกจากระบบแล้ว')
-        setLogin(false);
-        navigate(`/`);
-        window.location.reload()
-    }
+    React.useEffect(() => {
+        const getAccountByID = async () => {
+            try {
+                const token = await localStorage.getItem("token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response) {
+                    setUser(response?.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getAccountByID();
+    }, []);
+
     return (
         <AppBar position="static"
             sx={{
@@ -94,6 +112,24 @@ export default function Appbar() {
                         >
                             ระบบจัดตารางเรียน
                         </Typography >
+                    ) : login && user?.status === 1 ? (
+                        <Typography variant="h6"
+                            noWrap
+                            component="a"
+                            href="/home.admin"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: '#ffffff',
+                                textDecoration: 'none',
+                                marginLeft: 1,
+                            }}
+                        >
+                            ระบบจัดตารางเรียน
+                        </Typography>
                     ) : (
                         <Typography variant="h6"
                             noWrap

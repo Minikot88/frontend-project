@@ -6,6 +6,7 @@ import { Link as RouterLink, useLocation } from "react-router-dom"
 import { Grid, Typography } from "@mui/material"
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 {/* <BreadcrumbLayout
 pages={[
@@ -19,6 +20,7 @@ const BreadcrumbsPage = ({ pages }) => {
 
   const navigate = useNavigate()
   const [login, setLogin] = React.useState(false)
+  const [user, setUser] = React.useState({})
   const token = localStorage.getItem('token')
 
   const style = {
@@ -57,13 +59,28 @@ const BreadcrumbsPage = ({ pages }) => {
     })
   }, [])
 
-  const handleLogout = () => {
-    localStorage.clear()
-    alert('คุณออกจากระบบแล้ว')
-    setLogin(false);
-    navigate(`/`);
-    window.location.reload()
-  }
+  React.useEffect(() => {
+    const getAccountByID = async () => {
+      try {
+        const token = await localStorage.getItem("token");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          setUser(response?.data[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getAccountByID();
+  }, []);
+
 
   return (
     <Grid container spacing={2} py={2} px={4}>
@@ -94,8 +111,18 @@ const BreadcrumbsPage = ({ pages }) => {
             >
               หน้าหลัก
             </Link>
+          ) : login && user?.status === 1 ? (
+            <Link key={"home"} to={"/home.admin"}
+              component={RouterLink}
+              underline="hover"
+              style={{
+                color: "#b2102f",
+              }}
+            >
+              หน้าหลัก
+            </Link>
           ) : (
-            <Link key={"home"} to={"/home-member"}
+            <Link key={"home"} to={"/home.admin"}
               component={RouterLink}
               underline="hover"
               style={{

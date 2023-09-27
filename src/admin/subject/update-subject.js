@@ -21,6 +21,7 @@ import Menu from '@mui/material/Menu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
 
@@ -28,7 +29,7 @@ export default function UpdateSubjectView() {
 
     const { subject_id } = useParams();
     const [subject, setSubject] = useState({});
-    const [section, setSection] = useState({});
+    const [section, setSection] = useState([]);
     const [subjectSchedule, setSubjectSchedule] = useState();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -135,7 +136,7 @@ export default function UpdateSubjectView() {
     useEffect(() => {
         const getSectionByid = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSectionByid`)
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSectionByid?subject_id=${subject_id}`)
                 if (response) {
                     setSection(response?.data)
                     console.log(response?.data)
@@ -147,11 +148,6 @@ export default function UpdateSubjectView() {
         getSectionByid()
     }, [])
 
-    const sections = [
-        { subject_id: "Section 01" },
-        { subject_id: "Section 02" },
-        // Add more sections as needed
-    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -371,25 +367,6 @@ export default function UpdateSubjectView() {
                 </Stack>
 
                 <Container maxWidth="lg">
-                    {/* <Card>
-                        <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ p: 2 }}>
-                            <Grid item xs={12} sm={6} md={2}>
-                                {renderTextField("รหัสวิชา", "subject_id")}
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={2}>
-                                {renderTextField("ชื่อวิชา", "subject_name_th")}
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={2}>
-                                {renderTextField("ชื่อวิชาภาษาอังกฤษ", "subject_name_eng")}
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={2}>
-                                {renderTextField("หน่วยกิต", "credit")}
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={2}>
-                                {renderTextField("ประเภท", "category")}
-                            </Grid>
-                        </Grid>
-                    </Card> */}
                     <Card >
                         <CardHeader title="วิชา" />
                         <CardContent sx={{ pt: 0 }}>
@@ -406,7 +383,6 @@ export default function UpdateSubjectView() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-
                                         />
                                     </Grid>
                                     <Grid item xs={6} md={4}>
@@ -505,7 +481,7 @@ export default function UpdateSubjectView() {
                         <CardContent sx={{ pt: 0 }}>
                             <Box sx={{ m: -1.5 }}>
                                 <Grid container direction="row" spacing={2}>
-                                    {sections.map((section, index) => (
+                                    {section?.map((section, index) => (
                                         <Grid item xs={6} md={2} sm={4} key={index}>
                                             <Button
                                                 variant="contained"
@@ -517,7 +493,7 @@ export default function UpdateSubjectView() {
                                                 onClick={handleClick}
                                                 endIcon={<KeyboardArrowDownIcon />}
                                             >
-                                                {section.subject_id}
+                                                seection {section.section}
                                             </Button>
                                             <StyledMenu
                                                 anchorEl={anchorEl}
@@ -550,9 +526,7 @@ export default function UpdateSubjectView() {
                         </CardContent>
                     </Card>
 
-                    <Modal
-                        open={isDialogOpen}
-                    >
+                    <Modal open={isDialogOpen} >
                         <Box sx={{
                             position: 'absolute',
                             top: '50%',
@@ -564,30 +538,29 @@ export default function UpdateSubjectView() {
                             boxShadow: 24,
                             p: 2,
                         }}>
-                            <DeteilUpdateSubject />
                             <Grid
                                 container
                                 spacing={2}
-                                justifyContent="center"
+                                justifyContent="flex-end"
                                 alignItems="center"
-                                sx={{ mt: 2 }}
                             >
-                                <Button
-                                    sx={{ marginRight: '10px', }}
+                                <IconButton aria-label="delete" size="small"
+                                    sx={{
+                                        color: '#000000',
+                                         bgcolor: '#0487D9',
+                                    '&:hover': {
+                                            bgcolor: '#d50000',
+                                            color: '#FFFFFF',
+                                        },
+                                    }}
                                     onClick={handleCloseDialog}
                                     variant="contained"
                                 >
-                                    ยกเลิก
-                                </Button>
-                                <Button
-                                    onClick={handleAddSection}
-                                    variant="contained"
-                                >
-                                    เพิ่ม
-                                </Button>
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
                             </Grid>
+                            <DeteilUpdateSubject />
                         </Box>
-
                     </Modal>
                 </Container>
 
@@ -597,14 +570,14 @@ export default function UpdateSubjectView() {
                     {subjectSchedule?.map((items, index) => (
                         <Stack key={index} spacing={2}>
                             <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                                {/* <TextField
-                                label="section_id"
-                                name="section_id"
-                                value={items?.section_id}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "section_id", e.target.value)
-                                }
-                            /> */}
+                                <TextField
+                                    label="section_id"
+                                    name="section_id"
+                                    value={items?.section_id}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "section_id", e.target.value)
+                                    }
+                                />
                                 <TextField
                                     label="section"
                                     name="section"
@@ -630,16 +603,15 @@ export default function UpdateSubjectView() {
                                     }
                                 />
                             </Stack>
-
                             <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                                {/* <TextField
-                                label="time_id"
-                                name="time_id"
-                                value={items?.time_id}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "time_id", e.target.value)
-                                }
-                            /> */}
+                                <TextField
+                                    label="time_id"
+                                    name="time_id"
+                                    value={items?.time_id}
+                                    onChange={(e) =>
+                                        handleInputSectionChange(index, "time_id", e.target.value)
+                                    }
+                                />
                                 <TextField
                                     label="classroom"
                                     name="classroom"
@@ -675,7 +647,7 @@ export default function UpdateSubjectView() {
                         </Stack>
                     ))}
 
-                    {/* <Stack justifyContent="center" alignItems="center">
+                    <Stack justifyContent="center" alignItems="center">
                         <Button
                             color="secondary"
                             size="small"
@@ -685,7 +657,7 @@ export default function UpdateSubjectView() {
                         >
                             Section
                         </Button>
-                    </Stack> */}
+                    </Stack>
 
                     <Dialog onClose={handleCloseDialog}>
                         <DialogTitle>เพิ่ม Section</DialogTitle>
@@ -693,13 +665,13 @@ export default function UpdateSubjectView() {
                             <Stack spacing={2}>
                                 {/* Form inputs for new section data */}
                                 <Stack direction={isMobile ? "column" : "row"} spacing={2}>
-                                    {/* <TextField
-                                    label="Section ID"
-                                    name="section_id"
-                                    value={newSectionData.section_id}
-                                    onChange={handleNewSectionChange}
-                                    fullWidth
-                                /> */}
+                                    <TextField
+                                        label="Section ID"
+                                        name="section_id"
+                                        value={newSectionData.section_id}
+                                        onChange={handleNewSectionChange}
+                                        fullWidth
+                                    />
                                     <Grid item xs={12} md={4}>
                                         <TextField
                                             fullWidth
@@ -731,17 +703,17 @@ export default function UpdateSubjectView() {
                                         fullWidth
                                     />
                                 </Stack>
-                                {/* Times */}
 
+                                {/* Times */}
                                 {newSectionData.times?.map((time, index) => (
                                     <Stack direction={isMobile ? "column" : "row"} spacing={2} key={index}>
-                                        {/* <TextField
-                                        label="Time ID"
-                                        name="time_id"
-                                        value={time.time_id}
-                                        onChange={(e) => handleTimeChange(index, e)}
-                                        fullWidth
-                                    /> */}
+                                        <TextField
+                                            label="Time ID"
+                                            name="time_id"
+                                            value={time.time_id}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                            fullWidth
+                                        />
                                         <TextField
                                             label="Classroom"
                                             name="classroom"
@@ -790,8 +762,10 @@ export default function UpdateSubjectView() {
                         </DialogActions>
                     </Dialog>
 
-
                 </Stack>
+
+
+
                 <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
                     <Button variant="contained" onClick={handleUpdate}>
                         ยืนยันการแก้ไข

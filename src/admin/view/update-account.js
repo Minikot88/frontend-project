@@ -71,9 +71,9 @@ export const UpdateAccount = () => {
 
   return (
     <form>
-      <Container maxWidth="md" sx={{mt:'20px'}}>
+      <Container maxWidth="md" sx={{ mt: '20px' }}>
         <Card>
-          <CardHeader title="โปรไฟล์" />
+          <CardHeader title={`User`} />
           <CardContent sx={{ pt: 0 }}>
             <Box sx={{ m: -1.5 }}>
               <Grid container spacing={2}>
@@ -83,6 +83,7 @@ export const UpdateAccount = () => {
                     label="รหัสนักศึกษา"
                     name="user_id"
                     required
+                    onChange={(e) => handleInput(e)}
                     value={user?.user_id}
                     InputLabelProps={{
                       shrink: true,
