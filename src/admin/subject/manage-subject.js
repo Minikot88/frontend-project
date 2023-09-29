@@ -250,7 +250,6 @@ export default function ManageSubject() {
                   >
                     <TableCell align="center">
                       <Button
-                        variant="contained"
                         sx={{
                           width: 90,
                           bgcolor: "#0468BF",
@@ -269,7 +268,9 @@ export default function ManageSubject() {
                       <Button
                         variant="contained"
                         startIcon={<ContentPasteSearchIcon />}
-                        href="/details-subject/:id"
+                        onClick={() =>
+                          navigate(`/details-subject/${row?.subject_id}`)
+                        }
                         sx={{
                           width: 130,
                           bgcolor: "#0468BF",

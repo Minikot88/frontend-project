@@ -158,20 +158,34 @@ export default function ViewUserTable() {
               </Grid>
             </Box>
           </Container>
-          <Box sx={{marginTop: 2}}></Box>
+          <Box sx={{ marginTop: 2 }}></Box>
+
           <div style={{ width: '100%' }}>
-            <DataGrid
-              rows={filteredCards}
-              columns={columns}
-              getRowId={(row) => row?.user_id}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
-                },
-              }}
-              pageSizeOptions={[5, 10, 15, 20]}
-            />
+            {filteredCards.length === 0 ? (
+              <Box
+              sx={{
+                color:'#FFFFFF',
+                bgcolor:'#295FA6'}}>
+                <Typography variant="h5" align="center">
+                  No data available
+                </Typography>
+              </Box>
+
+            ) : (
+              <DataGrid
+                rows={filteredCards}
+                columns={columns}
+                getRowId={(row) => row?.user_id}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                  },
+                }}
+                pageSizeOptions={[5, 10, 15, 20]}
+              />
+            )}
           </div>
+
         </Container>
       </Box>
     </main>

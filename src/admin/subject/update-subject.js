@@ -1,32 +1,31 @@
 import {
-    Button, InputLabel, Stack, Card, Box,
+    Button, InputLabel, Stack, CardHeader, Container,
     TextField, Typography, createTheme, CardContent,
-    CardHeader,
-    useMediaQuery, IconButton, Dialog, Container,
+    useMediaQuery, IconButton, Dialog, Card, Box,
     DialogTitle, DialogContent, DialogActions, Unstable_Grid2 as Grid,
 } from "@mui/material";
-import { AddCircleOutline, Delete } from "@mui/icons-material";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
+import { AddCircleOutline, Delete } from "@mui/icons-material"; // Import the icon
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import Modal from '@mui/material/Modal';
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { DeteilUpdateSubject } from "./deteil-update-subject";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
 import Menu from '@mui/material/Menu';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import AddAlarmIcon from "@mui/icons-material/AddAlarm";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import Modal from '@mui/material/Modal';
+import InputAdornment from "@mui/material/InputAdornment";
 
 const theme = createTheme();
 
 export default function UpdateSubjectView() {
-
     const { subject_id } = useParams();
     const [subject, setSubject] = useState({});
     const [section, setSection] = useState([]);
@@ -41,24 +40,54 @@ export default function UpdateSubjectView() {
         year: "",
         times: [],
     });
-    const handleClose = () => setOpen(false);
+
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSubject((prevSubject) => ({
-            ...prevSubject,
-            [name]: value,
-        }));
-    };
+
+    const StyledMenu = styled((props) => (
+        <Menu
+            elevation={0}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            {...props}
+        />
+    ))(({ theme }) => ({
+        '& .MuiPaper-root': {
+            borderRadius: 6,
+            marginTop: theme.spacing(1),
+            minWidth: 120,
+            color:
+                theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+            boxShadow:
+                'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+            '& .MuiMenu-list': {
+                padding: '4px 0',
+            },
+            '& .MuiMenuItem-root': {
+                '& .MuiSvgIcon-root': {
+                    fontSize: 18,
+                    color: theme.palette.text.secondary,
+                    marginRight: theme.spacing(1.5),
+                },
+            },
+        },
+    }));
 
 
     useEffect(() => {
@@ -133,22 +162,6 @@ export default function UpdateSubjectView() {
         getSubjectScheduleByID();
     }, [subject_id]);
 
-    useEffect(() => {
-        const getSectionByid = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSectionByid?subject_id=${subject_id}`)
-                if (response) {
-                    setSection(response?.data)
-                    console.log(response?.data)
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        getSectionByid()
-    }, [])
-
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSubject((prevSubject) => ({
@@ -186,6 +199,7 @@ export default function UpdateSubjectView() {
             start_time: "",
             end_time: "",
         });
+        window.location.reload()
     };
 
     const handleAddSectionTime = () => {
@@ -217,7 +231,7 @@ export default function UpdateSubjectView() {
             // Update newSectionData with the new time
             setNewSectionData((prevData) => ({
                 ...prevData,
-                times: [...prevData.times, newTime],
+                times: [...prevData?.times, newTime],
             }));
         } catch (err) {
             console.error(err);
@@ -226,7 +240,7 @@ export default function UpdateSubjectView() {
 
     const handleRemoveTime = (index) => {
         setNewSectionData((prevData) => {
-            const updatedTimes = [...prevData.times];
+            const updatedTimes = [...prevData?.times];
             updatedTimes.splice(index, 1);
             return {
                 ...prevData,
@@ -238,7 +252,7 @@ export default function UpdateSubjectView() {
     const handleTimeChange = (index, e) => {
         const { name, value } = e.target;
         setNewSectionData((prevData) => {
-            const updatedTimes = [...prevData.times];
+            const updatedTimes = [...prevData?.times];
             updatedTimes[index] = {
                 ...updatedTimes[index],
                 [name]: value,
@@ -252,8 +266,10 @@ export default function UpdateSubjectView() {
 
     const handleAddSection = async () => {
         try {
+            // Get the next available section_id
             const nextSectionId = await getMaxSectionId();
 
+            // Update newSectionData with the section_id
             const updatedSectionData = {
                 ...newSectionData,
                 section_id: nextSectionId,
@@ -275,7 +291,6 @@ export default function UpdateSubjectView() {
             <InputLabel>{label}</InputLabel>
             <TextField
                 fullWidth
-                required
                 name={name}
                 value={subject[name] || ""}
                 onChange={handleInputChange}
@@ -308,379 +323,328 @@ export default function UpdateSubjectView() {
         }
     };
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        maxHeight: '80%', // แก้เป็น maxHeight แทน maxhigh
+        backgroundColor: 'background.paper', // แก้เป็น backgroundColor แทน bgcolor
+        border: '2px solid #000',
+        boxShadow: '24px', // แก้เป็น '24px' แทน 24
+        padding: '4px', // แก้เป็น '4px' แทน 4
+        overflow: 'auto', // เพิ่ม overflow: auto; เพื่อให้มีแถบเลื่อน
+    };
 
-    const StyledMenu = styled((props) => (
-        <Menu
-            elevation={0}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            {...props}
-        />
-    ))(({ theme }) => ({
-        '& .MuiPaper-root': {
-            borderRadius: 6,
-            marginTop: theme.spacing(1),
-            minWidth: 120,
-            color:
-                theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-            boxShadow:
-                'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-            '& .MuiMenu-list': {
-                padding: '4px 0',
-            },
-            '& .MuiMenuItem-root': {
-                '& .MuiSvgIcon-root': {
-                    fontSize: 18,
-                    color: theme.palette.text.secondary,
-                    marginRight: theme.spacing(1.5),
-                },
-            },
-        },
-    }));
+    useEffect(() => {
+        const getSectionByid = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSectionByid?subject_id=${subject_id}`)
+                if (response) {
+                    setSection(response?.data)
+                    console.log(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getSectionByid()
+    }, [])
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_SERVER}/deleteSection?section_id=${id}`);
+            if (response?.status === 200) {
+                alert(`Data deleted successfully`);
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <div>
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    py: 4,
-                }}
-            >
-                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
-                    <Typography variant="h5">
-                        แก้ไขรายวิชา {subject_id}
-                    </Typography>
-                </Stack>
-
-                <Container maxWidth="lg">
-                    <Card >
-                        <CardHeader title="วิชา" />
-                        <CardContent sx={{ pt: 0 }}>
-                            <Box sx={{ m: -1.5 }}>
-                                <Grid container direction="row" spacing={2}>
-                                    <Grid item xs={12} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            name="subject_id"
-                                            label="รหัสวิชา"
-                                            required
-                                            value={subject?.subject_id}
-                                            onChange={(e) => handleChange(e)}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            name="subject_name_th"
-                                            label="ชื่อวิชา"
-                                            variant="outlined"
-                                            required
-                                            value={subject?.subject_name_th}
-                                            onChange={(e) => handleChange(e)}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            name="subject_name_eng"
-                                            label="ชื่อวิชา (ภาษาอังกฤษ)"
-                                            variant="outlined"
-                                            value={subject?.subject_name_eng}
-                                            onChange={(e) => handleChange(e)}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} md={4}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="credit-label">หน่วยกิต</InputLabel>
-                                            <Select
-                                                name="credit"
-                                                labelId="credit-label"
-                                                variant="outlined"
-                                                value={subject ? `${subject?.credit}` : " "}
-                                                onChange={(e) => handleChange(e)}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                            >
-                                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-                                                    <MenuItem key={value} value={value}>
-                                                        {value}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={6} md={4}>
-                                        <FormControl fullWidth variant="outlined">
-                                            <InputLabel id="category-label">หมวดหมู่วิชา</InputLabel>
-                                            <Select
-                                                name="category"
-                                                labelId="category-label"
-                                                value={subject ? `${subject?.category}` : " "}
-                                                onChange={(e) => handleChange(e)}
-                                                label="หมวดหมู่วิชา"
-                                                sx={{
-                                                    "& .MuiSelect-selectMenu": {
-                                                        paddingRight: "32px",
-                                                    },
-                                                }}
-                                            >
-                                                <MenuItem value="C">วิชาบังคับ</MenuItem>
-                                                <MenuItem value="E">วิชาเลือก</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid xs={6} md={4}></Grid>
+            <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
+                <Typography variant="h5">
+                    แก้ไขรายวิชา {subject_id}
+                </Typography>
+            </Stack>
+            {/* <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }} direction={isMobile ? "column" : "row"}>
+                {renderTextField("รหัสวิชา", "subject_id")}
+                {renderTextField("ชื่อวิชา", "subject_name_th")}
+                {renderTextField("ชื่อวิชาภาษาอังกฤษ", "subject_name_eng")}
+                {renderTextField("หน่วยกิต", "credit")}
+                {renderTextField("ประเภท", "category")}
+            </Stack> */}
+            <Container maxWidth="lg">
+                <Card >
+                    <CardHeader title="วิชา" />
+                    <CardContent sx={{ pt: 0 }}>
+                        <Box sx={{ m: -1.5 }}>
+                            <Grid container direction="row" justifyContent="center" spacing={2}>
+                                <Grid item xs={12} md={2}>
+                                    <TextField
+                                        fullWidth
+                                        name="subject_id"
+                                        label="รหัสวิชา"
+                                        required
+                                        value={subject?.subject_id}
+                                        onChange={handleInputChange}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
                                 </Grid>
-                            </Box>
-                        </CardContent>
-                    </Card>
-
-                    <Card sx={{ mt: '5px' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                            <CardHeader title="Section" />
-                            <Grid item>
-                                <IconButton
-                                    size="small"
-                                    variant="outlined"
-                                    onClick={handleAddSectionTime}
-                                    sx={{
-                                        color: "#1565c0",
-                                        "&:hover": {
-                                            bgcolor: "#bbdefb",
-                                        },
-                                    }}
-                                >
-                                    <AddCircleOutlineIcon fontSize="small" />
-                                </IconButton>
+                                <Grid item xs={6} md={2}>
+                                    <TextField
+                                        fullWidth
+                                        name="subject_name_th"
+                                        label="ชื่อวิชา"
+                                        variant="outlined"
+                                        required
+                                        value={subject?.subject_name_th}
+                                        onChange={handleInputChange}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6} md={2}>
+                                    <TextField
+                                        fullWidth
+                                        name="subject_name_eng"
+                                        label="ชื่อวิชา (ภาษาอังกฤษ)"
+                                        variant="outlined"
+                                        value={subject?.subject_name_eng}
+                                        onChange={handleInputChange}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6} md={2}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="credit-label">หน่วยกิต</InputLabel>
+                                        <Select
+                                            name="credit"
+                                            labelId="credit-label"
+                                            variant="outlined"
+                                            value={subject ? `${subject?.credit}` : " "}
+                                            onChange={handleInputChange}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        >
+                                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                                                <MenuItem key={value} value={value}>
+                                                    {value}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6} md={2}>
+                                    <FormControl fullWidth variant="outlined">
+                                        <InputLabel id="category-label">หมวดหมู่วิชา</InputLabel>
+                                        <Select
+                                            name="category"
+                                            labelId="category-label"
+                                            value={subject ? `${subject?.category}` : " "}
+                                            onChange={handleInputChange}
+                                            label="หมวดหมู่วิชา"
+                                            sx={{
+                                                "& .MuiSelect-selectMenu": {
+                                                    paddingRight: "32px",
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="C">วิชาบังคับ</MenuItem>
+                                            <MenuItem value="E">วิชาเลือก</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid xs={6} md={4}></Grid>
                             </Grid>
                         </Box>
-                        <CardContent sx={{ pt: 0 }}>
-                            <Box sx={{ m: -1.5 }}>
-                                <Grid container direction="row" spacing={2}>
-                                    {section?.map((section, index) => (
-                                        <Grid item xs={6} md={2} sm={4} key={index}>
-                                            <Button
-                                                variant="contained"
-                                                fullWidth
-                                                id="basic-button"
-                                                aria-controls={open ? 'basic-menu' : undefined}
-                                                aria-haspopup="true"
-                                                aria-expanded={open ? 'true' : undefined}
-                                                onClick={handleClick}
-                                                endIcon={<KeyboardArrowDownIcon />}
-                                            >
-                                                seection {section.section}
-                                            </Button>
-                                            <StyledMenu
-                                                anchorEl={anchorEl}
-                                                open={openMenu}
-                                                onClose={handleCloseMenu}
-                                                MenuListProps={{
-                                                    'aria-labelledby': 'demo-customized-button',
-                                                }}
-                                            >
-                                                <MenuItem
-                                                    onClick={handleCloseMenu}
+                    </CardContent>
+                </Card>
 
-                                                >
-                                                    <DeleteIcon />
-                                                    ลบ
-                                                </MenuItem>
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        handleCloseMenu();
-                                                        handleAddSectionTime();
-                                                    }}>
-                                                    <EditIcon />
-                                                    แก้ไข
-                                                </MenuItem>
-                                            </StyledMenu>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </Box>
-                        </CardContent>
-                    </Card>
-
-                    <Modal open={isDialogOpen} >
-                        <Box sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '90%',
-                            bgcolor: 'background.paper',
-                            border: '2px solid #000',
-                            boxShadow: 24,
-                            p: 2,
-                        }}>
-                            <Grid
-                                container
-                                spacing={2}
-                                justifyContent="flex-end"
-                                alignItems="center"
-                            >
-                                <IconButton aria-label="delete" size="small"
-                                    sx={{
-                                        color: '#000000',
-                                         bgcolor: '#0487D9',
-                                    '&:hover': {
-                                            bgcolor: '#d50000',
-                                            color: '#FFFFFF',
-                                        },
-                                    }}
-                                    onClick={handleCloseDialog}
-                                    variant="contained"
-                                >
-                                    <CloseIcon fontSize="inherit" />
-                                </IconButton>
+                {/* section */}
+                <Card sx={{ mt: '5px' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                        <CardHeader title="Section" />
+                        <Grid item>
+                            <IconButton
+                                size="small"
+                                variant="outlined" sx={{
+                                    color: "#1565c0",
+                                    "&:hover": {
+                                        bgcolor: "#bbdefb",
+                                    },
+                                }}
+                                onClick={handleAddSectionTime}>
+                                <AddCircleOutlineIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
+                    </Box>
+                    <CardContent sx={{ pt: 0 }}>
+                        <Box sx={{ m: -1.5 }}>
+                            <Grid container direction="row" spacing={2}>
+                                {section?.map((section, index) => (
+                                    <Grid item xs={6} md={2} sm={4} key={index}>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            id="basic-button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            onClick={handleClick}
+                                            endIcon={<KeyboardArrowDownIcon />}
+                                        >
+                                            section {section.section}
+                                        </Button>
+                                        <StyledMenu
+                                            anchorEl={anchorEl}
+                                            open={openMenu}
+                                            onClose={handleCloseMenu}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'demo-customized-button',
+                                            }}
+                                        >
+                                            <MenuItem
+                                                onClick={() => handleDelete(section?.section_id)} 
+                                            >
+                                                <DeleteIcon />
+                                                ลบ
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    handleCloseMenu();
+                                                    handleAddSectionTime();
+                                                }}>
+                                                <EditIcon />
+                                                แก้ไข
+                                            </MenuItem>
+                                        </StyledMenu>
+                                    </Grid>
+                                ))}
                             </Grid>
-                            <DeteilUpdateSubject />
                         </Box>
-                    </Modal>
-                </Container>
+                    </CardContent>
+                </Card>
+            </Container>
 
-
-
-                <Stack justifyContent={"center"} alignItems={"center"} spacing={5} sx={{ p: 2 }}>
-                    {subjectSchedule?.map((items, index) => (
-                        <Stack key={index} spacing={2}>
-                            <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                                <TextField
-                                    label="section_id"
-                                    name="section_id"
-                                    value={items?.section_id}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "section_id", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="section"
-                                    name="section"
-                                    value={items?.section}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "section", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="term"
-                                    name="term"
-                                    value={items?.term}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "term", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="year"
-                                    name="year"
-                                    value={items?.year}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "year", e.target.value)
-                                    }
-                                />
-                            </Stack>
-                            <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                                <TextField
-                                    label="time_id"
-                                    name="time_id"
-                                    value={items?.time_id}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "time_id", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="classroom"
-                                    name="classroom"
-                                    value={items?.classroom}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "classroom", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="date"
-                                    name="date"
-                                    value={items?.date}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "date", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="start_time"
-                                    name="start_time"
-                                    value={items?.start_time} onChange={(e) =>
-                                        handleInputSectionChange(index, "start_time", e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    label="end_time"
-                                    name="end_time"
-                                    value={items?.end_time}
-                                    onChange={(e) =>
-                                        handleInputSectionChange(index, "end_time", e.target.value)
-                                    }
-                                />
-                            </Stack>
+            <Stack justifyContent={"center"} alignItems={"center"} spacing={5} sx={{ p: 2 }}>
+                {subjectSchedule?.map((items, index) => (
+                    <Stack key={index} spacing={2}>
+                        <Stack spacing={2} direction={isMobile ? "column" : "row"}>
+                            {/* <TextField
+                                label="section_id"
+                                name="section_id"
+                                value={items?.section_id}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "section_id", e.target.value)
+                                }
+                            /> */}
+                            <TextField
+                                label="section"
+                                name="section"
+                                value={items?.section}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "section", e.target.value)
+                                }
+                            />
+                            <TextField
+                                label="term"
+                                name="term"
+                                value={items?.term}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "term", e.target.value)
+                                }
+                            />
+                            <TextField
+                                label="year"
+                                name="year"
+                                value={items?.year}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "year", e.target.value)
+                                }
+                            />
                         </Stack>
-                    ))}
 
-                    <Stack justifyContent="center" alignItems="center">
-                        <Button
-                            color="secondary"
-                            size="small"
-                            variant="outlined"
-                            onClick={handleAddSectionTime}
-                            startIcon={<AddCircleOutline />}
-                        >
-                            Section
-                        </Button>
+                        <Stack spacing={2} direction={isMobile ? "column" : "row"}>
+                            {/* <TextField
+                                label="time_id"
+                                name="time_id"
+                                value={items?.time_id}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "time_id", e.target.value)
+                                }
+                            /> */}
+                            <TextField
+                                label="classroom"
+                                name="classroom"
+                                value={items?.classroom}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "classroom", e.target.value)
+                                }
+                            />
+                            <TextField
+                                label="date"
+                                name="date"
+                                value={items?.date}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "date", e.target.value)
+                                }
+                            />
+                            <TextField
+                                label="start_time"
+                                name="start_time"
+                                value={items?.start_time} onChange={(e) =>
+                                    handleInputSectionChange(index, "start_time", e.target.value)
+                                }
+                            />
+                            <TextField
+                                label="end_time"
+                                name="end_time"
+                                value={items?.end_time}
+                                onChange={(e) =>
+                                    handleInputSectionChange(index, "end_time", e.target.value)
+                                }
+                            />
+                        </Stack>
                     </Stack>
+                ))}
 
-                    <Dialog onClose={handleCloseDialog}>
+                {/* <Stack justifyContent="center" alignItems="center">
+                    <IconButton color="primary" onClick={handleAddSectionTime}>
+                        <AddCircleOutline /> 
+                    </IconButton>
+                </Stack> */}
+
+                <Modal
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
                         <DialogTitle>เพิ่ม Section</DialogTitle>
-                        <DialogContent >
+                        <DialogContent>
                             <Stack spacing={2}>
                                 {/* Form inputs for new section data */}
                                 <Stack direction={isMobile ? "column" : "row"} spacing={2}>
-                                    <TextField
-                                        label="Section ID"
-                                        name="section_id"
-                                        value={newSectionData.section_id}
-                                        onChange={handleNewSectionChange}
-                                        fullWidth
-                                    />
-                                    <Grid item xs={12} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            name="section"
-                                            label="Section"
-                                            variant="outlined"
-                                            onChange={handleNewSectionChange}
-                                        />
-                                    </Grid>
+                                    {/* <TextField
+                                    label="Section ID"
+                                    name="section_id"
+                                    value={newSectionData.section_id}
+                                    onChange={handleNewSectionChange}
+                                    fullWidth
+                                /> */}
                                     <TextField
                                         label="Section"
                                         name="section"
@@ -688,68 +652,175 @@ export default function UpdateSubjectView() {
                                         onChange={handleNewSectionChange}
                                         fullWidth
                                     />
-                                    <TextField
-                                        label="Term"
-                                        name="term"
-                                        value={newSectionData.term}
-                                        onChange={handleNewSectionChange}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        label="Year"
-                                        name="year"
-                                        value={newSectionData.year}
-                                        onChange={handleNewSectionChange}
-                                        fullWidth
-                                    />
+                                    <FormControl fullWidth>
+                                        <InputLabel id="term-label">ภาคการศึกษา</InputLabel>
+                                        <Select
+                                            name="term"
+                                            label="ภาคการศึกษา"
+                                            variant="outlined"
+                                            value={newSectionData.term}
+                                            onChange={handleNewSectionChange}
+                                        >
+                                            {[1, 2, 3].map((value) => (
+                                                <MenuItem key={value} value={value}>
+                                                    {value}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="year-label">ปีการศึกษา</InputLabel>
+                                        <Select
+                                            name="year"
+                                            label="ปี"
+                                            variant="outlined"
+                                            value={newSectionData.year}
+                                            onChange={handleNewSectionChange}
+                                        >
+                                            {[2563, 2564, 2565, 2566, 2567, 2568].map((value) => (
+                                                <MenuItem key={value} value={value}>
+                                                    {value}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                 </Stack>
-
                                 {/* Times */}
-                                {newSectionData.times?.map((time, index) => (
-                                    <Stack direction={isMobile ? "column" : "row"} spacing={2} key={index}>
-                                        <TextField
-                                            label="Time ID"
-                                            name="time_id"
-                                            value={time.time_id}
-                                            onChange={(e) => handleTimeChange(index, e)}
-                                            fullWidth
-                                        />
-                                        <TextField
-                                            label="Classroom"
-                                            name="classroom"
-                                            value={time.classroom}
-                                            onChange={(e) => handleTimeChange(index, e)}
-                                            fullWidth
-                                        />
-                                        <TextField
-                                            label="Date"
-                                            name="date"
-                                            value={time.date}
-                                            onChange={(e) => handleTimeChange(index, e)}
-                                            fullWidth
-                                        />
-                                        <TextField
-                                            label="Start Time"
-                                            name="start_time"
-                                            value={time.start_time}
-                                            onChange={(e) => handleTimeChange(index, e)}
-                                            fullWidth
-                                        />
-                                        <TextField
-                                            label="End Time"
-                                            name="end_time"
-                                            value={time.end_time}
-                                            onChange={(e) => handleTimeChange(index, e)}
-                                            fullWidth
-                                        />
-                                        <IconButton onClick={() => handleRemoveTime(index)}>
-                                            <Delete />
-                                        </IconButton>
-                                    </Stack>
+
+                                {newSectionData?.times && newSectionData?.times?.map((time, index) => (
+                                    <Grid container direction="row" spacing={1} key={index}>
+                                        <Grid item xs={12} md={2.8}>
+                                            <TextField
+                                                fullWidth
+                                                name="classroom"
+                                                label="ห้องเรียน"
+                                                variant="outlined"
+                                                onChange={(e) => handleTimeChange(index, e)}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} md={2.8}>
+                                            <FormControl
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={{ marginBottom: "16px" }}
+                                            >
+                                                <InputLabel
+                                                    htmlFor="date-label"
+                                                    sx={{ fontSize: "16px" }}
+                                                >
+                                                    วัน
+                                                </InputLabel>
+                                                <Select
+                                                    name="date"
+                                                    variant="outlined"
+                                                    value={time?.date}
+                                                    onChange={(e) => handleTimeChange(index, e)}
+                                                    sx={{ fontSize: "16px" }}
+                                                    inputProps={{ id: "date-label" }}
+                                                >
+                                                    {[
+                                                        "จันทร์",
+                                                        "อังคาร",
+                                                        "พุธ",
+                                                        "พฤหัสบดี",
+                                                        "ศุกร์",
+                                                        "เสาร์",
+                                                        "อาทิตย์",
+                                                    ].map((value) => (
+                                                        <MenuItem key={value} value={value}>
+                                                            {value}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs={6} md={2.8}>
+                                            <TextField
+                                                fullWidth
+                                                name="start_time"
+                                                label="เวลาเริ่ม"
+                                                type="time"
+                                                variant="outlined"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <AccessTimeIcon />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                inputProps={{
+                                                    step: 300, // 5 minutes
+                                                }}
+                                                value={time?.start_time}
+                                                onChange={(e) => handleTimeChange(index, e)}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} md={2.8}>
+                                            <TextField
+                                                fullWidth
+                                                name="end_time"
+                                                label="หมดเวลา"
+                                                type="time"
+                                                variant="outlined"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <AccessTimeIcon />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                inputProps={{
+                                                    step: 300, // 5 minutes
+                                                }}
+                                                value={time?.end_time}
+                                                onChange={(e) => handleTimeChange(index, e)}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            container
+                                            direction="row"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            item
+                                            xs={6}
+                                            md={0.8}
+                                        >
+                                            <IconButton
+                                                sx={{
+                                                    color: "#F20000",
+                                                    "&:hover": {
+                                                        color: "#0000FF",
+                                                    },
+                                                }}
+                                                onClick={() => handleRemoveTime(index)}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
                                 ))}
-                                <IconButton onClick={handleAddTime}>
-                                    <AddCircleOutline /> {/* Add another time */}
-                                </IconButton>
+                                <Grid container direction="column" alignItems="center" spacing={2}>
+                                    <Grid item>
+                                        <IconButton
+                                            aria-label="add"
+                                            sx={{
+                                                color: "#1565c0",
+                                                "&:hover": {
+                                                    color: "#087A02",
+                                                },
+                                            }}
+                                            onClick={handleAddTime}
+                                        >
+                                            <AddAlarmIcon />
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
                             </Stack>
                         </DialogContent>
                         <DialogActions>
@@ -760,18 +831,15 @@ export default function UpdateSubjectView() {
                                 เพิ่ม
                             </Button>
                         </DialogActions>
-                    </Dialog>
+                    </Box>
+                </Modal>
 
-                </Stack>
-
-
-
-                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
-                    <Button variant="contained" onClick={handleUpdate}>
-                        ยืนยันการแก้ไข
-                    </Button>
-                </Stack>
-            </Box>
+            </Stack>
+            <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
+                <Button variant="contained" onClick={handleUpdate}>
+                    ยืนยันการแก้ไข
+                </Button>
+            </Stack>
         </div >
     );
 }

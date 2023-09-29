@@ -114,7 +114,7 @@ export default function HomeAdmin() {
                                     },
                                 }}
                             >
-                                รายวิชาทั้งหมด
+                                สถิติรายวิชา
                             </Button>
                         </Grid>
                         <Grid item>

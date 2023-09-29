@@ -155,47 +155,55 @@ export default function SearchAll() {
                         </TableHead>
 
                         <TableBody>
-                            {filteredCards && filteredCards?.map((row, index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{
-                                        '&:last-child td, &:last-child th': { border: 0 },
-                                        '&:hover': {
-                                            bgcolor: '#BBE2F2',
-                                        },
-                                    }}
-                                >
-                                    <TableCell align="center" >
-                                        <Button
-                                            onClick={handleSubjectById}
-                                            variant="contained"
-                                            size="small"
-                                            sx={{
-                                                width: 75,
-                                                bgcolor: '#0468BF',
-                                                color: '#FFFFFF',
-                                                '&:hover': {
-                                                    bgcolor: '#0487D9',
-                                                },
-                                            }}
-                                        >
-                                            {row.subject_id}
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.subject_name_th}
-                                    </TableCell>
-                                    <TableCell align="center" >
-                                        {row.subject_name_eng}
-                                    </TableCell>
-                                    <TableCell align="center" >
-                                        {row.num_section}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.credit}
-                                    </TableCell>
+                            {filteredCards && filteredCards.length > 0 ? (
+                                filteredCards.map((row, index) => (
+                                    <TableRow
+                                        key={index}
+                                        sx={{
+                                            '&:last-child td, &:last-child th': { border: 0 },
+                                            '&:hover': {
+                                                bgcolor: '#BBE2F2',
+                                            },
+                                        }}
+                                    >
+                                        <TableCell align="center" >
+                                            <Button
+                                               onClick={() =>
+                                                navigate(`/details-subject/${row?.subject_id}`)
+                                              }
+                                                variant="contained"
+                                                size="small"
+                                                sx={{
+                                                    width: 75,
+                                                    bgcolor: '#0468BF',
+                                                    color: '#FFFFFF',
+                                                    '&:hover': {
+                                                        bgcolor: '#0487D9',
+                                                    },
+                                                }}
+                                            >
+                                                {row.subject_id}
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {row.subject_name_th}
+                                        </TableCell>
+                                        <TableCell align="center" >
+                                            {row.subject_name_eng}
+                                        </TableCell>
+                                        <TableCell align="center" >
+                                            {row.num_section}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {row.credit}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} align="center">No data available</TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

@@ -14,6 +14,7 @@ import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 
 export const UpdateAccount = () => {
   const navigate = useNavigate();
@@ -71,6 +72,11 @@ export const UpdateAccount = () => {
 
   return (
     <form>
+      <BreadcrumbsPage
+        pages={[
+          { title: "รายชื่อผู้ใช้", path: `/viewUser` },
+          { title: "รายละเอียดผู้ใช้" },
+        ]} />
       <Container maxWidth="md" sx={{ mt: '20px' }}>
         <Card>
           <CardHeader title={`User`} />
