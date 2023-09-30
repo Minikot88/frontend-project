@@ -9,6 +9,8 @@ import MenuIcon from '../../components/menu';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
 import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -162,15 +164,24 @@ export default function ViewUserTable() {
 
           <div style={{ width: '100%' }}>
             {filteredCards.length === 0 ? (
-              <Box
-              sx={{
-                color:'#FFFFFF',
-                bgcolor:'#295FA6'}}>
-                <Typography variant="h5" align="center">
-                  No data available
-                </Typography>
-              </Box>
+              <Paper
+                sx={{
+                  color: '#FFFFFF',
+                  bgcolor: '#0468BF',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  py: 3
 
+                }}>
+                <Typography variant="h6" paragraph>
+                  Data Not found
+                </Typography>
+                <Typography variant="body2">
+                  ไม่พบผลลัพธ์สำหรับ &nbsp; <strong>&quot;{searchQuery}&quot;</strong> &nbsp; ลองตรวจสอบการพิมพ์อีกครั้งหรือใช้คำอื่น
+                </Typography>
+              </Paper>
             ) : (
               <DataGrid
                 rows={filteredCards}

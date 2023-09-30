@@ -83,6 +83,7 @@ export default function SearchAll() {
         item?.subject_id.includes(searchQuery)
     );
 
+
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
@@ -154,7 +155,7 @@ export default function SearchAll() {
                             </TableRow>
                         </TableHead>
 
-                        <TableBody>
+                        <TableBody >
                             {filteredCards && filteredCards.length > 0 ? (
                                 filteredCards.map((row, index) => (
                                     <TableRow
@@ -168,9 +169,9 @@ export default function SearchAll() {
                                     >
                                         <TableCell align="center" >
                                             <Button
-                                               onClick={() =>
-                                                navigate(`/details-subject/${row?.subject_id}`)
-                                              }
+                                                onClick={() =>
+                                                    navigate(`/details-subject/${row?.subject_id}`)
+                                                }
                                                 variant="contained"
                                                 size="small"
                                                 sx={{
@@ -200,9 +201,23 @@ export default function SearchAll() {
                                     </TableRow>
                                 ))
                             ) : (
-                                <TableRow>
-                                    <TableCell colSpan={5} align="center">No data available</TableCell>
-                                </TableRow>
+                                <TableCell colSpan={6} sx={{ py: 3 }} >
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Typography variant="h6" paragraph>
+                                            Data Not found
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            ไม่พบผลลัพธ์สำหรับ &nbsp; <strong>&quot;{searchQuery}&quot;</strong> &nbsp; ลองตรวจสอบการพิมพ์อีกครั้งหรือใช้คำอื่น
+                                        </Typography>
+                                    </Box>
+                                </TableCell>
                             )}
                         </TableBody>
                     </Table>
