@@ -131,45 +131,65 @@ export default function SearchSelect() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredCards?.map((row) => (
-                <TableRow
-                  key={row?.Subject_id}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&:hover": {
-                      bgcolor: "#BBE2F2",
-                    },
-                  }}
-                >
-                  <TableCell align="center">
-                    <Button
-                      onClick={() =>
-                        navigate(`/select-subject/${row?.subject_id}`)
-                      }
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        width: 75,
-                        bgcolor: "#0468BF",
-                        color: "#FFFFFF",
-                        "&:hover": {
-                          bgcolor: "#0487D9",
-                        },
-                      }}
-                    >
-                      {row?.subject_id}
-                    </Button>
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {row?.subject_name_th}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {row?.subject_name_eng}
-                  </TableCell>
-                  <TableCell align="center">{row?.num_section}</TableCell>
-                  <TableCell align="center">{row?.credit}</TableCell>
-                </TableRow>
-              ))}
+              {filteredCards?.length > 0 ? (
+                filteredCards.map((row) => (
+                  <TableRow
+                    key={row?.Subject_id}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&:hover": {
+                        bgcolor: "#BBE2F2",
+                      },
+                    }}
+                  >
+                    <TableCell align="center">
+                      <Button
+                        onClick={() =>
+                          navigate(`/select-subject/${row?.subject_id}`)
+                        }
+                        variant="contained"
+                        size="small"
+                        sx={{
+                          width: 75,
+                          bgcolor: "#0468BF",
+                          color: "#FFFFFF",
+                          "&:hover": {
+                            bgcolor: "#0487D9",
+                          },
+                        }}
+                      >
+                        {row?.subject_id}
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {row?.subject_name_th}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {row?.subject_name_eng}
+                    </TableCell>
+                    <TableCell align="center">{row?.num_section}</TableCell>
+                    <TableCell align="center">{row?.credit}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableCell colSpan={6} sx={{ py: 3 }} >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography variant="h6" paragraph>
+                      Data Not found
+                    </Typography>
+                    <Typography variant="body2">
+                      ไม่พบผลลัพธ์สำหรับ &nbsp; <strong>&quot;{searchQuery}&quot;</strong> &nbsp; ลองตรวจสอบการพิมพ์อีกครั้งหรือใช้คำอื่น
+                    </Typography>
+                  </Box>
+                </TableCell>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

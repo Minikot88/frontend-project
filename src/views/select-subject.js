@@ -79,7 +79,7 @@ export default function SelectSubject() {
                 pages={[
                     { title: "สร้างตารางเรียน", path: `/create-table` },
                     { title: "ค้นหารายวิชา", path: `/search-select` },
-                    { title: "รายละเอียดวิชา" },
+                    { title: `รายละเอียดวิชา ${subject?.subject_id}` },
                 ]} />
             <Container>
                 <main>

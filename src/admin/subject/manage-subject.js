@@ -237,7 +237,7 @@ export default function ManageSubject() {
             </TableHead>
 
             <TableBody>
-              {filteredCards &&
+              {filteredCards && filteredCards.length > 0 ? (
                 filteredCards.map((row, index) => (
                   <TableRow
                     key={index}
@@ -269,7 +269,7 @@ export default function ManageSubject() {
                         variant="contained"
                         startIcon={<ContentPasteSearchIcon />}
                         onClick={() =>
-                          navigate(`/details-subject/${row?.subject_id}`)
+                          navigate(`/details-subject-admin/${row?.subject_id}`)
                         }
                         sx={{
                           width: 130,
@@ -318,7 +318,26 @@ export default function ManageSubject() {
                       </Button>
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+              ) : (
+                <TableCell colSpan={6} sx={{ py: 3 }} >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography variant="h6" paragraph>
+                      Data Not found
+                    </Typography>
+                    <Typography variant="body2">
+                      ไม่พบผลลัพธ์สำหรับ &nbsp; <strong>&quot;{searchQuery}&quot;</strong> &nbsp; ลองตรวจสอบการพิมพ์อีกครั้งหรือใช้คำอื่น
+                    </Typography>
+                  </Box>
+                </TableCell>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

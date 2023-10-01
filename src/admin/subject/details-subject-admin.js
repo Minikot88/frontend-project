@@ -19,16 +19,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import Appbar from '../components/app-bar';
-import BreadcrumbsPage from '../components/BreadcrumbsPage';
-import DetailsCard from '../components/details-card';
-import './detail.css'
-
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import BreadcrumbsPage from '../../components/BreadcrumbsPage';
+import DetailsCard from '../../components/details-card';
+import '../../views/detail.css'
 
 const theme = createTheme();
 
-export default function DetailSubject() {
+export default function DetailSubjectAdmin() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [subjects, setSubject] = useState()
@@ -77,7 +74,7 @@ export default function DetailSubject() {
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
                 pages={[
-                    { title: "ค้นหารายวิชา", path: `/search-all` },
+                    { title: "จัดการรายวิชา", path: `/manage-subject` },
                     { title: `รายละเอียดวิชา ${subject?.subject_id}` },
                 ]} />
             <Container>

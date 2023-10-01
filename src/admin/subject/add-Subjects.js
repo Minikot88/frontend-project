@@ -109,30 +109,25 @@ export const AddSubject = () => {
 
   const addSubject = async () => {
     try {
-      // Get the next available time_id and section_id
       const maxTimeId = await getMaxTimeId();
       const maxSectionId = await getMaxSectionId();
-  
-      // Initialize a counter for time_id and section_id
+
       let timeIdCounter = maxTimeId;
       let sectionIdCounter = maxSectionId;
-  
-      // Update the subject and sections objects
+
       const updatedSections = sections.map((section) => {
-        // Generate a unique section_id using the sectionIdCounter
         const nextSectionTimeId = `S${sectionIdCounter.toString().padStart(5, "0")}`;
-  
+
         const times = section.times.map((time) => {
-          // Generate a unique time_id using the timeIdCounter
           const nextTimeId = `T${timeIdCounter.toString().padStart(5, "0")}`;
-          timeIdCounter++; // Increment the counter for the next time set
+          timeIdCounter++;
           return {
             ...time,
             time_id: nextTimeId,
           };
         });
-  
-        sectionIdCounter++; // Increment the counter for the next section
+
+        sectionIdCounter++;
         return {
           ...section,
           section_id: nextSectionTimeId,
@@ -147,7 +142,7 @@ export const AddSubject = () => {
           sections: updatedSections,
         }
       );
-  
+
       if (response?.status === 200) {
         alert("Adding successfully");
         window.location.reload();
@@ -155,7 +150,8 @@ export const AddSubject = () => {
     } catch (err) {
       console.error(err);
     }
-  };  
+  };
+
 
   const handleAddSection = () => {
     setSections([...sections, { times: [{}] }]);

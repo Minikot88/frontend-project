@@ -88,7 +88,7 @@ export default function SearchAll() {
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
                 pages={[
-                    { title: "ค้นหา" },
+                    { title: "ค้นหารายวิชา" },
                 ]} />
 
             <main>

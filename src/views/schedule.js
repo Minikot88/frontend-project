@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
+import Container from '@mui/material/Container';
 
 const scheduleData = [
     { day: "Monday", timeSlot: "08:00 - 09:00", subject_name_th: "Math", classroom: "A101" },
@@ -24,41 +25,43 @@ export default function StudentSchedule() {
     );
 
     return (
-        <div>
-            <Typography variant="h4" align="center" gutterBottom>
-                Student Schedule
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Day / Time Slot</TableCell>
-                            {timeSlots.map((timeSlot) => (
-                                <TableCell key={timeSlot} align="center">
-                                    {timeSlot}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {days.map((day, dayIndex) => (
-                            <TableRow key={day}>
-                                <TableCell>{day}</TableCell>
-                                {timeSlots.map((timeSlot, timeIndex) => (
-                                    <TableCell key={timeIndex} align="center">
-                                        {subjectsByDayAndTime[dayIndex][timeIndex].map((subject) => (
-                                            <div key={subject.subject_name_th}>
-                                                <p>{subject.subject_name_th}</p>
-                                                <p>{subject.classroom}</p>
-                                            </div>
-                                        ))}
+        <>
+            <Container>
+                <Typography variant="h4" align="center" gutterBottom>
+                    Student Schedule
+                </Typography>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Day / Time Slot</TableCell>
+                                {timeSlots.map((timeSlot) => (
+                                    <TableCell key={timeSlot} align="center">
+                                        {timeSlot}
                                     </TableCell>
                                 ))}
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
+                        </TableHead>
+                        <TableBody>
+                            {days.map((day, dayIndex) => (
+                                <TableRow key={day}>
+                                    <TableCell>{day}</TableCell>
+                                    {timeSlots.map((timeSlot, timeIndex) => (
+                                        <TableCell key={timeIndex} align="center">
+                                            {subjectsByDayAndTime[dayIndex][timeIndex].map((subject) => (
+                                                <div key={subject.subject_name_th}>
+                                                    <p>{subject.subject_name_th}</p>
+                                                    <p>{subject.classroom}</p>
+                                                </div>
+                                            ))}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
+        </>
     );
 }

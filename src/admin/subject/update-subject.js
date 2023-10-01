@@ -22,6 +22,7 @@ import AddAlarmIcon from "@mui/icons-material/AddAlarm";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Modal from '@mui/material/Modal';
 import InputAdornment from "@mui/material/InputAdornment";
+import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 
 const theme = createTheme();
 
@@ -367,18 +368,17 @@ export default function UpdateSubjectView() {
 
     return (
         <div>
+            <BreadcrumbsPage
+                pages={[
+                    { title: "จัดการรายวิชา", path: `/manage-subject` },
+                    { title: `แก้ไขรายวิชา ${subject?.subject_id}` },
+                ]}
+            />
             <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
                 <Typography variant="h5">
                     แก้ไขรายวิชา {subject_id}
                 </Typography>
             </Stack>
-            {/* <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }} direction={isMobile ? "column" : "row"}>
-                {renderTextField("รหัสวิชา", "subject_id")}
-                {renderTextField("ชื่อวิชา", "subject_name_th")}
-                {renderTextField("ชื่อวิชาภาษาอังกฤษ", "subject_name_eng")}
-                {renderTextField("หน่วยกิต", "credit")}
-                {renderTextField("ประเภท", "category")}
-            </Stack> */}
             <Container maxWidth="lg">
                 <Card >
                     <CardHeader title="วิชา" />
@@ -516,16 +516,13 @@ export default function UpdateSubjectView() {
                                             }}
                                         >
                                             <MenuItem
-                                                onClick={() => handleDelete(section?.section_id)} 
+                                                onClick={() => handleDelete(section?.section_id)}
                                             >
                                                 <DeleteIcon />
                                                 ลบ
                                             </MenuItem>
                                             <MenuItem
-                                                onClick={() => {
-                                                    handleCloseMenu();
-                                                    handleAddSectionTime();
-                                                }}>
+                                                onClick={() => { handleCloseMenu(); }}>
                                                 <EditIcon />
                                                 แก้ไข
                                             </MenuItem>
@@ -542,14 +539,6 @@ export default function UpdateSubjectView() {
                 {subjectSchedule?.map((items, index) => (
                     <Stack key={index} spacing={2}>
                         <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                            {/* <TextField
-                                label="section_id"
-                                name="section_id"
-                                value={items?.section_id}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "section_id", e.target.value)
-                                }
-                            /> */}
                             <TextField
                                 label="section"
                                 name="section"
@@ -577,14 +566,6 @@ export default function UpdateSubjectView() {
                         </Stack>
 
                         <Stack spacing={2} direction={isMobile ? "column" : "row"}>
-                            {/* <TextField
-                                label="time_id"
-                                name="time_id"
-                                value={items?.time_id}
-                                onChange={(e) =>
-                                    handleInputSectionChange(index, "time_id", e.target.value)
-                                }
-                            /> */}
                             <TextField
                                 label="classroom"
                                 name="classroom"
@@ -619,222 +600,215 @@ export default function UpdateSubjectView() {
                         </Stack>
                     </Stack>
                 ))}
+            </Stack>
 
-                {/* <Stack justifyContent="center" alignItems="center">
-                    <IconButton color="primary" onClick={handleAddSectionTime}>
-                        <AddCircleOutline /> 
-                    </IconButton>
-                </Stack> */}
-
-                <Modal
-                    open={isDialogOpen}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <DialogTitle>เพิ่ม Section</DialogTitle>
-                        <DialogContent>
-                            <Stack spacing={2}>
-                                {/* Form inputs for new section data */}
-                                <Stack direction={isMobile ? "column" : "row"} spacing={2}>
-                                    {/* <TextField
+            <Modal
+                open={isDialogOpen}
+                onClose={handleCloseDialog}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <DialogTitle>เพิ่ม Section</DialogTitle>
+                    <DialogContent>
+                        <Stack spacing={2} sx={{ marginTop: 1 }}>
+                            {/* Form inputs for new section data */}
+                            <Stack direction={isMobile ? "column" : "row"} spacing={2}>
+                                {/* <TextField
                                     label="Section ID"
                                     name="section_id"
                                     value={newSectionData.section_id}
                                     onChange={handleNewSectionChange}
                                     fullWidth
                                 /> */}
-                                    <TextField
-                                        label="Section"
-                                        name="section"
-                                        value={newSectionData.section}
+                                <TextField
+                                    label="Section"
+                                    name="section"
+                                    value={newSectionData.section}
+                                    onChange={handleNewSectionChange}
+                                    fullWidth
+                                />
+                                <FormControl fullWidth>
+                                    <InputLabel id="term-label">ภาคการศึกษา</InputLabel>
+                                    <Select
+                                        name="term"
+                                        label="ภาคการศึกษา"
+                                        variant="outlined"
+                                        value={newSectionData.term}
                                         onChange={handleNewSectionChange}
-                                        fullWidth
-                                    />
-                                    <FormControl fullWidth>
-                                        <InputLabel id="term-label">ภาคการศึกษา</InputLabel>
-                                        <Select
-                                            name="term"
-                                            label="ภาคการศึกษา"
-                                            variant="outlined"
-                                            value={newSectionData.term}
-                                            onChange={handleNewSectionChange}
-                                        >
-                                            {[1, 2, 3].map((value) => (
-                                                <MenuItem key={value} value={value}>
-                                                    {value}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="year-label">ปีการศึกษา</InputLabel>
-                                        <Select
-                                            name="year"
-                                            label="ปี"
-                                            variant="outlined"
-                                            value={newSectionData.year}
-                                            onChange={handleNewSectionChange}
-                                        >
-                                            {[2563, 2564, 2565, 2566, 2567, 2568].map((value) => (
-                                                <MenuItem key={value} value={value}>
-                                                    {value}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Stack>
-                                {/* Times */}
+                                    >
+                                        {[1, 2, 3].map((value) => (
+                                            <MenuItem key={value} value={value}>
+                                                {value}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <FormControl fullWidth>
+                                    <InputLabel id="year-label">ปีการศึกษา</InputLabel>
+                                    <Select
+                                        name="year"
+                                        label="ปี"
+                                        variant="outlined"
+                                        value={newSectionData.year}
+                                        onChange={handleNewSectionChange}
+                                    >
+                                        {[2563, 2564, 2565, 2566, 2567, 2568].map((value) => (
+                                            <MenuItem key={value} value={value}>
+                                                {value}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Stack>
+                            {/* Times */}
 
-                                {newSectionData?.times && newSectionData?.times?.map((time, index) => (
-                                    <Grid container direction="row" spacing={1} key={index}>
-                                        <Grid item xs={12} md={2.8}>
-                                            <TextField
-                                                fullWidth
-                                                name="classroom"
-                                                label="ห้องเรียน"
-                                                variant="outlined"
-                                                onChange={(e) => handleTimeChange(index, e)}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6} md={2.8}>
-                                            <FormControl
-                                                fullWidth
-                                                variant="outlined"
-                                                sx={{ marginBottom: "16px" }}
-                                            >
-                                                <InputLabel
-                                                    htmlFor="date-label"
-                                                    sx={{ fontSize: "16px" }}
-                                                >
-                                                    วัน
-                                                </InputLabel>
-                                                <Select
-                                                    name="date"
-                                                    variant="outlined"
-                                                    value={time?.date}
-                                                    onChange={(e) => handleTimeChange(index, e)}
-                                                    sx={{ fontSize: "16px" }}
-                                                    inputProps={{ id: "date-label" }}
-                                                >
-                                                    {[
-                                                        "จันทร์",
-                                                        "อังคาร",
-                                                        "พุธ",
-                                                        "พฤหัสบดี",
-                                                        "ศุกร์",
-                                                        "เสาร์",
-                                                        "อาทิตย์",
-                                                    ].map((value) => (
-                                                        <MenuItem key={value} value={value}>
-                                                            {value}
-                                                        </MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={6} md={2.8}>
-                                            <TextField
-                                                fullWidth
-                                                name="start_time"
-                                                label="เวลาเริ่ม"
-                                                type="time"
-                                                variant="outlined"
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            <AccessTimeIcon />
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                                inputProps={{
-                                                    step: 300, // 5 minutes
-                                                }}
-                                                value={time?.start_time}
-                                                onChange={(e) => handleTimeChange(index, e)}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6} md={2.8}>
-                                            <TextField
-                                                fullWidth
-                                                name="end_time"
-                                                label="หมดเวลา"
-                                                type="time"
-                                                variant="outlined"
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            <AccessTimeIcon />
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                                inputProps={{
-                                                    step: 300, // 5 minutes
-                                                }}
-                                                value={time?.end_time}
-                                                onChange={(e) => handleTimeChange(index, e)}
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            container
-                                            direction="row"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            item
-                                            xs={6}
-                                            md={0.8}
-                                        >
-                                            <IconButton
-                                                sx={{
-                                                    color: "#F20000",
-                                                    "&:hover": {
-                                                        color: "#0000FF",
-                                                    },
-                                                }}
-                                                onClick={() => handleRemoveTime(index)}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </Grid>
+                            {newSectionData?.times && newSectionData?.times?.map((time, index) => (
+                                <Grid container direction="row" spacing={1} key={index}>
+                                    <Grid item xs={12} md={2.8}>
+                                        <TextField
+                                            fullWidth
+                                            name="classroom"
+                                            label="ห้องเรียน"
+                                            variant="outlined"
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                        />
                                     </Grid>
-                                ))}
-                                <Grid container direction="column" alignItems="center" spacing={2}>
-                                    <Grid item>
+                                    <Grid item xs={6} md={2.8}>
+                                        <FormControl
+                                            fullWidth
+                                            variant="outlined"
+                                            sx={{ marginBottom: "16px" }}
+                                        >
+                                            <InputLabel
+                                                htmlFor="date-label"
+                                                sx={{ fontSize: "16px" }}
+                                            >
+                                                วัน
+                                            </InputLabel>
+                                            <Select
+                                                name="date"
+                                                variant="outlined"
+                                                value={time?.date}
+                                                onChange={(e) => handleTimeChange(index, e)}
+                                                sx={{ fontSize: "16px" }}
+                                                inputProps={{ id: "date-label" }}
+                                            >
+                                                {[
+                                                    "จันทร์",
+                                                    "อังคาร",
+                                                    "พุธ",
+                                                    "พฤหัสบดี",
+                                                    "ศุกร์",
+                                                    "เสาร์",
+                                                    "อาทิตย์",
+                                                ].map((value) => (
+                                                    <MenuItem key={value} value={value}>
+                                                        {value}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={6} md={2.8}>
+                                        <TextField
+                                            fullWidth
+                                            name="start_time"
+                                            label="เวลาเริ่ม"
+                                            type="time"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <AccessTimeIcon />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            inputProps={{
+                                                step: 300, // 5 minutes
+                                            }}
+                                            value={time?.start_time}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} md={2.8}>
+                                        <TextField
+                                            fullWidth
+                                            name="end_time"
+                                            label="หมดเวลา"
+                                            type="time"
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <AccessTimeIcon />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            inputProps={{
+                                                step: 300, // 5 minutes
+                                            }}
+                                            value={time?.end_time}
+                                            onChange={(e) => handleTimeChange(index, e)}
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        item
+                                        xs={6}
+                                        md={0.8}
+                                    >
                                         <IconButton
-                                            aria-label="add"
                                             sx={{
-                                                color: "#1565c0",
+                                                color: "#F20000",
                                                 "&:hover": {
-                                                    color: "#087A02",
+                                                    color: "#0000FF",
                                                 },
                                             }}
-                                            onClick={handleAddTime}
+                                            onClick={() => handleRemoveTime(index)}
                                         >
-                                            <AddAlarmIcon />
+                                            <Delete />
                                         </IconButton>
                                     </Grid>
                                 </Grid>
-                            </Stack>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseDialog} color="primary">
-                                ยกเลิก
-                            </Button>
-                            <Button onClick={handleAddSection} color="primary">
-                                เพิ่ม
-                            </Button>
-                        </DialogActions>
-                    </Box>
-                </Modal>
-
-            </Stack>
+                            ))}
+                            <Grid container direction="column" alignItems="center" spacing={2}>
+                                <Grid item>
+                                    <IconButton
+                                        aria-label="add"
+                                        sx={{
+                                            color: "#1565c0",
+                                            "&:hover": {
+                                                color: "#087A02",
+                                            },
+                                        }}
+                                        onClick={handleAddTime}
+                                    >
+                                        <AddAlarmIcon />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </Stack>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog} color="primary">
+                            ยกเลิก
+                        </Button>
+                        <Button onClick={handleAddSection} color="primary">
+                            เพิ่ม
+                        </Button>
+                    </DialogActions>
+                </Box>
+            </Modal>
             <Stack justifyContent={"center"} alignItems={"center"} spacing={2} sx={{ p: 2 }}>
                 <Button variant="contained" onClick={handleUpdate}>
                     ยืนยันการแก้ไข

@@ -159,25 +159,69 @@ export default function Appbar() {
                         >
                         </IconButton>
                     </Box>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 1,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                            marginRight: 3,
-                        }}
-                    >
-                        MX PSU
-                    </Typography>
+                    {!login ? (
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href=""
+                            sx={{
+                                mr: 1,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                marginRight: 3,
+                            }}
+                        >
+                            MX PSU
+                        </Typography>
+                    ) : login && user?.status === 1 ? (
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/home.admin"
+                            sx={{
+                                mr: 1,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                marginRight: 3,
+                            }}
+                        >
+                            MX PSU
+                        </Typography>
+                    ) : (
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/home-member"
+                            sx={{
+                                mr: 1,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                marginRight: 3,
+                            }}
+                        >
+                            MX PSU
+                        </Typography>
+                    )}
+
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     </Box>
                     <div>
