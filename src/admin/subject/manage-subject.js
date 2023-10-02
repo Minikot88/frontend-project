@@ -65,7 +65,7 @@ export default function ManageSubject() {
   };
 
   const goEditSubject = (id) => {
-    navigate(`/update-subject/${id}`);
+    navigate(`/edit-subject/${id}`);
   };
 
   const [searchQuery, setSearchQuery] = useState('');
