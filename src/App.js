@@ -105,3 +105,25 @@ function App() {
 }
 
 export default App;
+
+// const getMaxTimeId = async () => {
+//   try {
+//     const response = await axios.get(
+//       `${process.env.REACT_APP_API_SERVER}/getMaxTime`
+//     );
+//     if (response) {
+//       const maxId = response?.data[0].maxId;
+
+//       if (maxId) {
+//         const currentId = parseInt(maxId.slice(1));
+//         const nextId = currentId + 1;
+//         return nextId; // Return the next ID without the 'T' prefix
+//       } else {
+//         return 1; // Start from 1 if no max ID is found
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };
