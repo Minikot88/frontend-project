@@ -7,10 +7,14 @@ import {
 import axios from 'axios';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useParams } from "react-router-dom";
 
 const theme = createTheme();
 
-export const AddSectionCard = (props) => {
+export const AddTimeCard = (props) => {
+
+    const { id } = useParams();
+    const [section, setSection] = useState({});
     const [formData, setFormData] = useState({
         subject_id: props?.id,
         section_id: '',
@@ -135,6 +139,29 @@ export const AddSectionCard = (props) => {
         }
     };
 
+    useEffect(() => {
+        const getViewIdSection = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getViewIdSection?section_id=${id}`
+                );
+                if (response?.data?.length > 0) {
+                    setSection(response.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getViewIdSection();
+    }, [id]);
+
+    const handleInput = (e) => {
+        setSection((updateSection) => ({
+            ...updateSection,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
     const style = {
         marginTop: 2,
         position: 'absolute',
@@ -159,28 +186,37 @@ export const AddSectionCard = (props) => {
                             <Grid
                                 container
                                 direction="row"
-                                justifyContent="center"
+                                justifyContent="flex-start"
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Grid item xs={12} md={4}>
+                                <Grid item xs={12} md={2}>
                                     <TextField
+                                        disabled
                                         fullWidth
                                         label="Section"
                                         name="section"
-                                        value={formData.section}
-                                        onChange={handleChange}
+                                        variant="outlined"
+                                        size="small"
+                                        onChange={(e) => handleInput(e)}
+                                        value={section.section}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                     />
                                 </Grid>
-                                <Grid item xs={12} md={4}>
+                                <Grid item xs={12} md={2}>
                                     <FormControl fullWidth>
                                         <InputLabel id="term-label">ภาคการศึกษา</InputLabel>
                                         <Select
+                                            disabled
                                             name="term"
                                             labelId="term-label"
                                             label="ภาคการศึกษา"
                                             variant="outlined"
-                                            onChange={handleChange}
+                                            size="small"
+                                            onChange={(e) => handleInput(e)}
+                                            value={section ? `${section?.term}` : " "}
                                         >
                                             {[1, 2, 3].map((value) => (
                                                 <MenuItem key={value} value={value}>
@@ -190,15 +226,18 @@ export const AddSectionCard = (props) => {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={12} md={4}>
+                                <Grid item xs={12} md={2}>
                                     <FormControl fullWidth>
                                         <InputLabel id="year-label">ปีการศึกษา</InputLabel>
                                         <Select
+                                            disabled
                                             name="year"
                                             labelId="year-label"
                                             label="ปี"
                                             variant="outlined"
-                                            onChange={handleChange}
+                                            size="small"
+                                            onChange={(e) => handleInput(e)}
+                                            value={section ? `${section?.year}` : " "}
                                         >
                                             {[2563, 2564, 2565, 2566, 2567, 2568].map((value) => (
                                                 <MenuItem key={value} value={value}>
@@ -209,7 +248,6 @@ export const AddSectionCard = (props) => {
                                     </FormControl>
                                 </Grid>
                             </Grid>
-
                             {formData.times.map((time, index) => (
                                 <Grid item xs={12} key={index}>
                                     <Grid
@@ -304,8 +342,6 @@ export const AddSectionCard = (props) => {
                                                 onChange={(event) => handleChangeTime(index, event)}
                                             />
                                         </Grid>
-
-
                                         <Grid item xs={6} md={2}  >
                                             {index > 0 && (
                                                 <Button

@@ -19,6 +19,8 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import CheckIcon from '@mui/icons-material/Check';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
+import Modal from '@mui/material/Modal';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -32,6 +34,7 @@ export default function EditSubjectPage() {
     const { subject_id } = useParams()
     const [subject, setSubject] = useState({})
     const [section, setSection] = useState([])
+
     const [open, setOpen] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
@@ -45,7 +48,7 @@ export default function EditSubjectPage() {
     }
 
     const updateSection = (id) => {
-        navigate(`/update-section/${id}`)
+        navigate(`/update-section/${id}/${subject_id}`)
     }
 
     const handleCloseMenu = () => {
@@ -151,12 +154,27 @@ export default function EditSubjectPage() {
         }
     };
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        maxHeight: '80%',
+        backgroundColor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: '24px',
+        padding: '4px',
+        overflow: 'auto',
+    };
+
+
     return (
         <>
             <BreadcrumbsPage
                 pages={[
-                    { title: "Manage Subject", path: `/manage-subject` },
-                    { title: "Edit Subject" },
+                    { title: "จัดการรายวิชา", path: `/manage-subject` },
+                    { title: `แก้ไขวิชา ${subject?.subject_id}` },
                 ]} />
             <Stack
                 direction="row"
@@ -340,7 +358,7 @@ export default function EditSubjectPage() {
                                             <MenuItem
                                                 onClick={() => {
                                                     handleCloseMenu();
-                                                    updateSection(item?.section_id);
+                                                    updateSection(item?.section_id, subject_id);
                                                 }}
                                             >
                                                 <EditIcon />
@@ -356,14 +374,35 @@ export default function EditSubjectPage() {
                         </Box>
                     </CardContent>
                 </Card>
-                <Dialog open={open} onClose={closeAddSectionPart}>
-                    <Box sx={{ p: 2, maxHeight: 500 }}>
+                <Modal
+                    open={open}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Grid
+                            container
+                            justifyContent="space-between"
+                        >
+                            <Typography variant="subtitle1" component="h2" sx={{ p: 1 }}>
+                                Add Section
+                            </Typography>
+                            <IconButton
+                                onClick={() => closeAddSectionPart()}
+                                sx={{
+                                    color: '#0d47a1',
+                                    '&:hover': {
+                                        color: '#d50000',
+                                    },
+                                }}
+                            >
+                                <HighlightOffIcon />
+                            </IconButton>
+                        </Grid>
+
                         <AddSectionCard id={subject_id} />
-                        <Button onClick={() => closeAddSectionPart()}>
-                            ปิด
-                        </Button>
                     </Box>
-                </Dialog>
+                </Modal>
 
             </Container>
         </ >

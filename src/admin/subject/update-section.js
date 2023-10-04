@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -22,15 +23,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { AddSectionCard } from '../../components/add-section-card';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { AddTimeCard } from "../../components/add-time-card";
+import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 
 export const UpdateSection = () => {
   const { id } = useParams();
+  const [subject, setSubject] = useState({})
+  const { subject_id } = useParams()
   const [section, setSection] = useState({});
   const [time, setTime] = useState([]);
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
-
+ console.log(subject_id)
   const closeAddSectionPart = () => {
     setOpen(false)
   }
@@ -200,13 +205,33 @@ export const UpdateSection = () => {
     overflow: 'auto', // เพิ่ม overflow: auto; เพื่อให้มีแถบเลื่อน
   };
 
+  useEffect(() => {
+    const getSubject = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/subject?subject_id=${subject_id}`);
+            if (response) {
+                setSubject(response?.data[0])
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    getSubject()
+}, [subject_id])
+
   return (
     <form>
+      <BreadcrumbsPage
+        pages={[
+          { title: "จัดการรายวิชา", path: `/manage-subject` },
+          { title: `แก้ไขวิชา  ${subject?.subject_id} `,path: `/edit-subject/${subject_id}` },
+          { title: `แก้ไข Section ${section.section}` },
+        ]} />
 
       <Container maxWidth="lg">
         <Box sx={{ p: 4 }}>
           <Typography textAlign={'center'} variant="h4">
-            แก้ไขรายวิชา
+            แก้ไข Section {section.section}
           </Typography>
         </Box>
         <Card >
@@ -464,15 +489,31 @@ export const UpdateSection = () => {
         </Card>
         <Modal
           open={open}
-          onClose={closeAddSectionPart}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
+
           <Box sx={style}>
-            <AddSectionCard id={id} />
-            <Button onClick={() => closeAddSectionPart()}>
-              ปิด
-            </Button>
+            <Grid
+              container
+              justifyContent="space-between"
+            >
+              <Typography variant="subtitle1" component="h2" sx={{ p: 1 }}>
+                Add Time
+              </Typography>
+              <IconButton
+                onClick={() => closeAddSectionPart()}
+                sx={{
+                  color: '#0d47a1',
+                  '&:hover': {
+                    color: '#d50000',
+                  },
+                }}
+              >
+                <HighlightOffIcon />
+              </IconButton>
+            </Grid>
+            <AddTimeCard id={id} />
           </Box>
         </Modal>
       </Container>

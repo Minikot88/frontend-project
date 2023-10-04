@@ -325,17 +325,18 @@ export default function UpdateSubjectView() {
     };
 
     const style = {
+
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
-        maxHeight: '80%', // แก้เป็น maxHeight แทน maxhigh
-        backgroundColor: 'background.paper', // แก้เป็น backgroundColor แทน bgcolor
+        maxHeight: '80%', 
+        backgroundColor: 'background.paper',
         border: '2px solid #000',
-        boxShadow: '24px', // แก้เป็น '24px' แทน 24
-        padding: '4px', // แก้เป็น '4px' แทน 4
-        overflow: 'auto', // เพิ่ม overflow: auto; เพื่อให้มีแถบเลื่อน
+        boxShadow: '24px', 
+        padding: '4px', 
+        overflow: 'auto', 
     };
 
     useEffect(() => {
