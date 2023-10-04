@@ -12,15 +12,75 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Modal from '@mui/material/Modal';
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import InputAdornment from "@mui/material/InputAdornment";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { AddSectionCard } from '../../components/add-section-card';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export const UpdateSection = () => {
   const { id } = useParams();
   const [section, setSection] = useState({});
   const [time, setTime] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
 
+  const closeAddSectionPart = () => {
+    setOpen(false)
+  }
+
+  const openAddSectionPart = () => {
+    setOpen(true)
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const StyledMenu = styled((props) => (
+    <Menu
+      elevation={0}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    '& .MuiPaper-root': {
+      borderRadius: 6,
+      marginTop: theme.spacing(1),
+      minWidth: 120,
+      color:
+        theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+      boxShadow:
+        'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+      '& .MuiMenu-list': {
+        padding: '4px 0',
+      },
+      '& .MuiMenuItem-root': {
+        '& .MuiSvgIcon-root': {
+          fontSize: 18,
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5),
+        },
+      },
+    },
+  }));
 
   useEffect(() => {
     const getViewIdSection = async () => {
@@ -100,7 +160,7 @@ export const UpdateSection = () => {
   const handleSaveChangesSection = async () => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_SERVER}/updateSectionData?section_id=${id}`,section
+        `${process.env.REACT_APP_API_SERVER}/updateSectionData?section_id=${id}`, section
       );
       if (response?.status === 200) {
         alert(`updated`);
@@ -113,6 +173,32 @@ export const UpdateSection = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_SERVER}/deleteTime?time_id=${id}`);
+      if (response?.status === 200) {
+        alert(`Data successfully`);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    maxHeight: '80%', // แก้เป็น maxHeight แทน maxhigh
+    backgroundColor: 'background.paper', // แก้เป็น backgroundColor แทน bgcolor
+    border: '2px solid #000',
+    boxShadow: '24px', // แก้เป็น '24px' แทน 24
+    padding: '4px', // แก้เป็น '4px' แทน 4
+    overflow: 'auto', // เพิ่ม overflow: auto; เพื่อให้มีแถบเลื่อน
+  };
 
   return (
     <form>
@@ -190,6 +276,65 @@ export const UpdateSection = () => {
                     Save Section
                   </Button>
                 </Grid>
+              </Grid>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card sx={{ mt: '5px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', }}>
+            <CardHeader title="Time" />
+            <Grid item>
+              <IconButton
+                onClick={() => openAddSectionPart()}
+                size="small"
+                variant="outlined" sx={{
+                  color: "#1565c0",
+                  "&:hover": {
+                    bgcolor: "#bbdefb",
+                  },
+                }}
+              >
+                <AddCircleOutlineIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+          </Box>
+          <CardContent sx={{ pt: 0 }}>
+            <Box sx={{ m: -1.5 }}>
+              <Grid container direction="row" spacing={2}>
+                {time?.map((item, index) =>
+                  <Grid item xs={6} md={2} sm={4} key={index}>
+                    <Button
+                      variant='contained'
+                      fullWidth
+                      id="basic-button"
+                      aria-controls={open ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      endIcon={<KeyboardArrowDownIcon />}
+                      onClick={handleClick}
+
+                    >
+                      ID : {item?.time_id}
+                    </Button>
+                    <StyledMenu
+                      anchorEl={anchorEl}
+                      open={openMenu}
+                      onClose={handleCloseMenu}
+                      MenuListProps={{
+                        'aria-labelledby': 'demo-customized-button',
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => handleDelete(item?.time_id)}
+                      >
+                        <DeleteIcon />
+                        ลบ
+                      </MenuItem>
+                    </StyledMenu>
+                  </Grid>
+                )}
+
               </Grid>
             </Box>
           </CardContent>
@@ -317,6 +462,19 @@ export const UpdateSection = () => {
             </Stack>
           </CardContent>
         </Card>
+        <Modal
+          open={open}
+          onClose={closeAddSectionPart}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <AddSectionCard id={id} />
+            <Button onClick={() => closeAddSectionPart()}>
+              ปิด
+            </Button>
+          </Box>
+        </Modal>
       </Container>
     </form >
   );
