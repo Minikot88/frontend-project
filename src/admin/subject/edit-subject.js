@@ -97,9 +97,10 @@ export default function EditSubjectPage() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_API_SERVER}/update-subject?id=${subject_id}`, subject);
+            const response = await axios.put(`${process.env.REACT_APP_API_SERVER}/updateSubject?subject_id=${subject_id}`, subject);
             if (response?.status === 200) {
                 alert('Data updated successfully!')
+                window.location.reload();
             }
         } catch (err) {
             console.error("Error Message: ", err)
