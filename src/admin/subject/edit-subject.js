@@ -47,8 +47,8 @@ export default function EditSubjectPage() {
         setOpen(false)
     }
 
-    const updateSection = (id) => {
-        navigate(`/update-section/${id}/${subject_id}`)
+    const updateSection = (subjectId, sectionId) => {
+        navigate(`/update-section/${subjectId}/${sectionId}`);
     }
 
     const handleCloseMenu = () => {
@@ -71,7 +71,7 @@ export default function EditSubjectPage() {
             }
         }
         getAllSectionBySubject();
-    }, [])
+    }, [subject_id])
 
     useEffect(() => {
         const getSubject = async () => {
@@ -280,7 +280,7 @@ export default function EditSubjectPage() {
                                             name="category"
                                             labelId="category-label"
                                             value={subject ? `${subject?.category}` : " "}
-                                            onChange={(e) => (e) => handleInputChange(e)(e)}
+                                            onChange={(e) => handleInputChange(e)}
                                             label="หมวดหมู่วิชา"
                                             sx={{
                                                 "& .MuiSelect-selectMenu": {
@@ -335,13 +335,12 @@ export default function EditSubjectPage() {
                                             aria-controls={open ? 'basic-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={open ? 'true' : undefined}
-                                            endIcon={<KeyboardArrowDownIcon />}
-                                            onClick={handleClick}
-                                        //onClick={() => updateSection(item?.section_id)}
+                                            // endIcon={<KeyboardArrowDownIcon />}
+                                            onClick={() => updateSection(subject_id, item?.section_id)}
                                         >
                                             Section {item?.section}
                                         </Button>
-                                        <StyledMenu
+                                        {/* <StyledMenu
                                             anchorEl={anchorEl}
                                             open={openMenu}
                                             onClose={handleCloseMenu}
@@ -357,14 +356,14 @@ export default function EditSubjectPage() {
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    handleCloseMenu();
-                                                    updateSection(item?.section_id, subject_id);
+                                                    // handleCloseMenu();
+                                                    updateSection(subject_id, item?.section_id);
                                                 }}
                                             >
                                                 <EditIcon />
                                                 แก้ไข
                                             </MenuItem>
-                                        </StyledMenu>
+                                        </StyledMenu> */}
                                     </Grid>
                                 )}
                                 {/* <Button variant='contained' onClick={() => openAddSectionPart()}>

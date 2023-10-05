@@ -115,12 +115,6 @@ export default function AccountMenu() {
                     My account
                 </MenuItem>
                 <Divider />
-                {/* <MenuItem >
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem> */}
                 <MenuItem
                     onClick={handleLogout}>
                     <ListItemIcon>

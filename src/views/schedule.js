@@ -3,8 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import Container from '@mui/material/Container';
 
 const scheduleData = [
-    { day: "Monday", timeSlot: "08:00 - 09:00", subject_name_th: "Math", classroom: "A101" },
-    { day: "Monday", timeSlot: "09:00 - 10:00", subject_name_th: "Science", classroom: "B202" },
+    { day: "Monday", timeSlot: "08:00 - 10:00", subject_name_th: "Math", classroom: "A101" },
     { day: "Tuesday", timeSlot: "08:00 - 09:00", subject_name_th: "English", classroom: "C303" },
     { day: "Wednesday", timeSlot: "10:00 - 11:00", subject_name_th: "History", classroom: "D404" },
     { day: "Thursday", timeSlot: "08:00 - 09:00", subject_name_th: "Physics", classroom: "E505" },
@@ -13,6 +12,7 @@ const scheduleData = [
 ];
 
 export default function StudentSchedule() {
+    
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     const timeSlots = ["08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00"];
 

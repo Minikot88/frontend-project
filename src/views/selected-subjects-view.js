@@ -93,13 +93,16 @@ export default function SelectedSubjectsView() {
                                     >
                                         {isFirstInSection && (
                                             <>
-                                                <TableCell align="center" rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                                                <TableCell align="center"
+                                                    rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                                                     {row?.subject_id}
                                                 </TableCell>
-                                                <TableCell align="center" rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                                                <TableCell align="center"
+                                                    rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                                                     {row?.section}
                                                 </TableCell>
-                                                <TableCell align="center" rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                                                <TableCell align="center"
+                                                    rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                                                     {row?.subject_name_th}
                                                 </TableCell>
                                             </>

@@ -27,6 +27,7 @@ import { AddTimeCard } from "../../components/add-time-card";
 import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 
 export const UpdateSection = () => {
+
   const { id } = useParams();
   const [subject, setSubject] = useState({})
   const { subject_id } = useParams()
@@ -35,7 +36,7 @@ export const UpdateSection = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
- console.log(subject_id)
+
   const closeAddSectionPart = () => {
     setOpen(false)
   }
@@ -207,24 +208,24 @@ export const UpdateSection = () => {
 
   useEffect(() => {
     const getSubject = async () => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/subject?subject_id=${subject_id}`);
-            if (response) {
-                setSubject(response?.data[0])
-            }
-        } catch (err) {
-            console.error(err);
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/subject?subject_id=${subject_id}`);
+        if (response) {
+          setSubject(response?.data[0])
         }
+      } catch (err) {
+        console.error(err);
+      }
     };
     getSubject()
-}, [subject_id])
+  }, [subject_id])
 
   return (
     <form>
       <BreadcrumbsPage
         pages={[
           { title: "จัดการรายวิชา", path: `/manage-subject` },
-          { title: `แก้ไขวิชา  ${subject?.subject_id} `,path: `/edit-subject/${subject_id}` },
+          { title: `แก้ไขวิชา  ${subject?.subject_id} `, path: `/edit-subject/${subject_id}` },
           { title: `แก้ไข Section ${section.section}` },
         ]} />
 

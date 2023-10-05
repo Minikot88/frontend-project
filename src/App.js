@@ -95,7 +95,7 @@ function App() {
         <Route path="/addUser" element={<AddUser />} />
         <Route path="/addAdmin" element={<AddAdmin />} />
         <Route path="/update-account/:id" element={<UpdateAccount />} />
-        <Route path="/update-section/:id/:subject_id" element={<UpdateSection />} />
+        <Route path="/update-section/:subject_id/:id" element={<UpdateSection />} />
         <Route path="/details-subject-admin/:id" element={<DetailSubjectAdmin />} />
         
       </Routes>
