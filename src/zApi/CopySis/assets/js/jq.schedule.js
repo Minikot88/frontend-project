@@ -178,21 +178,18 @@
 
                     //$moveNode.find(".text").text(timelineNum+" "+(element.getScheduleCount(timelineNum) + 1));
                     if(currentNode["nowTimeline"] != timelineNum){
-                        // 高さの調節
-                        //element.resizeRow(currentNode["nowTimeline"],element.getScheduleCount(currentNode["nowTimeline"]));
-                        //element.resizeRow(timelineNum,element.getScheduleCount(timelineNum) + 1);
-                        // 現在のタイムライン
+                        
                         currentNode["nowTimeline"] = timelineNum;
                     }else{
-                        //ui.position.top = currentNode["currentTop"];
+                      
                     }
                     currentNode["currentTop"] = ui.position.top;
                     currentNode["currentLeft"] = ui.position.left;
-                    // テキスト変更
+             
                     element.rewriteBarText($moveNode,scheduleData[sc_key]);
                     return true;
                 },
-                // 要素の移動が終った後の処理
+               
                 stop: function(event, ui) {
                     jQuery(this).data("dragCheck",false);
                     currentNode = null;

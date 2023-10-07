@@ -78,7 +78,7 @@ export default function HomeMember() {
                                     bgcolor: '#0487D9',
                                 },
                             }}>
-                            สร้างตารางเรียน
+                            ตารางเรียน
                         </Button>
                         <Button
                             href="/schedule-me"

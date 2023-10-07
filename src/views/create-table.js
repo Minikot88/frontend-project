@@ -1,55 +1,183 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import {
+    Button, InputLabel, Stack, CardHeader, Container,
+    TextField, Typography, CardContent,
+    useMediaQuery, IconButton, Dialog, Card, Box,
+    DialogTitle, DialogContent, DialogActions, Unstable_Grid2 as Grid,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Stack from '@mui/material/Stack';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-
-import Appbar from '../components/app-bar';
+import Modal from '@mui/material/Modal';
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import './detail.css'
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import { useNavigate, useParams } from "react-router-dom";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Logout from '@mui/icons-material/Logout';
+import { experimentalStyled as styled } from '@mui/material/styles';
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const theme = createTheme();
-
 export default function CreateTable() {
 
-    const [subject, setSubject] = useState()
+    const navigate = useNavigate()
+    const [schedule_name, setScheduleName] = useState('');
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMenu = Boolean(anchorEl);
+    const [open, setOpen] = React.useState(false);
+    const [schedule, setSchedule] = useState([]);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '40%',
+        maxHeight: '50%',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
+
+    const StyledMenu = styled((props) => (
+        <Menu
+            elevation={0}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            {...props}
+        />
+    ))(({ theme }) => ({
+        '& .MuiPaper-root': {
+            borderRadius: 6,
+            marginTop: theme.spacing(1),
+            minWidth: 120,
+            color:
+                theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+            boxShadow:
+                'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+            '& .MuiMenu-list': {
+                padding: '4px 0',
+            },
+            '& .MuiMenuItem-root': {
+                '& .MuiSvgIcon-root': {
+                    fontSize: 18,
+                    color: theme.palette.text.secondary,
+                    marginRight: theme.spacing(1.5),
+                },
+            },
+        },
+    }));
+
+    const getMaxSchedule = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_SERVER}/getMaxSchedule`
+            );
+            if (response) {
+                const maxId = response?.data[0].maxId;
+                if (maxId) {
+                    const currentId = parseInt(maxId.slice(1));
+                    const nextId = currentId + 1;
+                    return `C${nextId.toString().padStart(5, '0')}`;
+                } else {
+                    return 'C00001';
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        try {
+            const token = localStorage.getItem("token");
+            const generated_id = await getMaxSchedule();
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_SERVER}/addNameSchedule`, {
+                schedule_id: generated_id,
+                schedule_name: schedule_name
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response) {
+                alert('สำเร็จ');
+                setOpen(false)
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     useEffect(() => {
-        const getAllSubjects = async () => {
+        const getScheduleById = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/subject`)
+                const token = await localStorage.getItem("token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getScheduleById`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 if (response) {
-                    setSubject(response?.data)
-                    console.log(response?.data)
+                    setSchedule(response?.data);
                 }
             } catch (err) {
-                console.error(err)
+                console.error(err);
             }
+        };
+        getScheduleById();
+    }, []);
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_SERVER}/deleteSchedule?schedule_id=${id}`);
+            if (response?.status === 200) {
+                alert(`Data deleted successfully`);
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
         }
-        getAllSubjects()
-    }, [])
+    };
 
     return (
-        <ThemeProvider theme={theme}>
-
+        <>
             <BreadcrumbsPage
                 pages={[
                     { title: "สร้างตารางเรียน" }
@@ -79,68 +207,15 @@ export default function CreateTable() {
                                     marginTop: '20px',
                                 }}
                             >
-                                สร้างตารางเรียน
+                                ตารางเรียนทั้งหมด
                             </Typography>
                         </Grid>
                     </Container>
                 </Box>
             </main>
-            <Container minWidth="sm">
-                <TableContainer
-                    component={Paper}
-                    sx={{ marginTop: '20px', }}
-                >
-                    <Table
-                        sx={{ maxWidth: "400" }}
-                        size="small"
-                        aria-label="a dense table" >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> รหัสวิชา </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> ชื่อวิชา </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> Subject name </TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> ตอน</TableCell>
-                                <TableCell align="center" sx={{ '&:hover': { bgcolor: '#BBE2F2', }, }}> หน่วยกิต  </TableCell>
-                                <TableCell align="center" > </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {subject?.map((row) => (
-                                <TableRow
-                                    key={row?.subject_id}
-                                    sx={{
-                                        '&:last-child td, &:last-child th': { border: 0 },
-                                        '&:hover': {
-                                            bgcolor: '#BBE2F2',
-                                        },
-                                    }}
-                                >
-                                    <TableCell align="center" component="th" scope="row" > {row?.subject_id} </TableCell>
-                                    <TableCell align="center" > {row.subject_name_th} </TableCell>
-                                    <TableCell align="center" > {row.subject_name_eng} </TableCell>
-                                    <TableCell align="center" > {row.section} </TableCell>
-                                    <TableCell align="center" > {row.credit} </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            aria-label="delete"
-                                            color="error"
-                                            sx={{
-                                                boxShadow: 3,
-                                                '&:hover': {
-                                                    bgcolor: '#0487D9',
-                                                },
-                                            }} >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
             <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
                 <Button
+                    onClick={handleOpen}
                     variant="outlined"
                     sx={{
                         boxShadow: 3,
@@ -149,24 +224,104 @@ export default function CreateTable() {
                         },
                     }}
                     startIcon={<ControlPointIcon />}
-                    href="/search-select"
                 >
-                    Add
-                </Button>
-                <Button
-                    href="/selected-subjects-view"
-                    variant="outlined"
-                    sx={{
-                        boxShadow: 3,
-                        '&:hover': {
-                            bgcolor: '#e3f2fd',
-                        },
-                    }}
-                    startIcon={<EditCalendarIcon />}>
-                    create
+                    สร้างตารางเรียน
                 </Button>
             </Stack>
-        </ThemeProvider>
+
+            {/* Modal */}
+            <Modal
+                open={open}
+                aria-labelledby="child-modal-title"
+                aria-describedby="child-modal-description"
+            >
+                <Box sx={{ ...style }}>
+                    <h2 id="child-modal-title">ระบุชื่อตารางเรียน</h2>
+                    <Grid container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{ p: 1 }}
+                    >
+                        <Grid item xs={12} sm={8} md={6} lg={12}>
+                            <TextField
+                                fullWidth
+                                label="ชื่อตารางเรียน"
+                                variant="outlined"
+                                name="schedule_name"
+                                onChange={(e) => setScheduleName(e.target.value)}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container
+                        direction="row"
+                        justifyContent="flex-end"
+                        alignItems="flex-end"
+                        spacing={1}
+                    >
+                        <Grid item >
+                            <Button variant="outlined" onClick={() => handleSubmit()}>ตกลง</Button>
+                        </Grid>
+                        <Grid item >
+                            <Button variant="outlined" onClick={handleClose}>ยกเลิก</Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Modal>
+            <Container>
+                <Card>
+                    <CardHeader title="ตารางเรียน" />
+                    <CardContent sx={{ pt: 0 }}>
+                        <Box sx={{ alignItems: 'center', justifyContent: "center" }}>
+                            <Grid container direction="row" spacing={2} >
+                                {schedule?.map((schedule, index) => (
+                                    <Grid item xs={12} md={2} sm={6} key={index}>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            id="basic-button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            onClick={handleClick}
+                                        >
+                                            {schedule?.schedule_name}
+                                        </Button>
+                                        <StyledMenu
+                                            id="basic-menu"
+                                            anchorEl={anchorEl}
+                                            open={openMenu}
+                                            onClose={handleCloseMenu}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'basic-button',
+                                            }}
+                                        >
+                                            <MenuItem onClick={handleCloseMenu}>
+                                                <ListItemIcon>
+                                                    <Logout fontSize="small" />
+                                                </ListItemIcon>
+                                                ดูตาราง
+                                            </MenuItem>
+                                            <MenuItem onClick={handleCloseMenu}>
+                                                <ListItemIcon>
+                                                    <Logout fontSize="small" />
+                                                </ListItemIcon>
+                                                แก้ไข
+                                            </MenuItem>
+                                            <MenuItem 
+                                            onClick={() => handleDelete(schedule?.schedule_id)}>
+                                                  <DeleteIcon />
+                                                ลบ
+                                            </MenuItem>
+                                        </StyledMenu>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Container>
+        </>
     );
 }
 

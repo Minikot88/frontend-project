@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 import Photo from '../image/hacker.png'
 
@@ -32,7 +33,6 @@ export default function Login() {
             })
             if (response.status === 200 && response.statusText === "success") {
                 alert("เข้าสู่ระบบสำเร็จ");
-                console.log(response.data);
 
                 const token = response.data
                 const data = await axios.get(process.env.REACT_APP_API_SERVER + '/getAccountByID', {

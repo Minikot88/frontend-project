@@ -95,7 +95,7 @@ export default function HomeAdmin() {
                                     },
                                 }}
                             >
-                                สร้างตารางเรียน
+                                ตารางเรียน
                             </Button>
                         </Grid>
                         <Grid item>

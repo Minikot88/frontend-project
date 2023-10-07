@@ -12,6 +12,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -20,6 +21,7 @@ import axios from 'axios';
 import Photo from '../image/hacker.png'
 
 export default function AccountMenu() {
+    const Swal = require('sweetalert2')
     const navigate = useNavigate()
     const [user, setUser] = useState()
     const [login, setLogin] = React.useState(false)
@@ -48,12 +50,18 @@ export default function AccountMenu() {
         })
     }, [])
     const handleLogout = () => {
-        localStorage.clear()
-        alert('คุณออกจากระบบแล้ว')
-        setLogin(false);
-        navigate(`/`);
-        window.location.reload()
-    }
+        Swal.fire({
+            title: 'ยืนยันการออกจากระบบ',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            localStorage.clear();
+            Swal.fire('คุณออกจากระบบแล้ว', '', 'info'); 
+            setLogin(false);
+            navigate(`/`);
+            window.location.reload();
+          });
+        }
 
     const handleClosesAccount = () => {
         setAnchorEl(null);
@@ -71,7 +79,6 @@ export default function AccountMenu() {
                 })
                 if (response) {
                     setUser(response?.data[0])
-                    console.log(response?.data[0])
                 }
             } catch (err) {
                 console.error(err)

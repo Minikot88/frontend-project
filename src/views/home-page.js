@@ -61,7 +61,7 @@ export default function Home() {
                                         bgcolor: '#0487D9',
                                     },
                                 }} >
-                                สร้างตารางเรียน
+                                ตารางเรียน
                             </Button>
                             <Button
                                 variant="contained"

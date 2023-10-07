@@ -49,8 +49,6 @@ function App() {
     if (token !== null) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
-
-    console.log(token)
   }
 
   useEffect(() => {
@@ -84,6 +82,7 @@ function App() {
         <Route path="/details-card" element={<DetailsCard />} />
         <Route path="/account-menu" element={<AccountMenu />} />
         <Route path="/menu" element={<MenuIcon />} />
+      
 
         //addmin
         <Route path="/edit-subject/:subject_id" element={<EditSubjectPage />} />

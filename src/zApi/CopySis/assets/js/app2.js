@@ -7,23 +7,6 @@ function exportImg() {
     donate();
 }
 
-function setHeader() {
-    document.getElementById('schedheader').innerHTML = '<i class="fa fa-calendar"></i> ' + document.getElementById('schedtext').value
-}
-
-function setPos(pos) {
-    document.getElementById('schedheader').style.textAlign = pos;
-    if(pos == 'left') {
-        document.getElementById('postext').innerHTML = 'ซ้าย';
-    }
-    else if(pos == 'center') {
-        document.getElementById('postext').innerHTML = 'กลาง';
-    }
-    else if(pos == 'right') {
-        document.getElementById('postext').innerHTML = 'ขวา';
-    }
-}
-
 function setTimeHead(str) {
     var i;
     var elem = document.getElementsByClassName("sc_time");
@@ -51,18 +34,6 @@ function firstload() {
 
     document.getElementsByClassName("loading")[0].style.display = "none";
     //modal.style.display = "block";
-}
-
-function donate() { //#459fff
-    qrmodal.style.display = "block";
-    document.getElementById('donateheader').innerHTML = '<i class="fa fa-qrcode fa-inverse"></i> กำลังดาวน์โหลดตารางเรียน...';
-    document.getElementById("qrheader").style.backgroundColor = "#459fff";
-}
-
-function donatemanual() { //#d6598b
-    qrmodal.style.display = "block";
-    document.getElementById('donateheader').innerHTML = '<i class="fa fa-heart fa-inverse"></i> สนับสนุนผู้พัฒนา';
-    document.getElementById("qrheader").style.backgroundColor = "#d6598b";
 }
 
 function opendeco() { //#d6598b
