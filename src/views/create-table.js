@@ -30,6 +30,7 @@ export default function CreateTable() {
     const openMenu = Boolean(anchorEl);
     const [open, setOpen] = React.useState(false);
     const [schedule, setSchedule] = useState([]);
+    const [selected, setSelected] = useState(null)
 
     const handleOpen = () => {
         setOpen(true);
@@ -38,8 +39,10 @@ export default function CreateTable() {
         setOpen(false);
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event, id) => {
         setAnchorEl(event.currentTarget);
+        setSelected(id)
+        console.log(id)
     };
 
     const handleCloseMenu = () => {
@@ -283,7 +286,7 @@ export default function CreateTable() {
                                             aria-controls={open ? 'basic-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={open ? 'true' : undefined}
-                                            onClick={handleClick}
+                                            onClick={(e) => handleClick(e, schedule?.schedule_id)}
                                         >
                                             {schedule?.schedule_name}
                                         </Button>
@@ -309,7 +312,7 @@ export default function CreateTable() {
                                                 แก้ไข
                                             </MenuItem>
                                             <MenuItem 
-                                            onClick={() => handleDelete(schedule?.schedule_id)}>
+                                            onClick={() => handleDelete(selected)}>
                                                   <DeleteIcon />
                                                 ลบ
                                             </MenuItem>
