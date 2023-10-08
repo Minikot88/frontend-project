@@ -45,6 +45,7 @@ export default function EditSubjectPage() {
 
     const closeAddSectionPart = () => {
         setOpen(false)
+        window.location.reload();
     }
 
     const updateSection = (subjectId, sectionId) => {

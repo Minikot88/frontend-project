@@ -319,7 +319,7 @@ export default function CreateTable() {
                                         {/* <StyledMenu
                                             id="basic-menu"
                                             anchorEl={anchorEl}
-                                            open={openMenu}
+                                            open={}
                                             onClose={handleCloseMenu}
                                             MenuListProps={{
                                                 'aria-labelledby': 'basic-button',

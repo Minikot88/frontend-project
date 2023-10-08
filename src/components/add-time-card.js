@@ -65,6 +65,7 @@ export const AddTimeCard = (props) => {
             const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/addTime`, times)
             if (response?.status === 200) {
                 alert('Times added successfully.');
+                window.location.reload();
             }
         } catch (err) {
             console.error(err)

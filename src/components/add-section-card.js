@@ -129,6 +129,7 @@ export const AddSectionCard = (props) => {
 
             if (response.status === 200) {
                 alert('Section added successfully.');
+                window.location.reload();
             }
         } catch (error) {
             console.error('Error adding section:', error);

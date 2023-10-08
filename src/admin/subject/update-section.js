@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -28,14 +29,16 @@ import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 
 export const UpdateSection = () => {
 
+  const navigate = useNavigate()
   const { id } = useParams();
   const [subject, setSubject] = useState({})
   const { subject_id } = useParams()
   const [section, setSection] = useState({});
   const [time, setTime] = useState([]);
   const [open, setOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = Boolean(anchorEl);
+  const [selected, setSelected] = useState(null)
 
   const closeAddSectionPart = () => {
     setOpen(false)
@@ -45,13 +48,15 @@ export const UpdateSection = () => {
     setOpen(true)
   };
 
+  const handleClick = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setSelected(id)
+    console.log(id)
+  };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const StyledMenu = styled((props) => (
     <Menu
@@ -119,14 +124,6 @@ export const UpdateSection = () => {
     };
     AllPeriodsBySection();
   }, [id]);
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setSection((prevSubject) => ({
-  //     ...prevSubject,
-  //     [name]: value,
-  //   }));
-  // };
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -198,12 +195,12 @@ export const UpdateSection = () => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '80%',
-    maxHeight: '80%', // แก้เป็น maxHeight แทน maxhigh
-    backgroundColor: 'background.paper', // แก้เป็น backgroundColor แทน bgcolor
+    maxHeight: '80%',
+    backgroundColor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: '24px', // แก้เป็น '24px' แทน 24
-    padding: '4px', // แก้เป็น '4px' แทน 4
-    overflow: 'auto', // เพิ่ม overflow: auto; เพื่อให้มีแถบเลื่อน
+    boxShadow: '24px',
+    padding: '4px',
+    overflow: 'auto',
   };
 
   useEffect(() => {
@@ -220,6 +217,23 @@ export const UpdateSection = () => {
     getSubject()
   }, [subject_id])
 
+  const handleDeleteSection = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_SERVER}/deleteSection?section_id=${id}`);
+      if (response?.status === 200) {
+        alert(`Data deleted successfully`);
+        navigate(`/edit-subject/${subject_id}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const goToTimeId = (schedule_id) => {
+    navigate(`/schedule/${schedule_id}`);
+  }
+
   return (
     <form>
       <BreadcrumbsPage
@@ -228,6 +242,31 @@ export const UpdateSection = () => {
           { title: `แก้ไขวิชา  ${subject?.subject_id} `, path: `/edit-subject/${subject_id}` },
           { title: `แก้ไข Section ${section.section}` },
         ]} />
+      <Stack
+        direction="row"
+        spacing={1}
+        justifyContent="flex-end"
+        marginRight={2}
+      >
+        <Button
+          variant="outlined"
+          startIcon={<DeleteForeverIcon />}
+          onClick={() => handleDeleteSection(subject?.subject_id)}
+          sx={{
+            bgcolor: "#AA00FF",
+            width: "130",
+            color: "#000000",
+            fontFamily: "monospace",
+            bgcolor: "#0468BF",
+            color: "#FFFFFF",
+            "&:hover": {
+              bgcolor: "#0487D9",
+            },
+          }}
+        >
+          ลบ Section {section.section}
+        </Button>
+      </Stack>
 
       <Container maxWidth="lg">
         <Box sx={{ p: 4 }}>
@@ -338,22 +377,21 @@ export const UpdateSection = () => {
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                       endIcon={<KeyboardArrowDownIcon />}
-                      onClick={handleClick}
-
+                      onClick={(id) => handleClick(id, item?.time_id)}
                     >
                       ID : {item?.time_id}
                     </Button>
                     <StyledMenu
+                      id="basic-menu"
                       anchorEl={anchorEl}
                       open={openMenu}
                       onClose={handleCloseMenu}
                       MenuListProps={{
-                        'aria-labelledby': 'demo-customized-button',
+                        'aria-labelledby': 'basic-button',
                       }}
                     >
                       <MenuItem
-                        onClick={() => handleDelete(item?.time_id)}
-                      >
+                        onClick={() => handleDelete(selected)}>
                         <DeleteIcon />
                         ลบ
                       </MenuItem>
