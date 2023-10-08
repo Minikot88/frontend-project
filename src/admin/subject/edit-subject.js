@@ -341,35 +341,8 @@ export default function EditSubjectPage() {
                                         >
                                             Section {item?.section}
                                         </Button>
-                                        {/* <StyledMenu
-                                            anchorEl={anchorEl}
-                                            open={openMenu}
-                                            onClose={handleCloseMenu}
-                                            MenuListProps={{
-                                                'aria-labelledby': 'demo-customized-button',
-                                            }}
-                                        >
-                                            <MenuItem
-                                                onClick={() => handleDelete(item?.section_id)}
-                                            >
-                                                <DeleteIcon />
-                                                ลบ
-                                            </MenuItem>
-                                            <MenuItem
-                                                onClick={() => {
-                                                    // handleCloseMenu();
-                                                    updateSection(subject_id, item?.section_id);
-                                                }}
-                                            >
-                                                <EditIcon />
-                                                แก้ไข
-                                            </MenuItem>
-                                        </StyledMenu> */}
                                     </Grid>
                                 )}
-                                {/* <Button variant='contained' onClick={() => openAddSectionPart()}>
-                        เพิ่ม Section
-                    </Button> */}
                             </Grid>
                         </Box>
                     </CardContent>

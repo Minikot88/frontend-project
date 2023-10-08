@@ -25,12 +25,14 @@ import { useState, useEffect } from 'react';
 export default function CreateTable() {
 
     const navigate = useNavigate()
+    const { schedule_id } = useParams()
     const [schedule_name, setScheduleName] = useState('');
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openMenu = Boolean(anchorEl);
     const [open, setOpen] = React.useState(false);
     const [schedule, setSchedule] = useState([]);
     const [selected, setSelected] = useState(null)
+    const [viewSchedule, setViewSchedule] = useState([])
 
     const handleOpen = () => {
         setOpen(true);
@@ -48,6 +50,11 @@ export default function CreateTable() {
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
+
+    const goToSchedule = (schedule_id) => {
+        navigate(`/schedule/${schedule_id}`);
+    }
+    
 
     const style = {
         position: 'absolute',
@@ -179,6 +186,28 @@ export default function CreateTable() {
         }
     };
 
+    useEffect(() => {
+        const getViewSchedule = async () => {
+            try {
+                const token = await localStorage.getItem("token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${schedule_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response?.status === 200) {
+                    setViewSchedule(response?.data);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getViewSchedule();
+    }, [schedule_id]);
+
     return (
         <>
             <BreadcrumbsPage
@@ -187,6 +216,7 @@ export default function CreateTable() {
 
                 ]} />
             <main>
+                
                 <Box
                     sx={{
                         bgcolor: '#42a5f5',
@@ -277,20 +307,16 @@ export default function CreateTable() {
                     <CardContent sx={{ pt: 0 }}>
                         <Box sx={{ alignItems: 'center', justifyContent: "center" }}>
                             <Grid container direction="row" spacing={2} >
-                                {schedule?.map((schedule, index) => (
+                                {schedule?.map((item, index) => (
                                     <Grid item xs={12} md={2} sm={6} key={index}>
                                         <Button
                                             variant="contained"
                                             fullWidth
-                                            id="basic-button"
-                                            aria-controls={open ? 'basic-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={open ? 'true' : undefined}
-                                            onClick={(e) => handleClick(e, schedule?.schedule_id)}
+                                            onClick={() => goToSchedule(item.schedule_id)}
                                         >
-                                            {schedule?.schedule_name}
+                                            {item?.schedule_name}
                                         </Button>
-                                        <StyledMenu
+                                        {/* <StyledMenu
                                             id="basic-menu"
                                             anchorEl={anchorEl}
                                             open={openMenu}
@@ -300,23 +326,15 @@ export default function CreateTable() {
                                             }}
                                         >
                                             <MenuItem onClick={handleCloseMenu}>
-                                                <ListItemIcon>
-                                                    <Logout fontSize="small" />
-                                                </ListItemIcon>
+                                                <DeleteIcon />
                                                 ดูตาราง
                                             </MenuItem>
-                                            <MenuItem onClick={handleCloseMenu}>
-                                                <ListItemIcon>
-                                                    <Logout fontSize="small" />
-                                                </ListItemIcon>
-                                                แก้ไข
-                                            </MenuItem>
-                                            <MenuItem 
-                                            onClick={() => handleDelete(selected)}>
-                                                  <DeleteIcon />
+                                            <MenuItem
+                                                onClick={() => handleDelete(selected)}>
+                                                <DeleteIcon />
                                                 ลบ
                                             </MenuItem>
-                                        </StyledMenu>
+                                        </StyledMenu> */}
                                     </Grid>
                                 ))}
                             </Grid>

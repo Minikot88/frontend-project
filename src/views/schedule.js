@@ -15,9 +15,11 @@ import {
 import Container from "@mui/material/Container";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const scheduleData = [
   { day: "Monday", timeSlot: "08:00 - 10:00", subject_name_th: "Math", classroom: "A101" },
@@ -31,7 +33,11 @@ const scheduleData = [
 
 export default function StudentSchedule() {
 
+  const navigate = useNavigate()
+  const { schedule_id } = useParams()
   const [subject, setSubject] = useState()
+  const [schedule, setSchedule] = useState([]);
+  const [viewSchedule, setViewSchedule] = useState([])
 
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const timeSlots = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
@@ -77,6 +83,10 @@ export default function StudentSchedule() {
     window.location.reload()
   };
 
+  const goToSelectSubject = () => {
+    navigate(`/search-select/${schedule_id}`);
+  };
+
   useEffect(() => {
     const getSubjects = async () => {
       try {
@@ -92,9 +102,97 @@ export default function StudentSchedule() {
     getSubjects();
   }, [])
 
+  useEffect(() => {
+    const getScheduleById = async () => {
+      try {
+        const token = await localStorage.getItem("token");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getScheduleById`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          setSchedule(response?.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getScheduleById();
+  }, []);
+
+  useEffect(() => {
+    const getViewSchedule = async () => {
+      try {
+        const token = await localStorage.getItem("token");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${schedule_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response?.status === 200) {
+          setViewSchedule(response?.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getViewSchedule();
+  }, [schedule_id]);
+
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_SERVER}/deleteSchedule?schedule_id=${schedule_id}`
+      );
+      if (response?.status === 200) {
+        alert(`Data deleted successfully`);
+        navigate('/create-table');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+
   return (
     <>
+
       <Container maxWidth="l" sx={{ p: 2 }}>
+        <Stack
+          direction="row"
+          spacing={1}
+          justifyContent="flex-end"
+          marginRight={2}
+        >
+          <Button
+            variant="outlined"
+            onClick={handleDelete}
+            startIcon={<DeleteIcon />}
+            sx={{
+              bgcolor: "#AA00FF",
+              width: "130",
+              color: "#000000",
+              fontFamily: "monospace",
+              bgcolor: "#0468BF",
+              color: "#FFFFFF",
+              "&:hover": {
+                bgcolor: "#0487D9",
+              },
+            }}
+          >
+            ลบตาราง
+          </Button>
+
+        </Stack>
         <Box sx={{ p: 1 }}>
           <Typography textAlign={"center"} variant="h4" sx={{ p: 3 }}>
             รายวิชาที่เลือก
@@ -122,7 +220,7 @@ export default function StudentSchedule() {
                         <>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
-                            {row?.subject_id}
+                          {row?.subject_id}
                           </TableCell>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
@@ -143,14 +241,23 @@ export default function StudentSchedule() {
             </Table>
           </TableContainer>
           <Stack direction="row" spacing={2} justifyContent={"center"} alignItems={"center"} sx={{ p: 5 }}>
-            <Button onClick={() => yourSchedule()} variant="contained">
+            <Button
+              onClick={() => goToSelectSubject(schedule?.schedule_id)}
+              variant="contained"
+            >
               เลือกวิชา
+            </Button>
+            <Button
+              onClick={() => goToSelectSubject(schedule?.schedule_id)}
+              variant="contained"
+            >
+              สร้าง
             </Button>
           </Stack>
         </Box>
 
         <Typography variant="h4" align="center" gutterBottom>
-          My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{color: '#000000',bgcolor:'#e0f7fa' }}>
+          My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
             <RestartAltIcon></RestartAltIcon>
           </IconButton>
         </Typography>

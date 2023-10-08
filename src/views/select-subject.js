@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -29,29 +28,41 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 const theme = createTheme();
 
 export default function SelectSubject() {
-    const { id } = useParams()
+
+    const { id, schedule_id } = useParams();
     const navigate = useNavigate()
-    const [subjects, setSubject] = useState()
-    const [subject, setSubjects] = useState()
+    const [subjects, setSubjects] = useState([]);
+    const [subject, setSubject] = useState([])
+    const [schedule, setSchedule] = useState([]);
     const [login, setLogin] = React.useState(false)
     const token = localStorage.getItem('token')
 
+    const goToSchedule = (schedule_id) => {
+        navigate(`/schedule/${schedule_id}`);
+    }
+
     useEffect(() => {
-        const getSubjectbyID = async () => {
+        const getScheduleById = async (schedule_id) => {
             try {
+                const token = await localStorage.getItem("token");
                 const response = await axios.get(
-                    `${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
-                })
+                    `${process.env.REACT_APP_API_SERVER}/getScheduleById?schedule_id=${schedule_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 if (response) {
-                    setSubject(response?.data)
-                    console.log(response?.data)
+                    setSchedule(response?.data);
                 }
             } catch (err) {
-                console.error(err)
+                console.error(err);
             }
-        }
-        getSubjectbyID()
-    }, [])
+        };
+
+        getScheduleById(id);
+    }, [id]);
 
     useEffect(() => {
         const GetSubjectbyID = async () => {
@@ -64,6 +75,7 @@ export default function SelectSubject() {
                 })
                 if (response) {
                     setSubjects(response?.data[0])
+                    setSubject(response?.data)
                     console.log(response?.data[0])
                 }
             } catch (err) {
@@ -71,16 +83,26 @@ export default function SelectSubject() {
             }
         }
         GetSubjectbyID()
-    }, [])
+    }, [id])
 
+    const addSchedule = async (schedule_id, section_id) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/addSchedule`, {
+                schedule_id: schedule_id,
+                section_id: section_id
+            });
+            if (response.status === 200) {
+                alert("เพิ่มสำเร็จ");
+                navigate(`/schedule/${schedule_id}`);
+                console.log(response?.data)
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    
     return (
         <ThemeProvider theme={theme}>
-            <BreadcrumbsPage
-                pages={[
-                    { title: "สร้างตารางเรียน", path: `/create-table` },
-                    { title: "ค้นหารายวิชา", path: `/search-select` },
-                    { title: `รายละเอียดวิชา ${subject?.subject_id}` },
-                ]} />
             <Container>
                 <main>
                     <Box sx={{ bgcolor: 'background.paper', pt: 2, pb: 6, }}>
@@ -98,22 +120,22 @@ export default function SelectSubject() {
                                 <div className="detail-sudject">
                                     <DetailsCard
                                         title={'รหัสวิชา'}
-                                        description={subject?.subject_id}
+                                        description={subjects?.subject_id}
                                         rootClassName="rootClassName1">
                                     </DetailsCard>
                                     <DetailsCard
                                         title={'ชื่อวิชาภาษาไทย'}
-                                        description={subject?.subject_name_th}
+                                        description={subjects?.subject_name_th}
                                         rootClassName="rootClassName1">
                                     </DetailsCard>
                                     <DetailsCard
                                         title={'หน่วยกิต'}
-                                        description={subject?.credit}
+                                        description={subjects?.credit}
                                         rootClassName="rootClassName1">
                                     </DetailsCard>
                                     <DetailsCard
                                         title={'ชื่อวิชาภาษาอังกฤษ'}
-                                        description={subject?.subject_name_eng}
+                                        description={subjects?.subject_name_eng}
                                         rootClassName="rootClassName1">
                                     </DetailsCard>
                                 </div>
@@ -134,11 +156,11 @@ export default function SelectSubject() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {subjects && subjects.length > 0 ? (
-                                subjects.map((row, index) => (
+                            {subject && subject.length > 0 ? (
+                                subject.map((row, index) => (
                                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} key={index}>
                                         <TableCell align="center">
-                                            <Button href="/create-table"> <AddCircleIcon /> </Button>
+                                        <Button onClick={() => addSchedule(schedule_id, row?.section_id)}> <AddCircleIcon /> </Button>
                                         </TableCell>
                                         <TableCell align="center"> {row?.section} </TableCell>
                                         <TableCell align="center"> {row?.date} </TableCell>
@@ -159,4 +181,3 @@ export default function SelectSubject() {
         </ThemeProvider>
     );
 }
-

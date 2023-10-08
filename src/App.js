@@ -62,9 +62,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/search-all" element={<SearchAll />} />
-        <Route path="/search-select" element={<SearchSelect />} />
+        <Route path="/search-select/:schedule_id" element={<SearchSelect />} />
         <Route path="/details-subject/:id" element={<DetailSubject />} />
-        <Route path="/select-subject/:id" element={<SelectSubject />} />
+        <Route path="/select-subject/:id/:schedule_id" element={<SelectSubject />} />
         <Route path="/create-table" element={<CreateTable />} />
         <Route path="/schedule-me" element={<SheduleMe />} />
         <Route path="/home-member" element={<HomeMember />} />
@@ -72,7 +72,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<DetailAccount />} />
         <Route path="/all-subject-view" element={<AllSubjectsView />} />
-        <Route path="/schedule" element={<StudentSchedule />} />
+        <Route path="/schedule/:schedule_id" element={<StudentSchedule />} />
         <Route path="/selected-subjects-view" element={<SelectedSubjectsView />} />
         <Route path="/subject-sections-view/:subjectId" element={<SubjectSectionsView />} />
         <Route path="/subject-view/:id" element={<SubjectPage />} />

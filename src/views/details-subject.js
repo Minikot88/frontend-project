@@ -64,7 +64,6 @@ export default function DetailSubject() {
                 })
                 if (response) {
                     setSubjects(response?.data[0])
-                    console.log(response?.data[0])
                 }
             } catch (err) {
                 console.error(err)

@@ -23,6 +23,7 @@ const theme = createTheme();
 
 export default function SearchSelect() {
   const navigate = useNavigate();
+  const { schedule_id } = useParams()
   const [subject, setSubject] = useState();
 
   useEffect(() => {
@@ -33,7 +34,6 @@ export default function SearchSelect() {
         );
         if (response) {
           setSubject(response?.data);
-          console.log(response?.data);
         }
       } catch (err) {
         console.error(err);
@@ -50,16 +50,13 @@ export default function SearchSelect() {
     item?.subject_id.includes(searchQuery)
   );
 
+  const goToSelectSubject = () => {
+    navigate(`/search-select/${schedule_id}`);
+  };
+
 
   return (
     <ThemeProvider theme={theme}>
-      <BreadcrumbsPage
-        pages={[
-          { title: "สร้างตารางเรียน", path: `/create-table` },
-          { title: "ค้นหารายวิชา" },
-        ]}
-      />
-
       <main>
         <Box
           sx={{
@@ -145,7 +142,7 @@ export default function SearchSelect() {
                     <TableCell align="center">
                       <Button
                         onClick={() =>
-                          navigate(`/select-subject/${row?.subject_id}`)
+                          navigate(`/select-subject/${row?.subject_id}/${schedule_id}`)
                         }
                         variant="contained"
                         size="small"
