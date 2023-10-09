@@ -23,12 +23,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { useRef } from 'react';
 
 export default function StudentSchedule() {
 
   const navigate = useNavigate()
-  const { schedule_id } = useParams()
+  const { schedule_id, subject_id, section_id } = useParams()
   const [subject, setSubject] = useState()
+  const [credit, setCredit] = useState()
+  const tableContainerRef = useRef(null);
 
   const days = ["จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์", "อาทิตย์"];
   const timeSlots = ["08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00"];
@@ -78,7 +84,7 @@ export default function StudentSchedule() {
   useEffect(() => {
     const getSubjects = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSelectedSubject`)
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSelectedSubject?schedule_id=${schedule_id}`)
         if (response) {
           setSubject(response?.data)
 
@@ -94,7 +100,7 @@ export default function StudentSchedule() {
     const englishDay = thaiToEnglishDay[subject?.date];
     const startTime = subject?.start_time;
     const endTime = subject?.end_time;
-console.log(englishDay)
+    console.log(englishDay)
     if (englishDay && startTime && endTime) {
       const startIdx = timeSlotIndexMap[startTime];
       const endIdx = timeSlotIndexMap[endTime];
@@ -121,7 +127,69 @@ console.log(englishDay)
     }
   };
 
+  const handleDeleteSection = async (section_id) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_SERVER}/deleteSectionSchedule?section_id=${section_id}`
+      );
+      if (response?.status === 200) {
+        alert(`Data deleted successfully`);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  function CreditSummary() {
+    const totalCredits = subject?.reduce((acc, subject) => acc + subject.credit, 0);
+
+    return (
+      <div>
+        <p>หน่วยกิตทั้งหมด : {totalCredits}</p>
+      </div>
+    );
+  }
+
+
+  useEffect(() => {
+    const getCredit = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getCredit?subject_id=${subject_id}`)
+        if (response) {
+          setCredit(response?.data)
+
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    getCredit();
+  }, [])
+
+
+  function downloadTableAsImage() {
+    const tableContainer = document.getElementById('table-container'); // รหัส HTML ของ TableContainer
+    const fileName = 'table_image.png';
+  
+    // กำหนดค่าตั้งต้นของ html2canvas
+    const options = {
+      backgroundColor: 'white',
+      windowWidth: document.body.scrollWidth,
+      windowHeight: document.body.scrollHeight + window.innerHeight,
+    };
+  
+    // ใช้ html2canvas เพื่อแปลง TableContainer เป็นภาพ
+    html2canvas(tableContainer, options).then(function(canvas) {
+      const image = canvas.toDataURL('image/png');
+  
+      // สร้างลิงก์สำหรับดาวน์โหลด
+      const a = document.createElement('a');
+      a.href = image;
+      a.download = fileName;
+      a.click();
+    });
+  }
 
   return (
     <>
@@ -143,6 +211,7 @@ console.log(englishDay)
             ลบตาราง
           </Button>
         </Stack>
+
         <Box sx={{ p: 1 }}>
           <Typography textAlign={"center"} variant="h4" sx={{ p: 3 }}>
             รายวิชาที่เลือก
@@ -151,11 +220,13 @@ console.log(englishDay)
             <Table >
               <TableHead>
                 <TableRow>
+                  <TableCell align="center">เลือก</TableCell>
                   <TableCell align="center">รหัสรายวิชา</TableCell>
                   <TableCell align="center">ตอน</TableCell>
                   <TableCell align="center">ชื่อรายวิชา</TableCell>
-                  <TableCell align="center">วัน/เวลา</TableCell>
+                  <TableCell align="center">หน่วยกิต</TableCell>
                   <TableCell align="center">ห้องเรียน</TableCell>
+                  <TableCell align="center">วัน/เวลา</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -165,6 +236,10 @@ console.log(englishDay)
                     <TableRow key={index} >
                       {isFirstInSection && (
                         <>
+                          <TableCell align="center"
+                            rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                            <Button onClick={() => handleDeleteSection(row?.section_id)}> <DeleteForeverIcon /></Button>
+                          </TableCell>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                             {row?.subject_id}
@@ -177,10 +252,17 @@ console.log(englishDay)
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                             {row?.subject_name_th}
                           </TableCell>
+                          <TableCell align="center"
+                            rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                            {row?.classroom}
+                          </TableCell>
+                          <TableCell align="center"
+                            rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
+                            {row?.credit}
+                          </TableCell>
                         </>
                       )}
                       <TableCell align="center">{row?.date}/{row?.start_time} - {row?.end_time}</TableCell>
-                      <TableCell align="center">{row?.classroom}</TableCell>
                     </TableRow>
 
                   )
@@ -190,7 +272,7 @@ console.log(englishDay)
           </TableContainer>
           <Stack direction="row" spacing={2} justifyContent={"center"} alignItems={"center"} sx={{ p: 5 }}>
             <Button onClick={() => goToSelectSubject(schedule_id)} variant="contained" > เลือกวิชา</Button>
-            <Button variant="contained" > ดาวน์โหลด </Button>
+            <Button variant="contained" onClick={downloadTableAsImage} > ดาวน์โหลด </Button>
           </Stack>
         </Box>
 
@@ -199,7 +281,8 @@ console.log(englishDay)
             <RestartAltIcon />
           </IconButton>
         </Typography>
-        <TableContainer component={Paper}>
+
+        <TableContainer id="table-container" component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
@@ -237,11 +320,10 @@ console.log(englishDay)
             </TableBody>
           </Table>
         </TableContainer>
-        {subject && subject.length > 0 && (
-          <Typography textAlign={"left"} variant="subtitle1" sx={{ p: 1 }}>
-            จำนวนหน่วยกิต {subject[0].total_credit} หน่วยกิต
-          </Typography>
-        )}
+
+        <Typography variant="subtitle1" align="lift" >
+          <CreditSummary />
+        </Typography>
       </Container>
     </>
   );
