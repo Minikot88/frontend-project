@@ -11,6 +11,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Card,
+  CardHeader,
+  Grid,
+  CardContent,
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useEffect, useState } from "react";
@@ -19,28 +23,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
-const scheduleData = [
-  { day: "Monday", timeSlot: "08:00 - 10:00", subject_name_th: "Math", classroom: "A101" },
-  { day: "Monday", timeSlot: "08:00 - 11:00", subject_name_th: "Math", classroom: "A101" },
-  { day: "Tuesday", timeSlot: "08:00 - 09:00", subject_name_th: "English", classroom: "C303" },
-  { day: "Wednesday", timeSlot: "10:00 - 11:00", subject_name_th: "History", classroom: "D404" },
-  { day: "Thursday", timeSlot: "08:00 - 09:00", subject_name_th: "Physics", classroom: "E505" },
-  { day: "Friday", timeSlot: "08:00 - 09:00", subject_name_th: "Chemistry", classroom: "F606" }
-  // ... add more subjects here ...
-];
 
 export default function StudentSchedule() {
 
   const navigate = useNavigate()
   const { schedule_id } = useParams()
   const [subject, setSubject] = useState()
-  const [schedule, setSchedule] = useState([]);
-  const [viewSchedule, setViewSchedule] = useState([])
 
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const timeSlots = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
+  const days = ["จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์", "อาทิตย์"];
+  const timeSlots = ["08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00"];
+  const thaiToEnglishDay = {
+    "จันทร์": "จันทร์",
+    "อังคาร": "อังคาร",
+    "พุธ": "พุธ",
+    "พฤหัสบดี": "พฤหัสบดี",
+    "ศุกร์": "ศุกร์",
+    "เสาร์": "เสาร์",
+    "อาทิตย์": "อาทิตย์",
+  };
 
   const timeSlotIndexMap = {};
   timeSlots.forEach((timeSlot, index) => {
@@ -51,26 +51,14 @@ export default function StudentSchedule() {
     timeSlots.map(() => [])
   );
 
-  scheduleData.forEach((subject) => {
-    const [startTime, endTime] = subject.timeSlot.split(" - ");
-    const startIdx = timeSlotIndexMap[startTime];
-    const endIdx = timeSlotIndexMap[endTime];
-
-    if (startIdx !== undefined && endIdx !== undefined) {
-      for (let i = startIdx; i <= endIdx; i++) {
-        subjectsByDayAndTime[days.indexOf(subject.day)][i].push(subject);
-      }
-    }
-  });
-
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
 
   function randomPastelColor() {
-    var red = getRandomArbitrary(0, 256);
-    var green = getRandomArbitrary(0, 256);
-    var blue = getRandomArbitrary(0, 256);
+    let red = getRandomArbitrary(0, 256);
+    let green = getRandomArbitrary(0, 256);
+    let blue = getRandomArbitrary(0, 256);
 
     red = (red + 255) / 2;
     green = (green + 255) / 2;
@@ -90,10 +78,10 @@ export default function StudentSchedule() {
   useEffect(() => {
     const getSubjects = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/get-selected-subjects`)
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSelectedSubject`)
         if (response) {
           setSubject(response?.data)
-          console.log(response?.data)
+
         }
       } catch (err) {
         console.error(err)
@@ -102,50 +90,22 @@ export default function StudentSchedule() {
     getSubjects();
   }, [])
 
-  useEffect(() => {
-    const getScheduleById = async () => {
-      try {
-        const token = await localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_SERVER}/getScheduleById`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response) {
-          setSchedule(response?.data);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getScheduleById();
-  }, []);
+  subject?.forEach((subject) => {
+    const englishDay = thaiToEnglishDay[subject?.date];
+    const startTime = subject?.start_time;
+    const endTime = subject?.end_time;
+console.log(englishDay)
+    if (englishDay && startTime && endTime) {
+      const startIdx = timeSlotIndexMap[startTime];
+      const endIdx = timeSlotIndexMap[endTime];
 
-  useEffect(() => {
-    const getViewSchedule = async () => {
-      try {
-        const token = await localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${schedule_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response?.status === 200) {
-          setViewSchedule(response?.data);
+      if (startIdx !== undefined && endIdx !== undefined) {
+        for (let i = startIdx; i <= endIdx; i++) {
+          subjectsByDayAndTime[days.indexOf(englishDay)][i].push(subject);
         }
-      } catch (err) {
-        console.error(err);
       }
-    };
-    getViewSchedule();
-  }, [schedule_id]);
-
+    }
+  });
 
   const handleDelete = async () => {
     try {
@@ -165,18 +125,9 @@ export default function StudentSchedule() {
 
   return (
     <>
-
-      <Container maxWidth="l" sx={{ p: 2 }}>
-        <Stack
-          direction="row"
-          spacing={1}
-          justifyContent="flex-end"
-          marginRight={2}
-        >
-          <Button
-            variant="outlined"
-            onClick={handleDelete}
-            startIcon={<DeleteIcon />}
+      <Container maxWidth="100%" sx={{ p: 2 }}>
+        <Stack direction="row" spacing={1} justifyContent="flex-end" marginRight={2}  >
+          <Button variant="outlined" onClick={handleDelete} startIcon={<DeleteIcon />}
             sx={{
               bgcolor: "#AA00FF",
               width: "130",
@@ -191,13 +142,11 @@ export default function StudentSchedule() {
           >
             ลบตาราง
           </Button>
-
         </Stack>
         <Box sx={{ p: 1 }}>
           <Typography textAlign={"center"} variant="h4" sx={{ p: 3 }}>
             รายวิชาที่เลือก
           </Typography>
-
           <TableContainer component={Paper}>
             <Table >
               <TableHead>
@@ -213,14 +162,12 @@ export default function StudentSchedule() {
                 {subject?.map((row, index) => {
                   const isFirstInSection = index === 0 || row.section_id !== subject[index - 1]?.section_id;
                   return (
-                    <TableRow
-                      key={index}
-                    >
+                    <TableRow key={index} >
                       {isFirstInSection && (
                         <>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
-                          {row?.subject_id}
+                            {row?.subject_id}
                           </TableCell>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
@@ -235,41 +182,28 @@ export default function StudentSchedule() {
                       <TableCell align="center">{row?.date}/{row?.start_time} - {row?.end_time}</TableCell>
                       <TableCell align="center">{row?.classroom}</TableCell>
                     </TableRow>
+
                   )
                 })}
               </TableBody>
             </Table>
           </TableContainer>
           <Stack direction="row" spacing={2} justifyContent={"center"} alignItems={"center"} sx={{ p: 5 }}>
-            <Button
-              onClick={() => goToSelectSubject(schedule?.schedule_id)}
-              variant="contained"
-            >
-              เลือกวิชา
-            </Button>
-            <Button
-              onClick={() => goToSelectSubject(schedule?.schedule_id)}
-              variant="contained"
-            >
-              สร้าง
-            </Button>
+            <Button onClick={() => goToSelectSubject(schedule_id)} variant="contained" > เลือกวิชา</Button>
+            <Button variant="contained" > ดาวน์โหลด </Button>
           </Stack>
         </Box>
 
         <Typography variant="h4" align="center" gutterBottom>
           My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
-            <RestartAltIcon></RestartAltIcon>
+            <RestartAltIcon />
           </IconButton>
         </Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{
-                  bgcolor: `rgb(${randomPastelColor()})`,
-                  border: "1px solid black",
-                }}
-                ></TableCell>
+                <TableCell sx={{ bgcolor: `rgb(${randomPastelColor()})`, border: "1px solid black", }}></TableCell>
                 {timeSlots.map((timeSlot) => (
                   <TableCell key={timeSlot} align="center" sx={{ border: "1px solid black", }}>
                     {timeSlot}
@@ -293,10 +227,7 @@ export default function StudentSchedule() {
                     <TableCell key={timeIndex} align="center" sx={{ border: "1px solid black", }} >
                       {subjectsByDayAndTime[dayIndex][timeIndex].map((subject) => (
                         <div key={subject.subject_name_th}  >
-
-                          <p  >{subject.subject_name_th}</p>
-                          <p>{subject.classroom}</p>
-
+                          <p  >{subject.subject_id} {subject.subject_name_th}</p>
                         </div>
                       ))}
                     </TableCell>
@@ -306,6 +237,11 @@ export default function StudentSchedule() {
             </TableBody>
           </Table>
         </TableContainer>
+        {subject && subject.length > 0 && (
+          <Typography textAlign={"left"} variant="subtitle1" sx={{ p: 1 }}>
+            จำนวนหน่วยกิต {subject[0].total_credit} หน่วยกิต
+          </Typography>
+        )}
       </Container>
     </>
   );

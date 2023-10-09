@@ -80,22 +80,6 @@ export default function HomeMember() {
                             }}>
                             ตารางเรียน
                         </Button>
-                        <Button
-                            href="/schedule-me"
-                            variant="contained"
-                            size="large"
-                            sx={{
-                                width: '250px',
-                                bgcolor: '#0468BF',
-                                color: '#FFFFFF',
-                                fontFamily: 'monospace',
-                                '&:hover': {
-                                    bgcolor: '#0487D9',
-                                },
-                            }}>
-                            ตารางเรียนของฉัน
-                        </Button>
-
                     </Stack>
                 </Container>
             </Box>

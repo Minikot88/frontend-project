@@ -41,7 +41,7 @@ export default function HomeAdmin() {
                         color="text.primary"
                         gutterBottom
                     >
-                        Welcome to Admin
+                        Welcome To Admin
                     </Typography>
                     <Typography
                         variant="h5"
@@ -115,25 +115,6 @@ export default function HomeAdmin() {
                                 }}
                             >
                                 สถิติรายวิชา
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button
-                                startIcon={<BackupTableIcon />}
-                                href="/schedule-me"
-                                variant="contained"
-                                size="large"
-                                sx={{
-                                    width: '200px',
-                                    bgcolor: '#0468BF',
-                                    color: '#FFFFFF',
-                                    fontFamily: 'monospace',
-                                    '&:hover': {
-                                        bgcolor: '#0487D9',
-                                    },
-                                }}
-                            >
-                                ตารางเรียนของฉัน
                             </Button>
                         </Grid>
                         <Grid item>
