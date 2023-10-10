@@ -119,25 +119,6 @@ export default function HomeAdmin() {
                         </Grid>
                         <Grid item>
                             <Button
-                                startIcon={<ManageAccountsIcon />}
-                                href="/viewUser"
-                                variant="contained"
-                                size="large"
-                                sx={{
-                                    width: '200px',
-                                    bgcolor: '#0468BF',
-                                    color: '#FFFFFF',
-                                    fontFamily: 'monospace',
-                                    '&:hover': {
-                                        bgcolor: '#0487D9',
-                                    },
-                                }}
-                            >
-                                จัดการผู้ใช้
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button
                                 startIcon={<SubjectIcon />}
                                 variant="contained"
                                 size="large"
@@ -153,6 +134,25 @@ export default function HomeAdmin() {
                                 }}
                             >
                                 จัดการรายวิชา
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                startIcon={<ManageAccountsIcon />}
+                                href="/viewUser"
+                                variant="contained"
+                                size="large"
+                                sx={{
+                                    width: '200px',
+                                    bgcolor: '#0468BF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'monospace',
+                                    '&:hover': {
+                                        bgcolor: '#0487D9',
+                                    },
+                                }}
+                            >
+                                จัดการผู้ใช้
                             </Button>
                         </Grid>
                     </Grid>

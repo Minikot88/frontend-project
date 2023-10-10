@@ -269,7 +269,7 @@ export default function ManageSubject() {
                         variant="contained"
                         startIcon={<ContentPasteSearchIcon />}
                         onClick={() =>
-                          navigate(`/details-subject-admin/${row?.subject_id}`)
+                          navigate(`/details-subject/${row?.subject_id}`)
                         }
                         sx={{
                           width: 130,

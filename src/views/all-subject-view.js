@@ -15,17 +15,24 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import BreadcrumbsPage from "../components/BreadcrumbsPage";
 
 export default function AllSubjectsView() {
-    const navigate = useNavigate()
+
     const [subject, setSubject] = useState()
+    const [user, setUser] = useState()
+    const [section, setSection] = useState()
+    const [schedule, setSchedule] = useState()
+    const [date, setDate] = useState()
 
     useEffect(() => {
         const getAllSubjects = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getallsubject`)
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getTotalSubject`)
                 if (response) {
                     setSubject(response?.data)
+                    
                 }
             } catch (err) {
                 console.error(err)
@@ -34,9 +41,69 @@ export default function AllSubjectsView() {
         getAllSubjects();
     }, [])
 
-    const seeSubjectInfo = (id) => {
-        navigate(`/subject-info/${id}`)
-    }
+    useEffect(() => {
+        const getAllUser = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getTotalUser`)
+                if (response) {
+                    setUser(response?.data)
+                    
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllUser();
+    }, [])
+
+    useEffect(() => {
+        const getAllSection = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getTotalSection`)
+                if (response) {
+                    setSection(response?.data)
+                    
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllSection();
+    }, [])
+
+    useEffect(() => {
+        const getAllSchedule = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getTotalSchedule`)
+                if (response) {
+                    setSchedule(response?.data)
+                    
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllSchedule();
+    }, [])
+
+    useEffect(() => {
+        const getAllDate = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getTotalDate`)
+                if (response) {
+                    setDate(response?.data)
+                    
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getAllDate();
+    }, [])
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -48,10 +115,14 @@ export default function AllSubjectsView() {
 
     return (
         <div>
+             <BreadcrumbsPage
+                pages={[
+                    { title: "สถิติรายวิชาทั้งหมด" },
+                ]} />
             <Container>
                 <Box sx={{ p: 5 }}>
                     <Typography textAlign={"center"} variant="h4" sx={{ p: 3 }}>
-                        สถิติรายวิชา
+                        สถิติรายวิชาทั้งหมด
                     </Typography>
                 </Box>
 
@@ -61,12 +132,14 @@ export default function AllSubjectsView() {
                             <Item>
                                 <Box>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
+                                        จำนวนวิชา
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
-                                    </Typography>
+                                    {subject && Array.isArray(subject) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {subject[0].total_subjects}
+                                        </Typography>
+                                    )}
+
                                 </Box>
                             </Item>
                         </Grid>
@@ -74,12 +147,13 @@ export default function AllSubjectsView() {
                             <Item>
                                 <Box>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
+                                        จำนวนหน่วยกิต
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
-                                    </Typography>
+                                    {subject && Array.isArray(subject) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {subject[0].total_credits}
+                                        </Typography>
+                                    )}
                                 </Box>
                             </Item>
                         </Grid>
@@ -87,12 +161,13 @@ export default function AllSubjectsView() {
                             <Item>
                                 <Box>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
+                                        จำนวนวิชาเลือก
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
-                                    </Typography>
+                                    {subject && Array.isArray(subject) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {subject[0].count_e}
+                                        </Typography>
+                                    )}
                                 </Box>
                             </Item>
                         </Grid>
@@ -100,12 +175,171 @@ export default function AllSubjectsView() {
                             <Item>
                                 <Box>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        Lizard
+                                        จำนวนวิชาบังคับ
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                                        species, ranging across all continents except Antarctica
+                                    {subject && Array.isArray(subject) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {subject[0].count_c}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนผู้ใช้
                                     </Typography>
+                                    {user && Array.isArray(user) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {user[0].total_users}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนตอน
+                                    </Typography>
+                                    {section && Array.isArray(section) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {section[0].total_sections}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+
+
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนตารางเรียน
+                                    </Typography>
+                                    {schedule && Array.isArray(schedule) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {schedule[0].total_schedules}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวัน
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].total_date}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันจันทร์
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_a}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันอังคาร
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_b}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันพุธ
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_c}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันพฤหัสดี
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_d}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันศุกร์
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_e}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันเสาร์
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_f}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={4} md={4} sm={6}>
+                            <Item>
+                                <Box>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        จำนวนวันอาทิตย์
+                                    </Typography>
+                                    {date && Array.isArray(date) && (
+                                        <Typography variant="h2" color="text.secondary">
+                                            {date[0].count_g}
+                                        </Typography>
+                                    )}
                                 </Box>
                             </Item>
                         </Grid>
