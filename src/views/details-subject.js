@@ -44,6 +44,7 @@ export default function DetailSubject() {
                 })
                 if (response) {
                     setSubject(response?.data)
+                    setSubjects(response?.data[0])
                     console.log(response?.data)
                 }
             } catch (err) {
@@ -51,25 +52,6 @@ export default function DetailSubject() {
             }
         }
         getSubjectbyID()
-    }, [])
-
-    useEffect(() => {
-        const GetSubjectbyID = async () => {
-            try {
-                const token = await localStorage.getItem('token')
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (response) {
-                    setSubjects(response?.data[0])
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        GetSubjectbyID()
     }, [])
 
     return (
@@ -147,8 +129,6 @@ export default function DetailSubject() {
                                 </TableRow>
                             )}
                         </TableBody>
-
-
                     </Table>
                 </TableContainer>
             </Container>

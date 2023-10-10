@@ -27,6 +27,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useRef } from 'react';
+import BreadcrumbsPage from "../components/BreadcrumbsPage";
 
 export default function StudentSchedule() {
 
@@ -36,8 +37,33 @@ export default function StudentSchedule() {
   const [credit, setCredit] = useState()
   const tableContainerRef = useRef(null);
 
-  const days = ["จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์", "อาทิตย์"];
-  const timeSlots = ["08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00"];
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const days = [
+    "จันทร์",
+    "อังคาร",
+    "พุธ",
+    "พฤหัสบดี",
+    "ศุกร์",
+    "เสาร์",
+    "อาทิตย์"];
+
+  const timeSlots = [
+    "08:00:00",
+    "09:00:00",
+    "10:00:00",
+    "11:00:00",
+    "12:00:00",
+    "13:00:00",
+    "14:00:00",
+    "15:00:00",
+    "16:00:00",
+    "17:00:00",
+    "18:00:00",
+    "19:00:00",];
+
   const thaiToEnglishDay = {
     "จันทร์": "จันทร์",
     "อังคาร": "อังคาร",
@@ -167,23 +193,19 @@ export default function StudentSchedule() {
     getCredit();
   }, [])
 
-
   function downloadTableAsImage() {
-    const tableContainer = document.getElementById('table-container'); // รหัส HTML ของ TableContainer
+    const tableContainer = document.getElementById('table-container');
     const fileName = 'table_image.png';
-  
-    // กำหนดค่าตั้งต้นของ html2canvas
+
     const options = {
-      backgroundColor: 'white',
+      backgroundColor: '#FFFFFF',
       windowWidth: document.body.scrollWidth,
       windowHeight: document.body.scrollHeight + window.innerHeight,
     };
-  
-    // ใช้ html2canvas เพื่อแปลง TableContainer เป็นภาพ
-    html2canvas(tableContainer, options).then(function(canvas) {
+
+    html2canvas(tableContainer, options).then(function (canvas) {
       const image = canvas.toDataURL('image/png');
-  
-      // สร้างลิงก์สำหรับดาวน์โหลด
+
       const a = document.createElement('a');
       a.href = image;
       a.download = fileName;
@@ -193,6 +215,11 @@ export default function StudentSchedule() {
 
   return (
     <>
+  <BreadcrumbsPage
+        pages={[
+          { title: "ตารางเรียน", path: `/create-table` },
+          { title: "สร้างตาราง" },
+        ]} />
       <Container maxWidth="100%" sx={{ p: 2 }}>
         <Stack direction="row" spacing={1} justifyContent="flex-end" marginRight={2}  >
           <Button variant="outlined" onClick={handleDelete} startIcon={<DeleteIcon />}
@@ -238,7 +265,7 @@ export default function StudentSchedule() {
                         <>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
-                            <Button onClick={() => handleDeleteSection(row?.section_id)}> <DeleteForeverIcon /></Button>
+                            <IconButton color="error" onClick={() => handleDeleteSection(row?.section_id)}> <DeleteForeverIcon /></IconButton>
                           </TableCell>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
@@ -254,14 +281,11 @@ export default function StudentSchedule() {
                           </TableCell>
                           <TableCell align="center"
                             rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
-                            {row?.classroom}
-                          </TableCell>
-                          <TableCell align="center"
-                            rowSpan={subject.filter(item => item.section_id === row.section_id)?.length}>
                             {row?.credit}
                           </TableCell>
                         </>
                       )}
+                      <TableCell align="center">{row?.classroom}</TableCell>
                       <TableCell align="center">{row?.date}/{row?.start_time} - {row?.end_time}</TableCell>
                     </TableRow>
 
@@ -272,58 +296,65 @@ export default function StudentSchedule() {
           </TableContainer>
           <Stack direction="row" spacing={2} justifyContent={"center"} alignItems={"center"} sx={{ p: 5 }}>
             <Button onClick={() => goToSelectSubject(schedule_id)} variant="contained" > เลือกวิชา</Button>
+            <Button variant="contained" onClick={handleOpen} > ดูตาราง </Button>
             <Button variant="contained" onClick={downloadTableAsImage} > ดาวน์โหลด </Button>
           </Stack>
         </Box>
 
-        <Typography variant="h4" align="center" gutterBottom>
-          My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
-            <RestartAltIcon />
-          </IconButton>
-        </Typography>
+        {open && (
+          <>
+            <Typography variant="h4" align="center" gutterBottom>
+              My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
+                <RestartAltIcon />
+              </IconButton>
+              <Typography variant="subtitle1" align="right" >
+                <CreditSummary />
+              </Typography>
+            </Typography>
 
-        <TableContainer id="table-container" component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ bgcolor: `rgb(${randomPastelColor()})`, border: "1px solid black", }}></TableCell>
-                {timeSlots.map((timeSlot) => (
-                  <TableCell key={timeSlot} align="center" sx={{ border: "1px solid black", }}>
-                    {timeSlot}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {days.map((day, dayIndex) => (
-                <TableRow key={day}>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      bgcolor: `rgb(${randomPastelColor()})`,
-                      border: "1px solid black",
-                    }}
-                  >
-                    {day}
-                  </TableCell>
-                  {timeSlots.map((timeSlot, timeIndex) => (
-                    <TableCell key={timeIndex} align="center" sx={{ border: "1px solid black", }} >
-                      {subjectsByDayAndTime[dayIndex][timeIndex].map((subject) => (
-                        <div key={subject.subject_name_th}  >
-                          <p  >{subject.subject_id} {subject.subject_name_th}</p>
-                        </div>
+            <TableContainer id="table-container" component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ bgcolor: `rgb(${randomPastelColor()})`, border: "1px solid black", }}></TableCell>
+                    {timeSlots.map((timeSlot) => (
+                      <TableCell key={timeSlot} align="center" sx={{ border: "1px solid black", }}>
+                        {timeSlot}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {days.map((day, dayIndex) => (
+                    <TableRow key={day}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          bgcolor: `rgb(${randomPastelColor()})`,
+                          border: "1px solid black",
+                        }}
+                      >
+                        {day}
+                      </TableCell>
+                      {timeSlots.map((timeSlot, timeIndex) => (
+                        <TableCell key={timeIndex} align="center" sx={{ border: "1px solid black", }} >
+                          {subjectsByDayAndTime[dayIndex][timeIndex].map((subject) => (
+                            <div key={subject.subject_name_th}  >
+                              <p  >{subject.subject_id} {subject.subject_name_th}</p>
+                            </div>
+                          ))}
+                        </TableCell>
                       ))}
-                    </TableCell>
+                    </TableRow>
                   ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
 
-        <Typography variant="subtitle1" align="lift" >
-          <CreditSummary />
-        </Typography>
+
+
       </Container>
     </>
   );

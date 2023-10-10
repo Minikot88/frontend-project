@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useHistory } from 'react-router-dom';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
 import axios from "axios";
@@ -65,6 +67,7 @@ export default function SearchSelect() {
             pb: 4,
           }}
         >
+          <IconButton sx={{ p: 2,ml: 1, color: '#212121', bgcolor:'#FFFFFF' }} variant="outlined" onClick={() => navigate(-1)}><KeyboardReturnIcon/></IconButton>
           <Container minWidth="sm">
             <Typography
               component="h1"
