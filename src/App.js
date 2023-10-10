@@ -77,6 +77,7 @@ function App() {
         <Route path="/subject-sections-view/:subjectId" element={<SubjectSectionsView />} />
         <Route path="/subject-view/:id" element={<SubjectPage />} />
         <Route path="/update-subject/:subject_id" element={<UpdateSubjectView />} />
+      
 
         //component
         <Route path="/details-card" element={<DetailsCard />} />

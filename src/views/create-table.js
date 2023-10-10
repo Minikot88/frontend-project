@@ -27,12 +27,51 @@ export default function CreateTable() {
     const navigate = useNavigate()
     const { schedule_id } = useParams()
     const [schedule_name, setScheduleName] = useState('');
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const openMenu = Boolean(anchorEl);
     const [open, setOpen] = React.useState(false);
     const [schedule, setSchedule] = useState([]);
-    const [selected, setSelected] = useState(null)
     const [viewSchedule, setViewSchedule] = useState([])
+
+    const [login, setLogin] = React.useState(false)
+    const [user, setUser] = React.useState({})
+    const token = localStorage.getItem('token')
+
+    React.useEffect(() => {
+        if (token !== null) {
+            setLogin(true)
+        } else {
+            setLogin(false)
+        }
+        window.addEventListener('storage', () => {
+            alert('คุณออกจากระบบแล้ว')
+            if (token !== null) {
+                setLogin(true)
+
+            }
+        })
+    }, [])
+
+    React.useEffect(() => {
+        const getAccountByID = async () => {
+            try {
+                const token = await localStorage.getItem("token");
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response) {
+                    setUser(response?.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getAccountByID();
+    }, []);
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -41,20 +80,10 @@ export default function CreateTable() {
         setOpen(false);
     };
 
-    const handleClick = (event, id) => {
-        setAnchorEl(event.currentTarget);
-        setSelected(id)
-        console.log(id)
-    };
-
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
-
     const goToSchedule = (schedule_id) => {
         navigate(`/schedule/${schedule_id}`);
     }
-    
+
 
     const style = {
         position: 'absolute',
@@ -186,47 +215,52 @@ export default function CreateTable() {
         }
     };
 
+
     useEffect(() => {
-        const getViewSchedule = async () => {
+        const getViewSchedule = async (id) => {
             try {
-                const token = await localStorage.getItem("token");
                 const response = await axios.get(
-                    `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${schedule_id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                if (response?.status === 200) {
-                    setViewSchedule(response?.data);
+                    `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${id}`)
+                if (response) {
+                    setViewSchedule(response?.data)
+                    console.log(response?.data)
                 }
             } catch (err) {
-                console.error(err);
+                console.error(err)
             }
-        };
-        getViewSchedule();
-    }, [schedule_id]);
+        }
+        getViewSchedule()
+    }, [])
+
+    const handleSubmitNoUser = async (e) => {
+        try {
+            const token = localStorage.getItem("token");
+            const generated_id = await getMaxSchedule();
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_SERVER}/addScheduleNoUser`, {
+                schedule_id: generated_id,
+                schedule_name: schedule_name
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response) {
+                alert('สำเร็จ');
+                setOpen(false)
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <>
-            <BreadcrumbsPage
-                pages={[
-                    { title: "สร้างตารางเรียน" }
-
-                ]} />
+            <BreadcrumbsPage pages={[{ title: "สร้างตารางเรียน" }]} />
             <main>
-                
-                <Box
-                    sx={{
-                        bgcolor: '#42a5f5',
-                        '&:hover': {
-                            bgcolor: '#0487D9',
-                        },
-                        pt: 1,
-                        pb: 3,
-                    }}
-                >
+                <Box sx={{ bgcolor: '#42a5f5', '&:hover': { bgcolor: '#0487D9', }, pt: 1, pb: 3, }}  >
                     <Container maxWidth="sm">
                         <Grid item xs={12} sm={6}>
                             <Typography
@@ -246,62 +280,181 @@ export default function CreateTable() {
                     </Container>
                 </Box>
             </main>
-            <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
-                <Button
-                    onClick={handleOpen}
-                    variant="outlined"
-                    sx={{
-                        boxShadow: 3,
-                        '&:hover': {
-                            bgcolor: '#e3f2fd',
-                        },
-                    }}
-                    startIcon={<ControlPointIcon />}
-                >
-                    สร้างตารางเรียน
-                </Button>
-            </Stack>
+
+
+            {!login ? (
+                <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
+                    <Button
+                        onClick={handleOpen}
+                        variant="contained"
+                        sx={{
+                            boxShadow: 3,
+                            '&:hover': {
+                                bgcolor: '#91ff35',
+                                color: '#212121'
+                            },
+                        }}
+                        startIcon={<ControlPointIcon />}
+                    >
+                        สร้างตารางเรียน
+                    </Button>
+                </Stack>
+            ) : login && user?.status === 1 ? (
+                // admin
+                <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
+                    <Button
+                        onClick={handleOpen}
+                        variant="contained"
+                        sx={{
+                            boxShadow: 3,
+                            '&:hover': {
+                                bgcolor: '#212121',
+                                color: '#FFFFFF'
+                            },
+                        }}
+                        startIcon={<ControlPointIcon />}
+                    >
+                        สร้างตารางเรียน
+                    </Button>
+                </Stack>
+            ) : (
+                // user
+                <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
+                    <Button
+                        onClick={handleOpen}
+                        variant="outlined"
+                        sx={{
+                            boxShadow: 3,
+                            '&:hover': {
+                                bgcolor: '#f73378',
+                                color: '#212121'
+                            },
+                        }}
+                        startIcon={<ControlPointIcon />}
+                    >
+                        สร้างตารางเรียน
+                    </Button>
+                </Stack>
+            )}
+
 
             {/* Modal */}
-            <Modal
-                open={open}
-                aria-labelledby="child-modal-title"
-                aria-describedby="child-modal-description"
-            >
-                <Box sx={{ ...style }}>
-                    <h2 id="child-modal-title">ระบุชื่อตารางเรียน</h2>
-                    <Grid container
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        sx={{ p: 1 }}
+            {!login ? (
+                <Modal open={open} aria-labelledby="child-modal-title" aria-describedby="child-modal-description" >
+                    <Box sx={{ ...style }}>
+                        <h2 id="child-modal-title">ระบุชื่อตารางเรียน</h2>
+                        <Grid container direction="row" justifyContent="center" alignItems="center" sx={{ p: 1 }}   >
+                            <Grid item xs={12} sm={8} md={6} lg={12}>
+                                <TextField
+                                    fullWidth
+                                    label="ชื่อตารางเรียน"
+                                    variant="outlined"
+                                    name="schedule_name"
+                                    onChange={(e) => setScheduleName(e.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" justifyContent="flex-end" alignItems="flex-end" spacing={1}  >
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => handleSubmitNoUser()}>
+                                    ตกลง
+                                </Button>
+                            </Grid>
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}>
+                                    ยกเลิก
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Modal>
+
+            ) : login && user?.status === 1 ? (
+                <Modal open={open} aria-labelledby="child-modal-title" aria-describedby="child-modal-description" >
+                    <Box sx={{ ...style }}>
+                        <h2 id="child-modal-title">ระบุชื่อตารางเรียน</h2>
+                        <Grid container direction="row" justifyContent="center" alignItems="center" sx={{ p: 1 }}   >
+                            <Grid item xs={12} sm={8} md={6} lg={12}>
+                                <TextField
+                                    fullWidth
+                                    label="ชื่อตารางเรียน"
+                                    variant="outlined"
+                                    name="schedule_name"
+                                    onChange={(e) => setScheduleName(e.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" justifyContent="flex-end" alignItems="flex-end" spacing={1}  >
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => handleSubmit()}>
+                                    ตกลง
+                                </Button>
+                            </Grid>
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}>
+                                    ยกเลิก
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Modal>
+
+            ) : (
+                <Modal open={open} aria-labelledby="child-modal-title" aria-describedby="child-modal-description" >
+                    <Box sx={{ ...style }}>
+                        <h2 id="child-modal-title">ระบุชื่อตารางเรียน</h2>
+                        <Grid container direction="row" justifyContent="center" alignItems="center" sx={{ p: 1 }}   >
+                            <Grid item xs={12} sm={8} md={6} lg={12}>
+                                <TextField
+                                    fullWidth
+                                    label="ชื่อตารางเรียน"
+                                    variant="outlined"
+                                    name="schedule_name"
+                                    onChange={(e) => setScheduleName(e.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" justifyContent="flex-end" alignItems="flex-end" spacing={1}  >
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => handleSubmit()}>
+                                    ตกลง
+                                </Button>
+                            </Grid>
+                            <Grid item >
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}>
+                                    ยกเลิก
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Modal>
+            )}
+            
+            <Container sx={{ mt: 5, p: 2 }}>
+                <Card>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={() => goToSchedule(viewSchedule?.schedule_id)}
                     >
-                        <Grid item xs={12} sm={8} md={6} lg={12}>
-                            <TextField
-                                fullWidth
-                                label="ชื่อตารางเรียน"
-                                variant="outlined"
-                                name="schedule_name"
-                                onChange={(e) => setScheduleName(e.target.value)}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container
-                        direction="row"
-                        justifyContent="flex-end"
-                        alignItems="flex-end"
-                        spacing={1}
-                    >
-                        <Grid item >
-                            <Button variant="outlined" onClick={() => handleSubmit()}>ตกลง</Button>
-                        </Grid>
-                        <Grid item >
-                            <Button variant="outlined" onClick={handleClose}>ยกเลิก</Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Modal>
-            <Container>
+                        {viewSchedule?.schedule_name}
+                    </Button>
+                </Card>
+            </Container>
+
+            <Container sx={{ mt: 5, p: 2 }}>
                 <Card>
                     <CardHeader title="ตารางเรียน" />
                     <CardContent sx={{ pt: 0 }}>
@@ -316,25 +469,6 @@ export default function CreateTable() {
                                         >
                                             {item?.schedule_name}
                                         </Button>
-                                        {/* <StyledMenu
-                                            id="basic-menu"
-                                            anchorEl={anchorEl}
-                                            open={}
-                                            onClose={handleCloseMenu}
-                                            MenuListProps={{
-                                                'aria-labelledby': 'basic-button',
-                                            }}
-                                        >
-                                            <MenuItem onClick={handleCloseMenu}>
-                                                <DeleteIcon />
-                                                ดูตาราง
-                                            </MenuItem>
-                                            <MenuItem
-                                                onClick={() => handleDelete(selected)}>
-                                                <DeleteIcon />
-                                                ลบ
-                                            </MenuItem>
-                                        </StyledMenu> */}
                                     </Grid>
                                 ))}
                             </Grid>
@@ -342,6 +476,7 @@ export default function CreateTable() {
                     </CardContent>
                 </Card>
             </Container>
+
         </>
     );
 }

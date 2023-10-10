@@ -26,11 +26,13 @@ export default function SearchAll() {
 
     const navigate = useNavigate()
     const [subjects, setSubject] = useState()
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const getAllSubjects = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getallsubject`)
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getallsubject`)
                 if (response) {
                     setSubject(response?.data)
                     console.log(response?.data)
@@ -41,41 +43,6 @@ export default function SearchAll() {
         }
         getAllSubjects()
     }, [])
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const opens = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleSubjectById = () => {
-        setAnchorEl(null);
-        navigate(`/select-subject`);
-    };
-
-    const [subject_id, setSubject_id] = useState()
-
-    useEffect(() => {
-        const GetSubjectbyID = async () => {
-            try {
-                const token = await localStorage.getItem('token')
-                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getSubject-Byid`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (response) {
-                    setSubject_id(response?.data[0])
-                    console.log(response?.data[0])
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        GetSubjectbyID()
-    }, [])
-
-    const [searchQuery, setSearchQuery] = useState('');
 
     const filteredCards = subjects?.filter((item) =>
         item?.subject_name_th.includes(searchQuery) ||
