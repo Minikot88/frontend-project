@@ -78,8 +78,10 @@ const BreadcrumbsPage = ({ pages }) => {
         console.error(err);
       }
     };
-    getAccountByID();
-  }, []);
+    if(token){
+      getAccountByID();
+    }
+  }, [token]);
 
 
   return (

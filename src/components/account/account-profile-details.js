@@ -18,6 +18,7 @@ import axios from "axios";
 export const AccountProfileDetails = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const token = localStorage.getItem('token')
 
   const handleInput = (e) => {
     setUser((updateUser) => ({
@@ -26,27 +27,30 @@ export const AccountProfileDetails = () => {
     }));
   };
 
-  useEffect(() => {
-    const getAccountByID = async () => {
-      try {
-        const token = await localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response) {
-          setUser(response?.data[0]);
+  const getAccountByID = async () => {
+    try {
+      const token = await localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (err) {
-        console.error(err);
+      );
+      if (response) {
+        setUser(response?.data[0]);
       }
-    };
-    getAccountByID();
-  }, []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getAccountByID()
+    }
+  }, [token])
 
   const updateUser = async () => {
     try {

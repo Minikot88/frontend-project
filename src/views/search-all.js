@@ -35,7 +35,6 @@ export default function SearchAll() {
                     `${process.env.REACT_APP_API_SERVER}/getallsubject`)
                 if (response) {
                     setSubject(response?.data)
-                    console.log(response?.data)
                 }
             } catch (err) {
                 console.error(err)

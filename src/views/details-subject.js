@@ -31,10 +31,8 @@ const theme = createTheme();
 export default function DetailSubject() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const [subjects, setSubject] = useState()
+    const [sections, setSections] = useState()
     const [subject, setSubjects] = useState()
-    const [login, setLogin] = React.useState(false)
-    const token = localStorage.getItem('token')
 
     useEffect(() => {
         const getSubjectbyID = async () => {
@@ -43,9 +41,7 @@ export default function DetailSubject() {
                     `${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
                 })
                 if (response) {
-                    setSubject(response?.data)
                     setSubjects(response?.data[0])
-                    console.log(response?.data)
                 }
             } catch (err) {
                 console.error(err)
@@ -54,12 +50,28 @@ export default function DetailSubject() {
         getSubjectbyID()
     }, [])
 
+    useEffect(() => {
+        const getSectionBySubject = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getDetailSubjects?subject_id=${id}`, {
+                })
+                if (response) {
+                    setSections(response?.data)
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        getSectionBySubject()
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <BreadcrumbsPage
                 pages={[
                     { title: "ค้นหารายวิชา", path: `/search-all` },
-                    { title: `รายละเอียดวิชา ${subject?.subject_id}` },
+                    { title: `รายละเอียดวิชา ${id}` },
                 ]} />
             <Container>
                 <main>
@@ -112,17 +124,27 @@ export default function DetailSubject() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {subjects && subjects.length > 0 ? (
-                                subjects.map((row, index) => (
-                                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} key={index}>
+                            {sections && sections?.length > 0 ? (
+                                sections?.map((row, index) => {
+                                    const isFirstInSection = index === 0 || row.section_id !== sections[index - 1]?.section_id;
+                                    return (
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} key={index}>
+                                            {isFirstInSection && (
+                                                <>
+                                                    <TableCell align="center"
+                                                        rowSpan={sections?.filter(item => item.section_id === row.section_id)?.length}
+                                                    > {row?.section} </TableCell>
+                                                </>
+                                            )}
 
-                                        <TableCell align="center"> {row?.section} </TableCell>
-                                        <TableCell align="center"> {row?.date} </TableCell>
-                                        <TableCell align="center"> {row?.start_time} </TableCell>
-                                        <TableCell align="center"> {row?.end_time} </TableCell>
-                                        <TableCell align="center"> {row?.classroom} </TableCell>
-                                    </TableRow>
-                                ))
+                                            <TableCell align="center"> {row?.date} </TableCell>
+                                            <TableCell align="center"> {row?.start_time} </TableCell>
+                                            <TableCell align="center"> {row?.end_time} </TableCell>
+                                            <TableCell align="center"> {row?.classroom} </TableCell>
+                                        </TableRow>
+                                    )
+                                }
+                                )
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={6} align="center">No data available</TableCell>

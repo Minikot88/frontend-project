@@ -33,6 +33,37 @@ export default function ManageSubject() {
   const navigate = useNavigate();
   const [subjects, setSubject] = useState();
 
+  const [user, setUser] = useState({})
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const getAccountByID = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response) {
+          setUser(response?.data[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getAccountByID()
+  }, [])
+
+  useEffect(() => {
+    if (user?.status === 0 || !token) {
+      navigate(-1)
+    }
+  }, [user, token])
+
   useEffect(() => {
     const getAllSubjects = async () => {
       try {
@@ -41,7 +72,6 @@ export default function ManageSubject() {
         );
         if (response) {
           setSubject(response?.data);
-          console.log(response?.data);
         }
       } catch (err) {
         console.error(err);

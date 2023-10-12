@@ -32,7 +32,7 @@ import BreadcrumbsPage from "../components/BreadcrumbsPage";
 export default function StudentSchedule() {
 
   const navigate = useNavigate()
-  const { schedule_id, subject_id, section_id } = useParams()
+  const { schedule_id, subject_id } = useParams()
   const [subject, setSubject] = useState()
   const [credit, setCredit] = useState()
   const tableContainerRef = useRef(null);
@@ -40,6 +40,7 @@ export default function StudentSchedule() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const token = localStorage.getItem("token")
 
   const days = [
     "จันทร์",
@@ -126,7 +127,7 @@ export default function StudentSchedule() {
     const englishDay = thaiToEnglishDay[subject?.date];
     const startTime = subject?.start_time;
     const endTime = subject?.end_time;
-    console.log(englishDay)
+
     if (englishDay && startTime && endTime) {
       const startIdx = timeSlotIndexMap[startTime];
       const endIdx = timeSlotIndexMap[endTime];
@@ -146,6 +147,7 @@ export default function StudentSchedule() {
       );
       if (response?.status === 200) {
         alert(`Data deleted successfully`);
+        localStorage.removeItem("table_id");
         navigate('/create-table');
       }
     } catch (err) {
@@ -215,7 +217,7 @@ export default function StudentSchedule() {
 
   return (
     <>
-  <BreadcrumbsPage
+      <BreadcrumbsPage
         pages={[
           { title: "ตารางเรียน", path: `/create-table` },
           { title: "สร้างตาราง" },
@@ -296,8 +298,15 @@ export default function StudentSchedule() {
           </TableContainer>
           <Stack direction="row" spacing={2} justifyContent={"center"} alignItems={"center"} sx={{ p: 5 }}>
             <Button onClick={() => goToSelectSubject(schedule_id)} variant="contained" > เลือกวิชา</Button>
-            <Button variant="contained" onClick={handleOpen} > ดูตาราง </Button>
-            <Button variant="contained" onClick={downloadTableAsImage} > ดาวน์โหลด </Button>
+            {open === true ? (
+              <Button variant="contained" onClick={handleClose} color="error"> ซ่อนตาราง </Button>
+            ) : (
+              <Button variant="contained" onClick={handleOpen} > ดูตาราง </Button>
+            )}
+
+            {token && (
+              <Button variant="contained" onClick={downloadTableAsImage} > ดาวน์โหลด </Button>
+            )}
           </Stack>
         </Box>
 

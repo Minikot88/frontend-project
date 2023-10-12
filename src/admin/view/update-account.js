@@ -19,6 +19,7 @@ import BreadcrumbsPage from "../../components/BreadcrumbsPage";
 export const UpdateAccount = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const token = localStorage.getItem("token");
 
   const handleInput = (e) => {
     setUser((updateUser) => ({
@@ -69,6 +70,12 @@ export const UpdateAccount = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (user?.status === 0 || !token) {
+      navigate(-1)
+    }
+  }, [user, token])
 
   return (
     <form>

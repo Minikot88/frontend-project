@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useHistory from React Router
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -11,6 +12,7 @@ import Appbar from '../components/app-bar';
 const theme = createTheme();
 
 export default function Home() {
+
     return (
         <ThemeProvider theme={theme}>
             <main>
@@ -19,7 +21,6 @@ export default function Home() {
                     sx={{
                         bgcolor: 'background.paper',
                         pt: 10,
-
                     }}
                 >
                     <Container maxWidth="sm">
@@ -60,7 +61,8 @@ export default function Home() {
                                     '&:hover': {
                                         bgcolor: '#0487D9',
                                     },
-                                }} >
+                                }}
+                            >
                                 ตารางเรียน
                             </Button>
                             <Button
@@ -75,11 +77,11 @@ export default function Home() {
                                     '&:hover': {
                                         bgcolor: '#0487D9',
                                     },
-                                }} >
+                                }}
+                            >
                                 ค้นหารายวิชา
                             </Button>
                         </Stack>
-
                     </Container>
                 </Box>
             </main>

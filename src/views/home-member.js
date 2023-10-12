@@ -7,12 +7,24 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Appbar from '../components/app-bar';
+import { useNavigate } from 'react-router-dom';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function HomeMember() {
+    const navigate = useNavigate(); // Initialize history
+    const token = localStorage.getItem("token")
+
+
+
+    React.useEffect(() => {
+        if (token === null) {
+            navigate('/login')
+        }
+    }, [token])
+
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -40,7 +52,7 @@ export default function HomeMember() {
                         color="text.secondary"
                         paragraph
                     >
-                        ยินดีตต้อนรับ
+                        ยินดีต้อนรับ
                     </Typography>
 
                     <Stack
@@ -48,7 +60,6 @@ export default function HomeMember() {
                         direction="column"
                         spacing={1.5}
                         justifyContent="center"
-
                     >
                         <Button
                             href="/search-all"

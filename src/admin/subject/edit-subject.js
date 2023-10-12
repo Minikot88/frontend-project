@@ -39,6 +39,37 @@ export default function EditSubjectPage() {
     const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
 
+    const [user, setUser] = useState({})
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const getAccountByID = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response) {
+                    setUser(response?.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        getAccountByID()
+    }, [])
+
+    useEffect(() => {
+        if (user?.status === 0 || !token) {
+            navigate(-1)
+        }
+    }, [user, token])
+
     const openAddSectionPart = () => {
         setOpen(true)
     }

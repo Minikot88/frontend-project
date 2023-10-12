@@ -50,6 +50,36 @@ export default function AddAdmin() {
         }
     };
 
+    const [users, setUsers] = useState({})
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const getAccountByID = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (response) {
+                    setUsers(response?.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        getAccountByID()
+    }, [])
+
+    useEffect(() => {
+        if (users?.status === 0 || !token) {
+            navigate(-1)
+        }
+    }, [users, token])
 
     return (
         <ThemeProvider theme={theme}>

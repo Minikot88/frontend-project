@@ -13,11 +13,6 @@ import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import './detail.css'
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useNavigate, useParams } from "react-router-dom";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Logout from '@mui/icons-material/Logout';
-import { experimentalStyled as styled } from '@mui/material/styles';
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -29,7 +24,9 @@ export default function CreateTable() {
     const [schedule_name, setScheduleName] = useState('');
     const [open, setOpen] = React.useState(false);
     const [schedule, setSchedule] = useState([]);
+    const [scheduleNoMember, setScheduleNoMember] = useState()
     const [viewSchedule, setViewSchedule] = useState([])
+    const table_id = localStorage.getItem("table_id")
 
     const [login, setLogin] = React.useState(false)
     const [user, setUser] = React.useState({})
@@ -49,29 +46,6 @@ export default function CreateTable() {
             }
         })
     }, [])
-
-    React.useEffect(() => {
-        const getAccountByID = async () => {
-            try {
-                const token = await localStorage.getItem("token");
-                const response = await axios.get(
-                    `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                if (response) {
-                    setUser(response?.data[0]);
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getAccountByID();
-    }, []);
-
 
     const handleOpen = () => {
         setOpen(true);
@@ -100,41 +74,6 @@ export default function CreateTable() {
         pb: 3,
     };
 
-    const StyledMenu = styled((props) => (
-        <Menu
-            elevation={0}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            {...props}
-        />
-    ))(({ theme }) => ({
-        '& .MuiPaper-root': {
-            borderRadius: 6,
-            marginTop: theme.spacing(1),
-            minWidth: 120,
-            color:
-                theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-            boxShadow:
-                'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-            '& .MuiMenu-list': {
-                padding: '4px 0',
-            },
-            '& .MuiMenuItem-root': {
-                '& .MuiSvgIcon-root': {
-                    fontSize: 18,
-                    color: theme.palette.text.secondary,
-                    marginRight: theme.spacing(1.5),
-                },
-            },
-        },
-    }));
-
     const getMaxSchedule = async () => {
         try {
             const response = await axios.get(
@@ -156,12 +95,86 @@ export default function CreateTable() {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const getScheduleById = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_SERVER}/getScheduleById`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (response) {
+                setSchedule(response?.data);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const getAccountByID = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_SERVER}/getAccountByID`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (response) {
+                setUser(response?.data[0]);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const getViewSchedule = async (id) => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${id}`)
+            if (response) {
+                setViewSchedule(response?.data)
+                console.log(response?.data)
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            getAccountByID();
+            getScheduleById();
+            getViewSchedule()
+        }
+    }, [token])
+
+    useEffect(() => {
+        const getScheduleForNotMember = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getNoMemberSchedule?schedule_id=${table_id}`);
+                if (response) {
+                    setScheduleNoMember(response?.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getScheduleForNotMember();
+    }, []);
+
+    const handleSubmitNoUser = async (e) => {
         try {
             const token = localStorage.getItem("token");
             const generated_id = await getMaxSchedule();
+            localStorage.setItem("table_id", generated_id)
             const response = await axios.post(
-                `${process.env.REACT_APP_API_SERVER}/addNameSchedule`, {
+                `${process.env.REACT_APP_API_SERVER}/addScheduleNoUser`, {
                 schedule_id: generated_id,
                 schedule_name: schedule_name
             }, {
@@ -180,64 +193,12 @@ export default function CreateTable() {
         }
     };
 
-    useEffect(() => {
-        const getScheduleById = async () => {
-            try {
-                const token = await localStorage.getItem("token");
-                const response = await axios.get(
-                    `${process.env.REACT_APP_API_SERVER}/getScheduleById`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                if (response) {
-                    setSchedule(response?.data);
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getScheduleById();
-    }, []);
-
-    const handleDelete = async (id) => {
-        try {
-            const response = await axios.delete(
-                `${process.env.REACT_APP_API_SERVER}/deleteSchedule?schedule_id=${id}`);
-            if (response?.status === 200) {
-                alert(`Data deleted successfully`);
-                window.location.reload();
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-
-    useEffect(() => {
-        const getViewSchedule = async (id) => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_API_SERVER}/getViewSchedule?schedule_id=${id}`)
-                if (response) {
-                    setViewSchedule(response?.data)
-                    console.log(response?.data)
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        getViewSchedule()
-    }, [])
-
-    const handleSubmitNoUser = async (e) => {
+    const handleSubmit = async (e) => {
         try {
             const token = localStorage.getItem("token");
             const generated_id = await getMaxSchedule();
             const response = await axios.post(
-                `${process.env.REACT_APP_API_SERVER}/addScheduleNoUser`, {
+                `${process.env.REACT_APP_API_SERVER}/addNameSchedule`, {
                 schedule_id: generated_id,
                 schedule_name: schedule_name
             }, {
@@ -282,7 +243,7 @@ export default function CreateTable() {
             </main>
 
 
-            {!login ? (
+            {!login && !table_id ? (
                 <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
                     <Button
                         onClick={handleOpen}
@@ -299,8 +260,7 @@ export default function CreateTable() {
                         สร้างตารางเรียน
                     </Button>
                 </Stack>
-            ) : login && user?.status === 1 ? (
-                // admin
+            ) : login && (
                 <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
                     <Button
                         onClick={handleOpen}
@@ -310,24 +270,6 @@ export default function CreateTable() {
                             '&:hover': {
                                 bgcolor: '#212121',
                                 color: '#FFFFFF'
-                            },
-                        }}
-                        startIcon={<ControlPointIcon />}
-                    >
-                        สร้างตารางเรียน
-                    </Button>
-                </Stack>
-            ) : (
-                // user
-                <Stack direction="row" spacing={2} justifyContent="center" mt={2} >
-                    <Button
-                        onClick={handleOpen}
-                        variant="outlined"
-                        sx={{
-                            boxShadow: 3,
-                            '&:hover': {
-                                bgcolor: '#f73378',
-                                color: '#212121'
                             },
                         }}
                         startIcon={<ControlPointIcon />}
@@ -441,18 +383,6 @@ export default function CreateTable() {
                     </Box>
                 </Modal>
             )}
-            
-            <Container sx={{ mt: 5, p: 2 }}>
-                <Card>
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={() => goToSchedule(viewSchedule?.schedule_id)}
-                    >
-                        {viewSchedule?.schedule_name}
-                    </Button>
-                </Card>
-            </Container>
 
             <Container sx={{ mt: 5, p: 2 }}>
                 <Card>
@@ -471,6 +401,18 @@ export default function CreateTable() {
                                         </Button>
                                     </Grid>
                                 ))}
+
+                                {!login && (
+                                    <Grid item xs={12} md={2} sm={6}>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            onClick={() => goToSchedule(table_id)}
+                                        >
+                                            {scheduleNoMember?.schedule_name}
+                                        </Button>
+                                    </Grid>
+                                )}
                             </Grid>
                         </Box>
                     </CardContent>

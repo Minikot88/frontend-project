@@ -14,7 +14,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useHistory } from 'react-router-dom';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
@@ -27,6 +26,8 @@ export default function SearchSelect() {
   const navigate = useNavigate();
   const { schedule_id } = useParams()
   const [subject, setSubject] = useState();
+  const [selectedSubject, setSelectedSubject] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getAllSubjects = async () => {
@@ -44,6 +45,30 @@ export default function SearchSelect() {
     getAllSubjects();
   }, []);
 
+  useEffect(() => {
+    const getSelectedSubject = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getSelectedSubject?schedule_id=${schedule_id}`
+        );
+        if (response) {
+          setSelectedSubject(response?.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    getSelectedSubject()
+  }, [schedule_id])
+
+  const checkIfSelected = (id, schedule_id) => {
+    if (selectedSubject && selectedSubject?.some(subject => subject?.subject_id === id)) {
+      alert("ไม่สามารถทำรายการได้ เนื่องจากคุณได้เลือกวิชานี้แล้ว");
+    } else {
+      navigate(`/select-subject/${id}/${schedule_id}`);
+    }
+  };
+
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCards = subject?.filter((item) =>
@@ -51,11 +76,6 @@ export default function SearchSelect() {
     item?.subject_name_eng?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
     item?.subject_id.includes(searchQuery)
   );
-
-  const goToSelectSubject = () => {
-    navigate(`/search-select/${schedule_id}`);
-  };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -67,7 +87,7 @@ export default function SearchSelect() {
             pb: 4,
           }}
         >
-          <IconButton sx={{ p: 2,ml: 1, color: '#212121', bgcolor:'#FFFFFF' }} variant="outlined" onClick={() => navigate(-1)}><KeyboardReturnIcon/></IconButton>
+          <IconButton sx={{ p: 2, ml: 1, color: '#212121', bgcolor: '#FFFFFF' }} variant="outlined" onClick={() => navigate(-1)}><KeyboardReturnIcon /></IconButton>
           <Container minWidth="sm">
             <Typography
               component="h1"
@@ -145,7 +165,7 @@ export default function SearchSelect() {
                     <TableCell align="center">
                       <Button
                         onClick={() =>
-                          navigate(`/select-subject/${row?.subject_id}/${schedule_id}`)
+                          checkIfSelected(row?.subject_id, schedule_id)
                         }
                         variant="contained"
                         size="small"
