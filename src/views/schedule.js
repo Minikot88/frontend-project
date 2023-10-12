@@ -192,7 +192,7 @@ export default function StudentSchedule() {
   };
 
   function CreditSummary() {
-    const totalCredits = subject?.reduce((acc, subject) => acc + subject.credit, 0);
+    const totalCredits = credit?.reduce((acc, credit) => acc + credit.total_credit, 0);
 
     return (
       <div>
@@ -205,17 +205,23 @@ export default function StudentSchedule() {
   useEffect(() => {
     const getCredit = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_SERVER}/getCredit?subject_id=${subject_id}`)
-        if (response) {
-          setCredit(response?.data)
 
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SERVER}/getCredit?schedule_id=${schedule_id}`
+        );
+
+        if (response) {
+          setCredit(response.data);
+          console.log(response.data)
         }
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
-    }
+    };
+
     getCredit();
-  }, [])
+  }, []);
+
 
   function downloadTableAsImage() {
     const tableContainer = document.getElementById('table-container');
@@ -340,9 +346,11 @@ export default function StudentSchedule() {
               My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
                 <RestartAltIcon />
               </IconButton>
+
               <Typography variant="subtitle1" align="right" >
                 <CreditSummary />
               </Typography>
+              
             </Typography>
 
             <TableContainer id="table-container" component={Paper}>
