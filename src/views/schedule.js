@@ -28,10 +28,12 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useRef } from 'react';
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
+import Swal from 'sweetalert2';
 
 export default function StudentSchedule() {
 
   const navigate = useNavigate()
+  const Swal = require('sweetalert2')
   const { schedule_id, subject_id } = useParams()
   const [subject, setSubject] = useState()
   const [credit, setCredit] = useState()
@@ -145,11 +147,22 @@ export default function StudentSchedule() {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_SERVER}/deleteSchedule?schedule_id=${schedule_id}`
       );
+
+      // if (response?.status === 200) {
+      //   alert(`Data deleted successfully`);
+      //   localStorage.removeItem("table_id");
+      //   navigate('/create-table');
+      // }
+
       if (response?.status === 200) {
-        alert(`Data deleted successfully`);
-        localStorage.removeItem("table_id");
-        navigate('/create-table');
+        Swal.fire('ลบตารางสำเร็จ')
+          .then(() => {
+            setOpen(false);
+            localStorage.removeItem("table_id");
+            navigate('/create-table');
+          });
       }
+
     } catch (err) {
       console.error(err);
     }
@@ -160,10 +173,19 @@ export default function StudentSchedule() {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_SERVER}/deleteSectionSchedule?section_id=${section_id}`
       );
+
+      // if (response?.status === 200) {
+      //   alert(`Data deleted successfully`);
+      //   window.location.reload();
+      // }
+
       if (response?.status === 200) {
-        alert(`Data deleted successfully`);
-        window.location.reload();
+        Swal.fire('ลบข้อมูลสำเร็จ')
+          .then(() => {
+            window.location.reload();
+          });
       }
+
     } catch (err) {
       console.error(err);
     }
@@ -223,6 +245,7 @@ export default function StudentSchedule() {
           { title: "สร้างตาราง" },
         ]} />
       <Container maxWidth="100%" sx={{ p: 2 }}>
+
         <Stack direction="row" spacing={1} justifyContent="flex-end" marginRight={2}  >
           <Button variant="outlined" onClick={handleDelete} startIcon={<DeleteIcon />}
             sx={{
@@ -312,6 +335,7 @@ export default function StudentSchedule() {
 
         {open && (
           <>
+
             <Typography variant="h4" align="center" gutterBottom>
               My Class Schedule  <IconButton size="small" onClick={() => yourSchedule()} sx={{ color: '#000000', bgcolor: '#e0f7fa' }}>
                 <RestartAltIcon />
@@ -361,9 +385,6 @@ export default function StudentSchedule() {
             </TableContainer>
           </>
         )}
-
-
-
       </Container>
     </>
   );

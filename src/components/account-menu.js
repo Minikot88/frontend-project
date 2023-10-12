@@ -21,7 +21,9 @@ import axios from 'axios';
 import Photo from '../image/hacker.png'
 
 export default function AccountMenu() {
+
     const Swal = require('sweetalert2')
+
     const navigate = useNavigate()
     const [user, setUser] = useState()
     const [login, setLogin] = React.useState(false)
@@ -56,7 +58,7 @@ export default function AccountMenu() {
             confirmButtonText: 'OK'
           }).then(() => {
             localStorage.clear();
-            Swal.fire('คุณออกจากระบบแล้ว', '', 'info'); 
+            Swal.fire('คุณออกจากระบบแล้ว', '', 'OK'); 
             setLogin(false);
             navigate(`/`);
             window.location.reload();

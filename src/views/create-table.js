@@ -17,9 +17,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
+import Swal from 'sweetalert2';
+
 export default function CreateTable() {
 
     const navigate = useNavigate()
+    const Swal = require('sweetalert2')
     const { schedule_id } = useParams()
     const [schedule_name, setScheduleName] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -208,10 +211,14 @@ export default function CreateTable() {
             });
 
             if (response) {
-                alert('สำเร็จ');
-                setOpen(false)
-                window.location.reload();
+                Swal.fire('สร้างตารางสำเร็จ')
+                    .then(() => {
+                        setOpen(false);
+                        window.location.reload();
+                        navigate(`/create-table`);
+                    });
             }
+
         } catch (err) {
             console.error(err);
         }
@@ -334,9 +341,14 @@ export default function CreateTable() {
                             <Grid item >
                                 <Button
                                     variant="outlined"
-                                    onClick={() => handleSubmit()}>
+                                    onClick={() => {
+                                        handleSubmit();
+                                        handleClose();
+                                    }}
+                                >
                                     ตกลง
                                 </Button>
+
                             </Grid>
                             <Grid item >
                                 <Button

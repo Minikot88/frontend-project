@@ -19,11 +19,13 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const theme = createTheme();
 
 export default function SearchSelect() {
   const navigate = useNavigate();
+  const Swal = require('sweetalert2')
   const { schedule_id } = useParams()
   const [subject, setSubject] = useState();
   const [selectedSubject, setSelectedSubject] = useState([]);
@@ -63,7 +65,9 @@ export default function SearchSelect() {
 
   const checkIfSelected = (id, schedule_id) => {
     if (selectedSubject && selectedSubject?.some(subject => subject?.subject_id === id)) {
-      alert("ไม่สามารถทำรายการได้ เนื่องจากคุณได้เลือกวิชานี้แล้ว");
+      //alert("ไม่สามารถทำรายการได้ เนื่องจากคุณได้เลือกวิชานี้แล้ว");
+      Swal.fire('ไม่สามารถทำรายการได้ เนื่องจากคุณได้เลือกวิชานี้แล้ว')
+      
     } else {
       navigate(`/select-subject/${id}/${schedule_id}`);
     }

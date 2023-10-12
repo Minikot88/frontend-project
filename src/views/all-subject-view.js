@@ -8,8 +8,6 @@ import Container from '@mui/material/Container';
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function AllSubjectsView() {
 
     const [subject, setSubject] = useState()
@@ -145,7 +143,7 @@ export default function AllSubjectsView() {
                     { title: "สถิติรายวิชาทั้งหมด" },
                 ]} />
             <Container>
-                <Box sx={{ p: 5 }}>
+                <Box sx={{ p: 1 }}>
                     <Typography textAlign={"center"} variant="h4" sx={{ p: 3 }}>
                         สถิติรายวิชาทั้งหมด
                     </Typography>
@@ -210,7 +208,6 @@ export default function AllSubjectsView() {
                                 </Box>
                             </Item>
                         </Grid>
-
                         <Grid item xs={4} md={4} sm={6}>
                             <Item>
                                 <Box>
@@ -239,8 +236,6 @@ export default function AllSubjectsView() {
                                 </Box>
                             </Item>
                         </Grid>
-
-
                         <Grid item xs={4} md={4} sm={6}>
                             <Item>
                                 <Box>
@@ -255,21 +250,6 @@ export default function AllSubjectsView() {
                                 </Box>
                             </Item>
                         </Grid>
-                        <Grid item xs={4} md={4} sm={6}>
-                            <Item>
-                                <Box>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        จำนวนวัน
-                                    </Typography>
-                                    {date && Array.isArray(date) && (
-                                        <Typography variant="h2" color="text.secondary">
-                                            {date[0].total_date}
-                                        </Typography>
-                                    )}
-                                </Box>
-                            </Item>
-                        </Grid>
-
                         <Grid item xs={4} md={4} sm={6}>
                             <Item>
                                 <Box>

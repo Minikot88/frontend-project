@@ -13,10 +13,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 import photo from '../image/add-friend.png'
 import BreadcrumbsPage from '../components/BreadcrumbsPage';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 function Copyright(props) {
   return (
@@ -34,6 +35,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+
+  const Swal = require('sweetalert2')
 
   const [user, setUser] = useState({})
   const [item, setItem] = useState({})
@@ -53,9 +56,14 @@ export default function SignUp() {
       } else {
         const response = await axios.post(`${process.env.REACT_APP_API_SERVER}/register`, user);
         if (response) {
-          alert('สมัครสมาชิกสำเร็จ : Successfully applied for membership');
+          //alert('สมัครสมาชิกสำเร็จ : Successfully applied for membership');
+          Swal.fire(
+            'สมัครสมาชิกสำเร็จ',
+            'You clicked the button!',
+            'success'
+          )
           navigate(`/`);
-          window.location.reload();
+        
         }
       }
     } catch (err) {

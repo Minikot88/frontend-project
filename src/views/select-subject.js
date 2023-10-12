@@ -25,12 +25,14 @@ import DetailsCard from '../components/details-card';
 import './detail.css'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Swal from 'sweetalert2';
 
 const theme = createTheme();
 
 export default function SelectSubject() {
 
     const { id, schedule_id } = useParams();
+    const Swal = require('sweetalert2')
     const navigate = useNavigate()
     const [subjects, setSubjects] = useState([]);
     const [subject, setSubject] = useState([])
@@ -62,11 +64,20 @@ export default function SelectSubject() {
                 schedule_id: schedule_id,
                 section_id: section_id
             });
-            if (response?.status === 200) {
-                alert("เพิ่มสำเร็จ");
-                navigate(`/schedule/${schedule_id}`);
-                console.log(response?.data)
+
+            // if (response?.status === 200) {
+            //     alert("เพิ่มสำเร็จ");
+            //     navigate(`/schedule/${schedule_id}`);
+            //     console.log(response?.data)
+            // }
+
+            if (response) {
+                Swal.fire('เพิ่มข้อมูลสำเร็จ')
+                    .then(() => {
+                        navigate(`/schedule/${schedule_id}`);
+                    });
             }
+
         } catch (err) {
             console.error(err);
         }
