@@ -8,6 +8,8 @@ import Container from '@mui/material/Container';
 import BreadcrumbsPage from "../components/BreadcrumbsPage";
 import { useNavigate } from "react-router-dom";
 
+
+
 export default function AllSubjectsView() {
 
     const [subject, setSubject] = useState()

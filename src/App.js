@@ -39,7 +39,7 @@ import AddUser from "./admin/view/addUser";
 import AddAdmin from "./admin/view/addAdmin";
 import { UpdateAccount } from "./admin/view/update-account";
 import { UpdateSection } from "./admin/subject/update-section";
-import DetailSubjectAdmin from "./admin/subject/details-subject-admin";
+
 
 import axios from "axios";
 
@@ -78,13 +78,11 @@ function App() {
         <Route path="/subject-view/:id" element={<SubjectPage />} />
         <Route path="/update-subject/:subject_id" element={<UpdateSubjectView />} />
       
-
         //component
         <Route path="/details-card" element={<DetailsCard />} />
         <Route path="/account-menu" element={<AccountMenu />} />
         <Route path="/menu" element={<MenuIcon />} />
       
-
         //addmin
         <Route path="/edit-subject/:subject_id" element={<EditSubjectPage />} />
         <Route path="/manage-subject" element={<ManageSubject />} />
@@ -96,7 +94,7 @@ function App() {
         <Route path="/addAdmin" element={<AddAdmin />} />
         <Route path="/update-account/:id" element={<UpdateAccount />} />
         <Route path="/update-section/:subject_id/:id" element={<UpdateSection />} />
-        <Route path="/details-subject-admin/:id" element={<DetailSubjectAdmin />} />
+       
         
       </Routes>
     </BrowserRouter>
